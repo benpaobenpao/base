@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>*{margin:0;padding:0}body{font-size:14px;line-height:20px;color:#333}.cls{*zoom:1}.cls:after{display:block;overflow:hidden;clear:both;height:0;visibility:hidden;content:"."}.form{width:500px;padding:40px 0;margin:100px auto;border:1px solid #cecece;border-radius:6px}.form .item{position:relative;width:300px;margin:0 auto 30px}.form .item input{width:298px;height:38px;vertical-align:middle;text-indent:6px;border:1px solid #999}.form .item input:focus{border:1px solid #03d}.form .item input.err{border:1px solid #f00}.form .error{position:absolute;left:0;top:39px;z-index:1;width:298px;height:20px;text-indent:6px;font-size:12px;border:1px solid #f00;background:#fef;display:none}.form .btn{cursor:pointer;font-size:18px;color:#d9eef7;border:solid 1px #0076a3;border-radius:3px;background:#0095cd;background:-webkit-gradient(linear,left top,left bottom,from(#00adee),to(#0078a5));background:-moz-linear-gradient(top,#00adee,#0078a5);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee',endColorstr='#0078a5')}.animated{-webkit-animation-duration:.3s;-moz-animation-duration:.3s;-ms-animation-duration:.3s;animation-duration:.3s;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;animation-fill-mode:both}.animated.hinge{-webkit-animation-duration:.6s;-moz-animation-duration:.6s;-ms-animation-duration:.6s;animation-duration:.6s}@-webkit-keyframes shake{0%,100%{-webkit-transform:translateX(0)}10%,30%,50%,70%,90%{-webkit-transform:translateX(-10px)}20%,40%,60%,80%{-webkit-transform:translateX(10px)}}@-moz-keyframes shake{0%,100%{-moz-transform:translateX(0)}10%,30%,50%,70%,90%{-moz-transform:translateX(-10px)}20%,40%,60%,80%{-moz-transform:translateX(10px)}}@-ms-keyframes shake{0%,100%{-ms-transform:translateX(0)}10%,30%,50%,70%,90%{-ms-transform:translateX(-10px)}20%,40%,60%,80%{-ms-transform:translateX(10px)}}@keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-10px)}20%,40%,60%,80%{transform:translateX(10px)}}.shake{-webkit-animation-name:shake;-moz-animation-name:shake;-ms-animation-name:shake;animation-name:shake}</style>
+</head>
+<body>
+    <div class="form">
+        <div class="item"><input type="text" placeholder="用户名" ><div class="error">不能为空哦！！！</div></div>
+        <div class="item"><input type="password" placeholder="密码" ><div class="error">不能为空哦！！！</div></div>
+        <div class="item"><input class="btn" type="button" value="登录" ></div>
+    </div>
+    <script src="http://files.cnblogs.com/kuikui/jquery-1.10.2.min.js"></script>
+    <script>
+        $(function(){
+            $("input[type='text'],input[type='password']").on({
+                focus: function(){
+                    $(this).removeClass("err").next().hide();
+                },
+                blur: function(){
+                    $(this).addClass("err").next().addClass("animated shake").show();
+                }
+            });
+            $("input[type='button']").on("click",function(){
+                var name = $("input[type='text']").val(),pwd =$("input[type='password'");
+                if(!name){
+                    $("input[type='text']").addClass("err").next().removeClass("animated shake").animate({opacity:"show"},"fast",function(){$(this).addClass("animated shake");});
+                    return;
+                }
+                if(!pwd){
+                    $("input[type='password']").addClass("err").next().removeClass("animated shake").animate({opacity:"show"},"fast",function(){$(this).addClass("animated shake");});
+                    return;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
