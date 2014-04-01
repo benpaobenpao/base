@@ -3,8 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <title>原生数组</title>
+  <style>.backHome{text-align: right;} .backHome a{color: #dd3300;}pre{display: block;border:1px solid #cecece; border-radius: 6px; padding: 20px; background: #000; color: #fff; line-height: 24px; font-size: 14px;}</style>
 </head>
 <body>
-  数组
+  <div class="backHome"><a href="http://benpaobenpao.github.io">返回首页</a></div>
+  <div>
+    一、创建数组
+    <pre>
+      // 创建空数组
+      var arr1 = new Array();
+      var arr2 = [];
+      // 创建指定长度数组
+      var arr3 = new Array(6);
+      // 创建指定元素数组
+      var arr4 = new Array("a","b","c");
+      var arr5 = ["a","b","c"];
+    </pre>
+    <div>二、属性介绍</div>
+    <p>1、length</p>
+    <pre>
+      var arr1 = new Array();
+      console.log(arr1.length);
+      结果：0 
+      var arr3 = new Array(6);
+      console.log(arr3.length);
+      结果：6 
+    </pre>
+    <div>三、方法介绍</div>
+    <p>1、concat</p>
+    <pre>
+      // concat:将两个或多个数组链接成一个新数组,返回新数组。
+      var arr1 = ["a","b","c"];
+      var arr2 = ["e","f"];
+      var elem = "g";
+      console.log(arr1.concat(arr2,elem));
+      结果：["a", "b", "c", "e", "f", "g"] 
+      console.log(arr1);
+      结果：["a","b","c"] 
+    </pre>
+    <p>2、join</p>
+    <pre>
+      // join:把数组元素由分隔符连接成字符串，返回字符串。
+      var arr1 = ["a","bb","abc"];
+      console.log(arr1.join("---"));
+      结果：a---bb---abc
+    </pre>
+    <p>3、pop</p>
+    <pre>
+      // pop:删除数组最后一个元素，返回该元素
+      var arr1 = ["a","bb","abc"];
+      console.log(arr1.pop());
+      结果：abc
+      console.log(arr1);
+      结果：["a", "bb"] 
+    </pre>
+    <p>4、shift</p>
+    <pre>
+      // shift删除数组的第一元素，返回该元素
+      var arr1 = ["a","bb","abc"];
+      console.log(arr1.shift());
+      结果：a
+      console.log(arr1);
+      结果：["bb", "abc"]
+    </pre>
+    <script>
+      function preJs(){
+        var pres = document.getElementsByTagName("pre");
+        for(var i=0,l=pres.length;i<l;i++){
+          var tmp = pres[i].innerHTML;
+          tmp = tmp.replace(/(\/\/[^\r\n]*)|(var|function|new\s+Array\(.*\))|([^\r\n]结果\：[^\r\n]*)|(console.log\(.*\))/ig,"<span style='color: #A8FF60;'>$1</span><span style='color: #96CBFE;'>$2</span><span style='color: #dd3300;'>$3</span><span style='color: #ff9900;'>$4</span>");
+          pres[i].innerHTML = tmp;
+        }
+      }
+      preJs();
+    </script>
+  </div>
 </body>
 </html>
