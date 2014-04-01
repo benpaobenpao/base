@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>幸运大抽奖</title>
+    <style>*{margin: 0;padding: 0;} .main{width:960px; margin: 0px auto;} .main .title{color: #f00; font-size: 50px;font-weight:bold;text-align: center; text-shadow: 3px 1px 6px #f60; padding: 30px 0px;} .main .block{overflow: hidden;} .main .blockLt{float: left;width:480px; text-align: center;} .main .blockBtn{} .main .blockBtn input{width: 100px; height: 30px; line-height: 30px; font-size: 16px; cursor: pointer;} .main .blockBtn p{margin: 20px auto 0px;} .main .blockPan{width: 300px; height: 300px; margin: 10px auto; overflow: hidden;} .main .blockRes{}</style>
+</head>
+<body>
+    <div class="main">
+        <div class="title">幸运大抽奖</div>
+        <div class="block">
+            <div class="blockLt">
+                <div class="blockBtn">
+                    <input id="btnOne" type="button" value="抽奖">
+                    <p>================圆盘转动(猎豹式)================</p>
+                </div>
+                <div id="testOne" class="blockPan"></div>
+                <div id="resultOne" class="blockRes"></div>
+            </div>
+            <div class="blockLt">
+                <div class="blockBtn">
+                    <input id="btnTwo" type="button" value="抽奖">
+                    <p>================指针转动(考拉式)================</p>
+                </div>
+                <div id="testTwo" class="blockPan"></div>
+                <div id="resultTwo" class="blockRes"></div>
+            </div>
+        </div>
+    </div>
+    <script src="http://files.cnblogs.com/kuikui/jquery-1.10.2.min.js"></script>
+    <script src="http://files.cnblogs.com/kuikui/raphael.js"></script>
+    <script>
+        $(function(){
+            var btnOne = $("#btnOne"),
+            btnTwo = $("#btnTwo"),
+            resultOne = $("#resultOne"),
+            resultTwo = $("#resultTwo"),
+            pic = "http://images.cnblogs.com/cnblogs_com/kuikui/354173/o_pan.jpg",
+            pointer = "http://images.cnblogs.com/cnblogs_com/kuikui/354173/o_pointer.png";
+
+            var rOne = Raphael("testOne",300,300);
+            var panOne = rOne.image(pic,0,0,300,300);
+            rOne.image(pointer,145,0,10,150);
+            btnOne.click(function(){
+                resultOne.html("");
+                rOne.clear();
+                panOne = rOne.image(pic,0,0,300,300);
+                rOne.image(pointer,145,0,10,150);
+                var angle = -parseInt(Math.random()*3000+6000);
+                var tmp = Math.abs(parseInt(((angle-30)%360)/60))+1;
+                panOne.animate({transform: "r" + angle}, 1000, ">",function(){
+                     resultOne.html("恭喜您获得"+tmp+"奖");
+                });
+            });
+
+            var rTwo = Raphael("testTwo",300,300);
+            rTwo.image(pic,0,0,300,300);
+            var point = rTwo.image(pointer,145,0,10,150);
+            point.rotate(0,150,150);
+            btnTwo.click(function(){
+                resultTwo.html("");
+                var stop=null,
+                    index = 0,
+                    angle= parseInt(Math.random()*360),
+                    tmp =Math.abs(parseInt(((angle+30)%360)/60))+1;
+                rTwo.image(pic,0,0,300,300);
+                point = rTwo.image(pointer,145,0,10,150);
+                stop = setInterval(function(){
+                    index++;
+                    if(index>=angle){
+                        clearInterval(stop); 
+                        resultTwo.html("恭喜您获得"+tmp+"奖");
+                    }
+                    point.rotate(1,150,150);  
+                },100);
+            });
+        });
+    </script>
+</body>
+</html>
