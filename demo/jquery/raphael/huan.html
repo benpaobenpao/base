@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<title>环形</title>
+	<style>
+        *{margin:0px;padding: 0px;}
+        body{padding: 0px 0px 300px;}
+        .main{width: 960px; margin: 0px auto;overflow: hidden;}
+        .mainTit{color: #f00; font-size: 50px;font-weight:bold;text-align: center; text-shadow: 3px 1px 6px #f60; padding: 10px 0px;}
+        .mainBlock{overflow: hidden;}
+        .main .block{float: left; width: 300px; height: 300px; margin: 0px 10px; overflow: hidden;}
+        .main .block div{width: 100%; height: 100%; }
+        .main .remark{color: #333;font-size: 12px; text-align: center; margin-top: 10px;}
+    </style>
+</head>
+<body>
+	<div class="main">
+		<div class="mainTit">环形</div>
+		<div class="mainBlock">
+	        <div class="block"><div id="test1"></div></div>
+	        <div class="block"><div id="test2"></div></div>
+	        <div class="block"><div id="test3"></div></div>
+	        <div class="block"><div id="test4"></div></div>
+	        <div class="block"><div id="test5"></div></div>
+	        <div class="block"><div id="test6"></div></div>
+	    </div>
+	    
+    </div>
+	<script src="http://files.cnblogs.com/kuikui/jquery-1.10.2.min.js"></script>
+    <script src="http://files.cnblogs.com/kuikui/raphael.js"></script>
+    <script type="text/javascript">
+        (function($) {
+            $.drawCircle = function(options) {
+                var defaults = {
+                    elem: null,
+                    size: 0,
+                    start: null,
+                    end: null,
+                    endSucc: null
+                };
+                var opts = $.extend({}, defaults, options);
+                if (!opts.elem) {
+                    return;
+                }
+                var r = Raphael(opts.elem, 300, 300),
+                    rad = 80,
+                    init = true,
+                    speed = 200,
+                    z = null,
+                    txt = null;
+                var tmptime = opts.end - opts.start,
+                    ds = null,
+                    dm = null,
+                    dh = null,
+                    dstop = null;
+
+                if (opts.size === 0) {
+                    opts.color = "#cecece";
+                } else {
+                    opts.color = getColor(opts.size) || "#000000";
+                }
+
+
+                function minit() {
+                    r.customAttributes.arc = function(value, total, R) {
+                        var alpha = 360 / total * value,
+                            a = (90 - alpha) * Math.PI / 180,
+                            x = 150 + R * Math.cos(a),
+                            y = 150 - R * Math.sin(a),
+                            path;
+                        if (total == value) {
+                            path = [
+                                ["M", 150, 150 - R],
+                                ["A", R, R, 0, 1, 1, 149.99, 150 - R]
+                            ];
+                        } else {
+                            path = [
+                                ["M", 150, 150 - R],
+                                ["A", R, R, 0, +(alpha > 180), 1, x, y]
+                            ];
+                        }
+                        bpath = path;
+                        return {
+                            path: path
+                        };
+                    };
+
+                    r.path().attr({
+                        arc: [100, 100, rad],
+                        'stroke-width': 20,
+                        'stroke': "#cecece"
+                    });
+
+                    r.path().attr({
+                        arc: [100, 100, 110],
+                        'stroke-width': 2,
+                        'stroke': "#cecece"
+                    });
+
+                    if(!!opts.size){
+                        z = r.path().attr({
+                            arc: [0.01, 100, rad],
+                            'stroke-width': 20,
+                            'stroke': opts.color,
+                            'cursor': "pointer"
+                        });
+
+                        updateVal(opts.size, 100, 80, z, 2);
+                    }
+
+                    var circle = r.circle(150, 150, 70);
+                    circle.attr("fill", "#fff");
+                    circle.attr("stroke", "none");
+                    circle.glow({
+                        width: 8,
+                        opacity: 0.3,
+                        offsety: 4
+                    });
+
+
+                    txt = r.text(150, 150, opts.size + "%").attr({
+                        font: "100 36px Arial",
+                        fill: opts.color
+                    });
+
+                };
+
+                function dinit() {
+                    if (tmptime > 0) {
+                        ds = parseInt(tmptime % 60);
+                        dm = parseInt(tmptime / 60) % 60;
+                        dh = parseInt(tmptime / 3600) % 24;
+                        
+                        txt.remove();
+                        txt = r.text(150, 150, dh + ":" + dm + ":" + ds).attr({
+                            font: "100 36px Arial",
+                            fill: opts.color
+                        });
+                        // txt.toFront();
+                    }
+
+                };
+
+                function playing() {
+                    dstop = setInterval(function() {
+                        tmptime--;
+                        if (tmptime <= 1) { !! opts.endSucc && opts.endSucc();
+                            clearInterval(dstop);
+                        } else {
+                            dinit();
+                        }
+                    }, 1000);
+                };
+
+                function getColor(size) {
+                    var arr = [];
+                    for (var i = 0; i <= 255; i++) {
+                        arr.push("rgb(" + i + "," + (255 - i) + ","+0+")");
+                    }
+                    return arr[parseInt(size * 2.55)];
+                };
+
+                function updateVal(value, total, R, hand, id) { 
+                    if (init) {
+                        hand.animate({
+                            arc: [value, total, R]
+                        }, 900, ">");
+                    } else {
+                        if (!value || value == total) {
+                            value = total;
+                            hand.animate({
+                                arc: [value, total, R]
+                            }, 750, "bounce", function() {
+                                hand.attr({
+                                    arc: [0, total, R]
+                                });
+                            });
+                        } else {
+                            hand.animate({
+                                arc: [value, total, R]
+                            }, 750, "elastic");
+                        }
+                    }
+                };
+
+                function mevents() {
+                    if(!!opts.size){
+                        z.mouseover(function() {
+                        this.animate({
+                            'stroke-width': 36,
+                            opacity: 0.75
+                        }, 600, 'elastic');
+                        //txt.toFront();
+                    }).mouseout(function() {
+                        this.stop().animate({
+                            'stroke-width': 26,
+                            opacity: 1
+                        }, speed * 4, 'elastic');
+                    });
+                    }
+                    
+                };
+                minit();
+                dinit();
+                playing();
+                mevents();
+            };
+        })(jQuery);
+
+        $(function() {
+            $.drawCircle({
+                elem: "test1",
+                size: 0,
+                start: 0,
+                end: 6600
+            });
+            $.drawCircle({
+                elem: "test2",
+                size: 0
+            });
+            $.drawCircle({
+                elem: "test3",
+                size: 25
+            });
+            $.drawCircle({
+                elem: "test4",
+                size: 55
+            });
+            $.drawCircle({
+                elem: "test5",
+                size: 85
+            });
+            $.drawCircle({
+                elem: "test6",
+                size: 100
+            });
+        });
+    </script>
+</body>
+</html>
