@@ -1,0 +1,1 @@
+if(/MSIE\s+[6|7|8]/.test(navigator.appVersion)){location.href="http://benpaobenpao.github.io";}

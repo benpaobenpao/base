@@ -2,6 +2,7 @@
 <html lang="cn">
 <head>
   <meta charset="UTF-8">
+  <script src="http://benpaobenpao.github.io/unIE.js"></script>
   <title>扩展数组</title>
   <style>pre{display: block;resize: none; border:1px solid #cecece; border-radius: 6px; padding: 20px; background: #000; color: #fff; line-height: 24px; font-size: 14px;}</style>
 </head>
@@ -13,21 +14,251 @@
     /**
      * [forEach 遍历数组，对数组元素执行回调方法]
      * @param  {[array]}   arr      [数组]
-     * @param  {Function} callback [方法]
-     * @param  {[array]}   narr      [数组]
+     * @param  {Function} callback [方法]  /
      */
-    //dfdf
-    function forEach(arr,callback,narr){
-      narr = !!narr.length?narr:[];
+    function forEach(arr,callback){
       if(Array.prototype.forEach){
-        Array.prototype.forEach.call(arr,callback,narr);
+        Array.prototype.forEach.call(arr,callback);
       } else{
         for(var i=0,len=arr.length;i < len;i++){
-          callback.call(arr,arr[i],i,narr);
+          callback.call(arr,arr[i],i);
         }
       }
     }
-    console.log(a);
+    var arr1 = ["aa","bb","cc"];
+    forEach(arr1,function(item,index){
+      console.log(index + "test"+ item);
+    });
+    结果：0testaa  
+    结果：1testbb
+    结果：2testcc
+  </pre>
+  <p>2、indexOf</p>
+  <pre>
+    /**
+     * [indexOf 查找元素在数组中的位置，如果没有返回-1]
+     * @param  {[array]} arr [数组]
+     * @param  {[object]} val [查找元素]
+     * @return {[int]}     [位置]
+     */
+    function indexOf(arr,val){
+      if(Array.prototype.indexOf){
+        return Array.prototype.indexOf.call(arr,val);
+      } else{
+        for(var i=0,len=arr.length;i < len;i++){
+          if(arr[i] === val){
+            return i;
+          }
+        }
+        return -1;
+      }
+    }
+    var arr1 = ["aa","bb","cc"];
+    console.log(indexOf(arr1,"bb"));
+    结果： 1
+    console.log(indexOf(arr1,"dd"));
+    结果： -1
+  </pre>
+  <p>3、unique</p>
+  <pre>
+    /**
+     * [unique 对数组元素去重，并返回新数组]
+     * @param  {[array]} arr [待处理的数组]
+     * @return {[array]}     [新数组]
+     */
+    function unique(arr){
+      var rt = [],obj = {};
+      for (var i = 0, len = arr.length; i< len; i++) {
+        if (!obj[arr[i]]) {
+          obj[arr[i]] = 1;
+          rt.push(arr[i]);
+        }
+      }
+      return rt;
+    }
+    var arr1 = ["aa","bb","cc","cc"];
+    console.log(unique(arr));
+    结果：["aa","bb","cc"]
+  </pre>
+  <p>5、filter</p>
+  <pre>
+    /**
+     * [filter 依次对所有数组成员调用一个测试函数，返回结果为true的成员组成一个新数组返回]
+     * @param  {[array]}   arr      [待处理数组]
+     * @param  {Function} callback [description]
+     * @return {[array]}            [新数组]
+     */
+    function filter(arr,callback){
+      if(Array.prototype.filter){
+        return Array.prototype.filter.call(arr,callback);
+      } else{
+        var tmp = [];
+        for(var i=0,len=arr.length;i< len;i++){
+          if(callback.call(arr,arr[i])){
+            tmp.push(arr[i]);
+          }
+        }
+        return tmp;
+      }
+    }
+    var arr1 = ["aa","bb","cc"];
+    console.log(filter(arr1,function(elem){/[a|b]g/.test(elem);});
+    结果：["aa","bb"]
+  </pre>
+  <p>5、some</p>
+  <pre>
+    /**
+     * [some 对所有元素调用一个测试函数，只要有一个元素通过该测试，就返回true，否则返回false。]
+     * @param  {[array]}   arr      [待测试数组]
+     * @param  {Function} callback [测试函数]
+     * @return {[boolean]}            [布尔值]
+     */
+    function some(arr,callback){
+      if(Array.prototype.some){
+        return Array.prototype.some.call(arr,callback);
+      } else{
+        for(var i=0,len=arr.length;i< len;i++){
+          if(callback.call(arr,arr[i])){
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+    var arr1 = ["aa","bb","cc"];
+    console.log(some(arr1,function(elem){return /b/g.test(elem);}));
+    结果：true
+  </pre>
+  <p>6、every</p>
+  <pre>
+    /**
+     * [every 对所有元素调用一个测试函数，只有所有元素通过该测试，才返回true，否则返回false。]
+     * @param  {[array]}   arr      [待测试数组]
+     * @param  {Function} callback [测试函数]
+     * @return {[boolean]}            [布尔值]
+     */
+    function every(arr,callback){
+      if(Array.prototype.every){
+        return Array.prototype.every.call(arr,callback);
+      } else{
+        for(var i=0,len=arr.length;i< len;i++){
+          if(i in arr && callback.call(arr,arr[i],i)){
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+    var arr1 = ["aa","bb","cc"];
+    console.log(every(arr1,function(elem){return /b/g.test(elem);}));
+    结果：false
+  </pre>
+  <p>总结(控制台中有测试结果)</p>
+  <pre>
+    var iArray = {
+      /**
+       * [forEach 遍历数组，对数组元素执行回调方法]
+       * @param  {[array]}   arr      [数组]
+       * @param  {Function} callback [方法]
+       */
+      forEach: function(arr,callback){
+        if(Array.prototype.forEach){
+          Array.prototype.forEach.call(arr,callback);
+        } else{
+          for(var i=0,len=arr.length;i< len;i++){
+            callback.call(arr,arr[i],i);
+          }
+        }
+      },
+      /**
+       * [indexOf 查找元素在数组中的位置，如果没有返回-1]
+       * @param  {[array]} arr [数组]
+       * @param  {[object]} val [查找元素]
+       * @return {[int]}     [位置]
+       */
+      indexOf: function(arr,val){
+        if(Array.prototype.indexOf){
+          return Array.prototype.indexOf.call(arr,val);
+        } else{
+          for(var i=0,len=arr.length;i< len;i++){
+            if(arr[i] === val){
+              return i;
+            }
+          }
+          return -1;
+        }
+      },
+      /**
+       * [unique 对数组元素去重，并返回新数组]
+       * @param  {[array]} arr [待处理的数组]
+       * @return {[array]}     [新数组]
+       */
+      unique: function(arr){
+        var rt = [],obj = {};
+        for (var i = 0, len = arr.length; i< len; i++) {
+          if (!obj[arr[i]]) {
+            obj[arr[i]] = 1;
+            rt.push(arr[i]);
+          }
+        }
+        return rt;
+      },
+      /**
+       * [filter 依次对所有数组成员调用一个测试函数，返回结果为true的成员组成一个新数组返回]
+       * @param  {[array]}   arr      [待处理数组]
+       * @param  {Function} callback [description]
+       * @return {[array]}            [新数组]
+       */
+      filter: function(arr,callback){
+        if(Array.prototype.filter){
+          return Array.prototype.filter.call(arr,callback);
+        } else{
+          var tmp = [];
+          for(var i=0,len=arr.length;i< len;i++){
+            if(callback.call(arr,arr[i])){
+              tmp.push(arr[i]);
+            }
+          }
+          return tmp;
+        }
+      },
+      /**
+       * [some 对所有元素调用一个测试函数，只要有一个元素通过该测试，就返回true，否则返回false。]
+       * @param  {[array]}   arr      [待测试数组]
+       * @param  {Function} callback [测试函数]
+       * @return {[boolean]}            [布尔值]
+       */
+      some: function(arr,callback){
+        if(Array.prototype.some){
+          return Array.prototype.some.call(arr,callback);
+        } else{
+          for(var i=0,len=arr.length;i< len;i++){
+            if(callback.call(arr,arr[i])){
+              return true;
+            }
+          }
+          return false;
+        }
+      },
+      /**
+       * [every 对所有元素调用一个测试函数，只有所有元素通过该测试，才返回true，否则返回false。]
+       * @param  {[array]}   arr      [待测试数组]
+       * @param  {Function} callback [测试函数]
+       * @return {[boolean]}            [布尔值]
+       */
+      every:function(arr,callback){
+        if(Array.prototype.every){
+          return Array.prototype.every.call(arr,callback);
+        } else{
+          for(var i=0,len=arr.length;i< len;i++){
+            if(i in arr && callback.call(arr,arr[i],i)){
+              return true;
+            }
+          }
+          return false;
+        }
+      }
+    };
   </pre>
   <script>
     var iArray = {
@@ -35,15 +266,13 @@
        * [forEach 遍历数组，对数组元素执行回调方法]
        * @param  {[array]}   arr      [数组]
        * @param  {Function} callback [方法]
-       * @param  {[array]}   narr      [数组]
        */
-      forEach: function(arr,callback,narr){
-        narr = !!narr.length?narr:[];
+      forEach: function(arr,callback){
         if(Array.prototype.forEach){
-          Array.prototype.forEach.call(arr,callback,narr);
+          Array.prototype.forEach.call(arr,callback);
         } else{
           for(var i=0,len=arr.length;i<len;i++){
-            callback.call(arr,arr[i],i,narr);
+            callback.call(arr,arr[i],i);
           }
         }
       },
@@ -136,27 +365,32 @@
         }
       }
     };
-
+  </script>
+  <script>
+    var arr1 = ["aa","bb","cc"];
+    iArray.forEach(arr1,function(item,index){console.log(index + "test"+ item)});
+    console.log(iArray.indexOf(arr1,"bb"));
+    console.log(iArray.indexOf(arr1,"dd"));
+    arr1 = ["aa","bb","cc","cc"];
+    console.log(iArray.unique(arr1));
+    console.log(iArray.filter(arr1,function(elem){return /[a|b]/.test(elem);}));
+    console.log(iArray.some(arr1,function(elem){return /b/.test(elem);}));
+    console.log(iArray.every(arr1,function(elem){return /b/.test(elem);}));
   </script>
   <script>
     function preJs(){
       var pres = document.getElementsByTagName("pre");
       for(var i=0,l=pres.length;i<l;i++){
         var tmp = pres[i].innerHTML;
-        // tmp = tmp.replace(/(\/\/[^\r\n]*)|(var|function|new\s+Array\(.*\))|([^\r\n]结果\：[^\r\n]*)|(console.log\(.*\))|(\/\*.*\*\/)/igm,"<span style='color: #A8FF60;'>$1</span><span style='color: #96CBFE;'>$2</span><span style='color: #dd3300;'>$3</span><span style='color: #ff9900;'>$4</span><span style='color: #A8FF60;'>$5</span>");
         // 注释
-        tmp = tmp.replace(/(\/\*[^\/]*\/|\/\/[^\r\n]*)/ig,"<span style='color: #A8FF60;'>$1</span>");
-
+        tmp = tmp.replace(/(\/\*[\s\S]*?\*\/|\/\/[^\r\n]*)/ig,"<span style='color: #A8FF60;'>$1</span>");
         // 函数名字
         tmp = tmp.replace(/function\s+(\w*)[^(]/ig,"function <span style='color: #ff00ff;'>$1</span>");
-
         // 变量名字
         tmp = tmp.replace(/var\s+(\w+)\s*=/ig,"var <span style='color: #ff00ff;'>$1</span> = ");
         tmp = tmp.replace(/,\s*(\w+)\s*=/ig,", <span style='color: #ff00ff;'>$1</span> =");
-
         // 函数
         tmp = tmp.replace(/(var|[^{function}]function|new\s+[Array|String|Date]\(.*\))/ig,"<span style='color: #96CBFE;'>$1</span>");
-
         // console.log
         tmp = tmp.replace(/(console.log\(.*\))|(\/\*.*\*\/)/ig,"<span style='color: #ff9900;'>$1</span>");
         // 结果：
