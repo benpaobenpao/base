@@ -1,16 +1,49 @@
-(function() {
+<!doctype html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+  <title>扩展数组</title>
+  <style>pre{display: block;resize: none; border:1px solid #cecece; border-radius: 6px; padding: 20px; background: #000; color: #fff; line-height: 24px; font-size: 14px;}</style>
+</head>
+<body>
+  扩展数组，ECMAScript5对数组新增方法有indexOf，lastIndexOf，every，some，forEach，map，filter，reduce，reduceRight等等。ie8及其以下版本是不支持的。
+  <div>方法介绍</div>
+  <p>1、concat</p>
+  <pre>
+    /**
+     * [forEach 遍历数组，对数组元素执行回调方法]
+     * @param  {[array]}   arr      [数组]
+     * @param  {Function} callback [方法]
+     * @param  {[array]}   narr      [数组]
+     */
+    //dfdf
+    function forEach(arr,callback,narr){
+      narr = !!narr.length?narr:[];
+      if(Array.prototype.forEach){
+        Array.prototype.forEach.call(arr,callback,narr);
+      } else{
+        for(var i=0,len=arr.length;i < len;i++){
+          callback.call(arr,arr[i],i,narr);
+        }
+      }
+    }
+    console.log(a);
+  </pre>
+  <script>
     var iArray = {
       /**
        * [forEach 遍历数组，对数组元素执行回调方法]
        * @param  {[array]}   arr      [数组]
        * @param  {Function} callback [方法]
+       * @param  {[array]}   narr      [数组]
        */
-      forEach: function(arr,callback){
+      forEach: function(arr,callback,narr){
+        narr = !!narr.length?narr:[];
         if(Array.prototype.forEach){
-          Array.prototype.forEach.call(arr,callback);
+          Array.prototype.forEach.call(arr,callback,narr);
         } else{
           for(var i=0,len=arr.length;i<len;i++){
-            callback.call(arr,arr[i],i);
+            callback.call(arr,arr[i],i,narr);
           }
         }
       },
@@ -104,6 +137,34 @@
       }
     };
 
-    iBase.iArray = iArray;
+  </script>
+  <script>
+    function preJs(){
+      var pres = document.getElementsByTagName("pre");
+      for(var i=0,l=pres.length;i<l;i++){
+        var tmp = pres[i].innerHTML;
+        // tmp = tmp.replace(/(\/\/[^\r\n]*)|(var|function|new\s+Array\(.*\))|([^\r\n]结果\：[^\r\n]*)|(console.log\(.*\))|(\/\*.*\*\/)/igm,"<span style='color: #A8FF60;'>$1</span><span style='color: #96CBFE;'>$2</span><span style='color: #dd3300;'>$3</span><span style='color: #ff9900;'>$4</span><span style='color: #A8FF60;'>$5</span>");
+        // 注释
+        tmp = tmp.replace(/(\/\*[^\/]*\/|\/\/[^\r\n]*)/ig,"<span style='color: #A8FF60;'>$1</span>");
 
-})();
+        // 函数名字
+        tmp = tmp.replace(/function\s+(\w*)[^(]/ig,"function <span style='color: #ff00ff;'>$1</span>");
+
+        // 变量名字
+        tmp = tmp.replace(/[var]\s+(\w+)\s*=/ig,"var <span style='color: #ff00ff;'>$1</span> = ");
+        tmp = tmp.replace(/,\s*(\w+)\s*=/ig,", <span style='color: #ff00ff;'>$1</span> =");
+
+        // 函数
+        tmp = tmp.replace(/(var|[^{function}]function|new\s+[Array|String|Date]\(.*\))/ig,"<span style='color: #96CBFE;'>$1</span>");
+
+        // console.log
+        tmp = tmp.replace(/(console.log\(.*\))|(\/\*.*\*\/)/ig,"<span style='color: #ff9900;'>$1</span>");
+        // 结果：
+        tmp = tmp.replace(/([^\r\n]结果\：[^\r\n]*)/ig,"<span style='color: #dd3300;'>$1</span>");
+        pres[i].innerHTML = tmp;  
+      }
+    }
+    preJs();
+  </script>
+</body>
+</html>
