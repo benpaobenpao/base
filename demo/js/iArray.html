@@ -151,7 +151,7 @@
         tmp = tmp.replace(/function\s+(\w*)[^(]/ig,"function <span style='color: #ff00ff;'>$1</span>");
 
         // 变量名字
-        tmp = tmp.replace(/[var]\s+(\w+)\s*=/ig,"var <span style='color: #ff00ff;'>$1</span> = ");
+        tmp = tmp.replace(/var\s+(\w+)\s*=/ig,"var <span style='color: #ff00ff;'>$1</span> = ");
         tmp = tmp.replace(/,\s*(\w+)\s*=/ig,", <span style='color: #ff00ff;'>$1</span> =");
 
         // 函数
