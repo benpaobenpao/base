@@ -23,15 +23,15 @@ var hiLight = {
 
         //配色方案
         var colorScheme = {
-            comm: 'green', //注释
-            kw: 'blue', //关键字
+            comm: '#A8FF60', //注释
+            kw: '#96CBFE', //关键字
             id: null, //标识符
             num: null, //数值
-            str: '#A31515', //字符串
+            str: '#dd33dd', //字符串
             re: '#800000', //正则表达式
             punc: null, //其他符号
-            con: "#ff00ff",
-            rt: "#ff0000"
+            con: "#ff9900",
+            rt: "#dd3300"
         };
 
         function htmlEncode(s) {

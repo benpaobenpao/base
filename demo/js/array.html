@@ -75,17 +75,7 @@
       console.log(arr1);
       结果：["a", "bb", "abc", "dd", "df"] 
     </pre>
-    <script>
-      function preJs(){
-        var pres = document.getElementsByTagName("pre");
-        for(var i=0,l=pres.length;i<l;i++){
-          var tmp = pres[i].innerHTML;
-          tmp = tmp.replace(/(\/\/[^\r\n]*)|(var|function|new\s+Array\(.*\))|([^\r\n]结果\：[^\r\n]*)|(console.log\(.*\))/ig,"<span style='color: #A8FF60;'>$1</span><span style='color: #96CBFE;'>$2</span><span style='color: #dd3300;'>$3</span><span style='color: #ff9900;'>$4</span>");
-          pres[i].innerHTML = tmp;
-        }
-      }
-      preJs();
-    </script>
+    <script src="http://benpaobenpao.github.io/hilight.js"></script>
   </div>
 </body>
 </html>
