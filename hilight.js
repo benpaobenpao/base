@@ -27,10 +27,10 @@ var hiLight = {
             kw: '#96CBFE', //关键字
             id: null, //标识符
             num: null, //数值
-            str: '#dd33dd', //字符串
-            re: '#800000', //正则表达式
+            str: '#ff9900', //字符串
+            re: '#880000', //正则表达式
             punc: null, //其他符号
-            con: "#ff9900",
+            con: "#ff00ff", // console
             rt: "#dd3300"
         };
 
