@@ -11,8 +11,7 @@ var hiLight = {
         }
     },
     js: function(s) {
-        //console.log("bb");
-        /*
+    /*
     一个简单高效的 js 高亮函数
 
     严格的说，完美的高亮必须要经过语法分析。只有经过语法分析，才能准确区分每个单词（Token）。
@@ -98,5 +97,3 @@ var hiLight = {
 };
 
 hiLight.init();
-
-console.log("a");
