@@ -2,7 +2,7 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>日历</title>
     <style>
         .calendar{display: inline-block; border: 1px solid #ececec; border-radius: 6px;}
         .calendar .header{text-align: center; padding: 10px 0px;}
@@ -12,7 +12,9 @@
         .calendar table thead td{padding: 10px;}
         .calendar table th{padding: 10px;}
         .calendar table td{border:1px solid #ececec; text-align: center; vertical-align: middle;}
-        .calendar table td a{display: block; padding: 10px;}
+        .calendar table td a{display: block; padding: 10px; cursor: pointer;}
+        .calendar table td a.un{color: #999;background: #ececec; cursor: default;}
+        .calendar table td a.unpre{}
 
         .main{text-align: center;}
         .mainTit{color: #f00;font-size: 50px;font-weight: bold;text-align: center;text-shadow: 3px 1px 6px #f60;padding: 30px 0px 100px;}
@@ -28,6 +30,56 @@
     </div>
     <script src="../../../jquery.js"></script>
     <script>
+        Date.prototype.format = function(str){ 
+            var o = { 
+                "M+" : this.getMonth()+1, //month 
+                "d+" : this.getDate(), //day 
+                "h+" : this.getHours(), //hour 
+                "m+" : this.getMinutes(), //minute 
+                "s+" : this.getSeconds(), //second 
+                "q+" : Math.floor((this.getMonth()+3)/3), //quarter 
+                "S" : this.getMilliseconds() //millisecond 
+            }; 
+            if(/(y+)/.test(str)) { 
+                str = str.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+            }  
+            for(var k in o) { 
+                if(new RegExp("("+ k +")").test(str)) { 
+                    str = str.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
+                } 
+            } 
+            return str; 
+        }; 
+
+        function getMaxDate(y,m){
+            m = m - 1;
+            if(/1[^\d]|3|5|7|8|10|12/.test(m)){
+                return 31;
+            } else if(/4|6|9|11/.test(m)){
+                return 30;
+            }else{
+                if(((y % 4)==0) && ((y % 100)!==0) || ((y % 400)==0)){
+                    return 29;
+                } else{
+                    return 28;
+                }
+            }
+        }
+
+        function isDate(str){
+            var reg = /^(\d{4})-(\d{1,2})-(\d{1,2})(\s(\d{1,2}):(\d{1,2}):(\d{1,2}))?$/;
+            if(reg.test(str)){
+                if(RegExp.$2<=12 && RegExp.$3<=(getMaxDate(RegExp.$1,RegExp.$2)) && RegExp.$4<=23 && RegExp.$5<=59 && RegExp.$6<=59){
+                    return true;
+                } else{
+                    return false;
+                }
+            } else{
+                return false;
+            }
+        };
+
+
         (function($, window, document) {
             function Calendar(elem, options, defaults) {
                 var options = $.extend({}, defaults, options);
@@ -40,7 +92,7 @@
                 this.day = 30;
                 this.maxDay = null;
                 this.d = new Date(this.year, this.month, this.day);
-                this.week = 1;// this.d.getDay();
+                this.week = new Date(this.year,this.month,1).getDay(); //this.d.getDay();
                 this.init();
             };
 
@@ -75,27 +127,29 @@
                     var _this = this;
                     var html = "<table>";
                     _this.maxDay = _this.getMaxDay(_this.year,_this.month);
+                    _this.week = new Date(_this.year,_this.month,1).getDay();
                     html+="<thead><tr>";
                     for(var i=0;i<7;i++){
                         html+="<th>"+_this.weekTit[i]+"</th>";
                     }
                     html+="</tr></thead>";
-                    for (var i = 0; i < 35; i++) {
+                    for (var i = 0; i < 42; i++) {
                         if (i % 7 === 0) {
                             html += "<tr>";
                             for (var j = 0; j < 7; j++) {
-                                if ((i + j >= _this.week) && (i+j<=_this.maxDay)) {
+                                if ((i + j >= _this.week) && (i+j<=(_this.maxDay+_this.week-1))) {
                                     html += "<td><a>" + (i + j - _this.week + 1) + "</a></td>";
-                                } else {
-                                    html += "<td>&nbsp;</td>";
-                                }  
-                                // if(i+j>_this.maxDay){
-                                //     html += "<td>&nbsp;</td>";
-                                // }            
+                                } else if((_this.maxDay+_this.week-1)>=35){
+                                        html += "<td>&nbsp;</td>";
+                                }  else{
+                                    if((i + j)<35){
+                                        html += "<td>&nbsp;</td>";
+                                    }
+                                    
+                                }
                             }
                             html += "</tr>";
                         }
-                        
                     }
                     html += "</table>";
                     _this.elem.find(".oneMonth").html(html);
@@ -107,15 +161,16 @@
                     var end = _this.opts.endDate.split("-");
                     var tmpm = parseInt(_this.maxDay) - parseInt(end[2]);
 
+                    //startDate
                     if(_this.year<=start[0]){
                         if(month < start[1]){
-                            _this.elem.find(".oneMonth a").css("color","#0f0");
+                            _this.elem.find(".oneMonth a").addClass("un");
                         }else if(month===parseInt(start[1])){
-                            _this.elem.find(".oneMonth a").slice(0,parseInt(start[2])).css("color","#0f0");
+                            _this.elem.find(".oneMonth a").slice(0,parseInt(start[2])).addClass("un");
                         } 
 
                         if(_this.year<start[0]){
-                             _this.elem.find(".oneMonth a").css("color","#0f0");
+                             _this.elem.find(".oneMonth a").addClass("un");
                         }
                         
                     }
@@ -125,13 +180,13 @@
                         if(month<parseInt(end[1])){
 
                         } else if(month===parseInt(end[1])){
-                            _this.elem.find(".oneMonth a").slice(tmpm).css("color","#f00");
+                            _this.elem.find(".oneMonth a").slice(tmpm).addClass("un");
                             
                         } else{
-                            _this.elem.find(".oneMonth a").css("color","#f00");
+                            _this.elem.find(".oneMonth a").addClass("un");
                         } 
                         if(_this.year>end[0]){
-                            _this.elem.find(".oneMonth a").css("color","#f00");
+                            _this.elem.find(".oneMonth a").addClass("un");
                         }
                     }
                     
@@ -142,7 +197,8 @@
                     var preMon = _this.elem.find(".calPreMon"),
                     nextMon = _this.elem.find(".calNextMon"),
                     preYear = _this.elem.find(".calPreYear"),
-                    nextYear = _this.elem.find(".calNextYear");
+                    nextYear = _this.elem.find(".calNextYear"),
+                    sctday = _this.elem.find(".oneMonth a");
 
                     $(document).on("click",preMon.selector,function(){
                         _this.month = _this.month - 1;
@@ -150,6 +206,7 @@
                             _this.month = 11;
                             _this.year = _this.year - 1;
                         }
+                        console.log("a");
                         _this.createHtml();
                     });
 
@@ -171,13 +228,26 @@
                         _this.year = _this.year + 1;
                         _this.createHtml();
                     });
+
+
+                    $(document).on("click",sctday.selector,function(){
+                        var $this = $(this);
+                        if(!$this.hasClass("un")){
+                            alert(_this.year+" "+(_this.month+1)+" "+$(this).text());
+                        }
+                        
+                    });
+                },
+                strToDate:function(str){
+                    return new Date(str.replace(/-/g,"/"));
                 }
+
             };
 
 
             $.fn.calendar = function(options) {
                 var defaults = {
-                    weekTit: ["一","二","三","四","五","六","日"],
+                    weekTit: ["日","一","二","三","四","五","六"],
                     startDate: null,
                     endDate: null
                 };
@@ -197,6 +267,7 @@
             startDate: "2014-1-3",
             endDate: "2014-6-25"
         });
+
     </script>
 </body>
 </html>
