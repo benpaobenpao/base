@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin: 0px; padding: 0px;}
+        ul,li{list-style: none;}
+        .calendar{position: absolute; display: inline-block; border: 1px solid #ececec; border-radius: 6px; background: #fff;  overflow: hidden;}
+        .calendar .header{text-align: center; padding: 10px 0px;}
+        .calendar .header a{margin: 0px 10px; cursor: pointer;}
+        .calendar table{border-collapse: collapse;border-spacing: 0;}
+        .calendar table thead{background: #ff00ff;}
+        .calendar table thead td{padding: 10px;}
+        .calendar table th{padding: 10px;}
+        .calendar table td{border:1px solid #ececec; text-align: center; vertical-align: middle;}
+        .calendar table td a{display: block; padding: 10px; cursor: pointer;}
+        .calendar table td a.un{color: #999;background: #ececec; cursor: default;}
+        .calendar table td a.unpre{}
+        .calendar .setTime{ position: absolute; top:0px; left: 0px; z-index: 1; display: inline-block; width: 100%; height: 100%; font-size: 46px; text-align: center; background: #fff; overflow: hidden;}
+        .calendar .timeClosed{position: absolute; top:0px; right: 0px; width: 20px; height: 20px; line-height: 20px; text-align: center; color: #999; font-size: 14px; cursor: pointer;}
+        .calendar .setTime ul{overflow: hidden; margin-top: 60px;}
+        .calendar .setTime li{float: left; width: 66px;}
+        .calendar .setTime li.point{width: 30px;}
+        .calendar .setTime .btn{display: block; height: 20px; line-height: 20px; font-size: 12px; background: #ececec; cursor: pointer;}
+        .calendar .setTime .unspan{display: block; height: 20px; line-height: 20px; font-size: 12px;}
+        .calendar .setTime .btnok{display: inline-block; padding: 6px 24px; margin-top: 40px; font-size: 18px;  border-radius: 5px;  cursor: pointer; background: #ececec; }
+        .calendar .mess{margin-top: 30px; font-size: 14px; line-height: 20px;}
+
+        .main{text-align: center; width: 960px; margin: 0px auto; font-size: 14px; line-height: 20px;}
+        .main input{border: 1px solid #666;  background-color: #fff; background-position: right center; background-repeat: no-repeat; border-radius: 3px; padding: 3px 8px; margin-right: 20px;}
+        .mainTit{color: #f00;font-size: 50px;font-weight: bold;text-align: center;text-shadow: 3px 1px 6px #f60;padding: 30px 0px 100px;}
+        .testcal{display: inline-block; margin: 0px 30px;}
+        .mainMess{text-align: left; padding: 20px; background: #f5f5f5; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 30px;}
+    </style>
+</head>
+<body style="height: 1200px;">
+    <div class="main">
+        <div class="mainTit">日历时间结合插件</div>
+        <div class="mainMess">
+            <div><input id="test1" type="text"></div>
+        </div>
+    </div>
+    <script src="../../../jquery.js"></script>
+    <script>
+        /**
+         * [format 格式化日期]
+         * @param  {[type]} str [description]
+         * @return {[type]}     [description]
+         */
+        Date.prototype.format = function(str){ 
+            var o = { 
+                "M+" : this.getMonth()+1, //month 
+                "d+" : this.getDate(), //day 
+                "h+" : this.getHours(), //hour 
+                "m+" : this.getMinutes(), //minute 
+                "s+" : this.getSeconds(), //second 
+                "q+" : Math.floor((this.getMonth()+3)/3), //quarter 
+                "S" : this.getMilliseconds() //millisecond 
+            }; 
+            if(/(y+)/.test(str)) { 
+                str = str.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+            }  
+            for(var k in o) { 
+                if(new RegExp("("+ k +")").test(str)) { 
+                    str = str.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
+                } 
+            } 
+            return str; 
+        }; 
+
+        /**
+         * [toDate 将字符串转换成日期]
+         * @param  {[type]} str [description]
+         * @return {[type]}     [description]
+         */
+        String.prototype.toDate = function(){
+            return new Date(this.replace(/-/g,"/"));
+        };
+
+        /**
+         * [getMaxDate 返回指定年月分的天数]
+         * @param  {[type]} y [description]
+         * @param  {[type]} m [description]
+         * @return {[type]}   [description]
+         */
+        function getMaxDate(y,m){
+            m = m - 1;
+            if(/1[^\d]|3|5|7|8|10|12/.test(m)){
+                return 31;
+            } else if(/4|6|9|11/.test(m)){
+                return 30;
+            }else{
+                if(((y % 4)==0) && ((y % 100)!==0) || ((y % 400)==0)){
+                    return 29;
+                } else{
+                    return 28;
+                }
+            }
+        }
+
+        /**
+         * [isDate 检查字符串是否符合日期格式]
+         * @param  {[type]}  str [description]
+         * @return {Boolean}     [description]
+         */
+        function isDate(str){
+            var reg = /^(\d{4})-(\d{1,2})-(\d{1,2})(\s(\d{1,2}):(\d{1,2}):(\d{1,2}))?$/;
+            if(reg.test(str)){
+                if(RegExp.$2<=12 && RegExp.$3<=(getMaxDate(RegExp.$1,RegExp.$2)) && RegExp.$4<=23 && RegExp.$5<=59 && RegExp.$6<=59){
+                    return true;
+                } else{
+                    return false;
+                }
+            } else{
+                return false;
+            }
+        };
+
+        (function($) {
+
+            function Calendar(elem, options, defaults){
+                var options = $.extend({}, defaults, options);
+                this.opts = options;
+                this.weekTit = this.opts.weekTit;
+                this.elem = elem;
+                this.block = null;
+                this.opts.defYM = isDate(this.opts.defYM)?this.opts.defYM: new Date().format("yyyy-MM-dd hh:mm:ss");
+                this.opts.startDate = isDate(this.opts.startDate)?this.opts.startDate:null;
+                this.opts.endDate = isDate(this.opts.endDate)?this.opts.endDate:null;
+                
+                var _d = this.opts.defYM.toDate();
+                this.year = _d.getFullYear();
+                this.month = _d.getMonth();
+                this.day = _d.getDate();
+                this.hour = "08"; //_d.getHours();
+                this.minute = "00";  //_d.getMinutes();
+                this.second = "00"; //_d.getSeconds();
+                this.maxDay = null;
+                this.d = new Date(this.year, this.month, this.day);
+                this.week = new Date(this.year,this.month,1).getDay(); //this.d.getDay();
+
+                if(/gif|png|jpg/.test(this.opts.pic)){
+                    this.elem.css("background-image","url("+this.opts.pic+")");
+                }
+                
+                this.elem.attr("readonly","readonly");
+                this.init();
+            }
+
+            Calendar.prototype = {
+                init: function(){
+                    var _this = this;
+                    _this.events();
+                },
+                getMaxDay: function(year,month){
+                    month=month+1;
+                    if(/1[^\d]|3|5|7|8|10|12/.test(month)){
+                        return 31;
+                    } else if(/4|6|9|11/.test(month)){
+                        return 30;
+                    }else{
+                        if(((year % 4)==0) && ((year % 100)!=0) || ((year % 400)==0)){
+                            return 29;
+                        } else{
+                            return 28;
+                        }
+                    }
+                },
+                defHtml: function(){
+                    var _this = this;
+                    var html = "<div id='calText' class='calendar' >";
+                    
+                    html += "<div class='header'><a class='calPreYear'>上</a><span class='yeartxt'>"+(_this.year)+"</span><a class='calNextYear'>下</a><a class='calPreMon'>上</a><span class='monthtxt'>"+(_this.month+1)+"</span><a class='calNextMon'>下</a></div><div class='oneMonth'></div></div>";
+                    return html;
+                },                
+                oneMonth: function() {
+                    var _this = this;
+
+                    if(_this.block){
+                        _this.block.find(".yeartxt").text(_this.year);
+                        _this.block.find(".monthtxt").text(_this.month+1);
+                    }
+                    var html = "<table>";
+                    _this.maxDay = _this.getMaxDay(_this.year,_this.month);
+                    _this.week = new Date(_this.year,_this.month,1).getDay();
+                    html+="<thead><tr>";
+                    for(var i=0;i<7;i++){
+                        html+="<th>"+_this.weekTit[i]+"</th>";
+                    }
+                    html+="</tr></thead>";
+                    for (var i = 0; i < 42; i++) {
+                        if (i % 7 === 0) {
+                            html += "<tr>";
+                            for (var j = 0; j < 7; j++) {
+                                if ((i + j >= _this.week) && (i+j<=(_this.maxDay+_this.week-1))) {
+                                    html += "<td><a>" + (i + j - _this.week + 1) + "</a></td>";
+                                } else if((_this.maxDay+_this.week-1)>=35){
+                                        html += "<td>&nbsp;</td>";
+                                }  else{
+                                    if((i + j)<35){
+                                        html += "<td>&nbsp;</td>";
+                                    }
+                                    
+                                }
+                            }
+                            html += "</tr>";
+                        }
+                    }
+                    html += "</table>";
+                    return html;
+                },
+                oneTime: function(){
+                    var _this = this;
+                    var html = "";
+                    html += "<div class='setTime'>";
+                    html +=     "<a class='timeClosed'>X</a>";
+                    html +=     "<ul>";
+                    html +=         "<li><span class='btn btnpre' data-hours='hours'>上</span><div class='num'>"+_this.hour+"</div><span class='btn btnext' data-hours='hours'>下</span></li>";
+                    html +=         "<li class='point'><span class='unspan'>&nbsp;</span><div>:</div><span class='unspan'>&nbsp;</span></li>";
+                    html +=         "<li><span class='btn btnpre'>上</span><div class='num'>"+_this.minute+"</div><span class='btn btnext'>下</span></li>";
+                    html +=         "<li class='point'><span class='unspan'>&nbsp;</span><div>:</div><span class='unspan'>&nbsp;</span></li>";
+                    html +=         "<li><span class='btn btnpre'>上</span><div class='num'>"+_this.second+"</div><span class='btn btnext'>下</span></li>";
+                    html +=     "</ul>";
+                    html +=     "<a class='btnok'>确定</a>";
+                    html += "</div>";
+                    return html;
+                },
+                limit: function(){
+                    var _this = this;
+                    var month = _this.month+1;
+                    if(_this.opts.startDate){
+                        var start = _this.opts.startDate.split("-");
+                        //startDate
+                        if(_this.year<=start[0]){
+                            if(month < start[1]){
+                                _this.block.find(".oneMonth a").addClass("un");
+                            }else if(month===parseInt(start[1])){
+                                _this.block.find(".oneMonth a").slice(0,parseInt(start[2])).addClass("un");
+                            } 
+
+                            if(_this.year<start[0]){
+                                 _this.block.find(".oneMonth a").addClass("un");
+                            }
+                            
+                        }
+                    }
+
+                    if(_this.opts.endDate){
+                        var end = _this.opts.endDate.split("-");
+                        var tmpm = parseInt(_this.maxDay) - parseInt(end[2]);
+                        if(_this.year>=end[0] && _this.opts.endDate){
+                            if(month<parseInt(end[1])){
+
+                            } else if(month===parseInt(end[1])){
+                                _this.block.find(".oneMonth a").slice(parseInt(end[2])).addClass("un");
+                                
+                            } else{
+                                _this.block.find(".oneMonth a").addClass("un");
+                            } 
+                            if(_this.year>end[0]){
+                                _this.block.find(".oneMonth a").addClass("un");
+                            }
+                        }
+                    }
+                    
+                    
+                },
+                dbNum: function(num){
+                    return num.toString().length===2?num:"0"+num;
+                },
+                events: function(){
+                    var _this = this;
+                    
+                    _this.elem.on("click",function(){
+                        $("#calText").remove();
+                        $("body").append(_this.defHtml()).find(".oneMonth").html(_this.oneMonth());
+
+                        if(!!_this.opts.otherElemS && !!_this.opts.otherElemS.val()){
+                            _this.opts.startDate = _this.opts.otherElemS.val();
+                        }
+
+
+                        if(!!_this.opts.otherElemE && !!_this.opts.otherElemE.val()){
+                            _this.opts.endDate = _this.opts.otherElemE.val();
+                        }
+
+                        var elemw = $(this).width();
+                        var elemh = $(this).outerHeight();
+                        var elemt = $(this).offset().top;
+                        var eleml = $(this).offset().left;
+                        var calt = elemt + elemh;
+                        _this.block = $("#calText");
+                        _this.block.css({top:calt+"px",left:eleml+"px"});
+                        _this.limit();
+
+
+                        // 上个月
+                        _this.block.find(".calPreMon").on("click",function(){
+                            _this.month = _this.month - 1;
+                            if (_this.month < 0) {
+                                _this.month = 11;
+                                _this.year = _this.year - 1;
+                            }
+                            _this.block.find(".oneMonth").html(_this.oneMonth());
+                            _this.limit();
+                        });
+
+                        // 下个月
+                        _this.block.find(".calNextMon").on("click",function(){
+                            _this.month = _this.month + 1;
+                            if(_this.month > 11){
+                                _this.month = 0;
+                                _this.year = _this.year + 1;
+                            }
+                            _this.block.find(".oneMonth").html(_this.oneMonth());
+                            _this.limit();
+                        });
+
+                        // 上一年
+                        _this.block.find(".calPreYear").on("click",function(){
+                            _this.year = _this.year - 1;
+                        
+                            _this.block.find(".oneMonth").html(_this.oneMonth());
+                            _this.limit();
+                        });
+
+                        // 下一年
+                        _this.block.find(".calNextYear").on("click",function(){
+                            _this.year = _this.year + 1;
+                            _this.block.find(".oneMonth").html(_this.oneMonth());
+                            _this.limit();
+                        });
+
+                        // 选择具体日期
+                        _this.block.find(".oneMonth").on("click","a",function(){
+                            var $this = $(this);
+                            if(!$this.hasClass("un")){
+                                _this.block.append(_this.oneTime());
+                                _this.day = $this.text();
+                                //_this.elem.attr("value",_this.year+"-"+(_this.month+1)+"-"+$this.text());
+                               //$("#calText").remove();
+                            }
+                        });
+
+                        //
+                        var preStop = null,
+                        isPreM = false,
+                        nextStop = null,
+                        isNextM = false;
+
+                        // 设置时分秒
+                        _this.block.on("mousedown",".btnpre",function(){
+                            var $this = $(this);
+                            var elemnum = $this.parent().find(".num"),
+                                num = parseInt(elemnum.text());
+                                preStop = setInterval(function(){
+                                isPreM = true;
+                                num--;
+                                if($this.attr("data-hours")==="hours"){
+                                    if(num<0){
+                                        num = 23; 
+                                    }
+                                } else{
+                                    if(num<0){
+                                        num = 59;
+                                    }
+                                }
+                                elemnum.text(_this.dbNum(num));
+                            },600);
+                        });
+
+
+                        _this.block.on("mouseup",".btnpre",function(){
+                            _this.isPreM = true;
+                            clearInterval(preStop);
+                            if(!isPreM){
+                                var $this = $(this);
+                                var elemnum = $this.parent().find(".num"),
+                                    num = parseInt(elemnum.text());
+                                num--;
+                                if($this.attr("data-hours")==="hours"){
+                                    if(num<0){
+                                        num = 23; 
+                                    }
+                                } else{
+                                    if(num<0){
+                                        num = 59;
+                                    }
+                                }
+                                elemnum.text(_this.dbNum(num));
+                            }
+                        });
+
+
+                        _this.block.on("mousedown",".btnext",function(){
+                            var $this = $(this);
+                            var elemnum = $this.parent().find(".num"),
+                                num = parseInt(elemnum.text());
+                            preStop = setInterval(function(){
+                                isPreM = true;
+                                num++;
+                                if($this.attr("data-hours")==="hours"){
+                                    if(num>23){
+                                        num = 0; 
+                                    }
+                                } else{
+                                    if(num>59){
+                                        num = 0;
+                                    }
+                                }
+                                elemnum.text(_this.dbNum(num));
+                            },600);
+                        });
+
+                        _this.block.on("mouseup",".btnext",function(){
+                            _this.isPreM = true;
+                            clearInterval(preStop);
+                            if(!isPreM){
+                                var $this = $(this);
+                                var elemnum = $this.parent().find(".num"),
+                                    num = parseInt(elemnum.text());
+                                num++;
+                                if($this.attr("data-hours")==="hours"){
+                                    if(num>23){
+                                        num = 0; 
+                                    }
+                                } else{
+                                    if(num>59){
+                                        num = 0;
+                                    }
+                                }
+                                elemnum.text(_this.dbNum(num));
+                            }
+                        });
+
+                        _this.block.on("mousedown",".timeClosed",function(){
+                            _this.block.find(".setTime").remove();
+                        });
+
+                        _this.block.on("mousedown",".btnok",function(){
+                            //_this.block.find(".setTime").remove();
+                            _this.hour = _this.block.find(".setTime .num").eq(0).text();
+                            _this.minute = _this.block.find(".setTime .num").eq(1).text();
+                            _this.second = _this.block.find(".setTime .num").eq(2).text();
+                            _this.elem.attr("value",_this.year+"-"+(_this.month+1)+"-"+_this.day+" "+_this.hour+":"+_this.minute+":"+_this.second);
+                            _this.block.remove();
+                        });
+                        
+
+                    });
+                }
+            }
+
+            $.fn.calendar = function(options) {
+                var defaults = {
+                    weekTit: ["日","一","二","三","四","五","六"],
+                    otherElemS: null,
+                    otherElemE: null,
+                    startDate: null,
+                    endDate: null,
+                    icon: false,   //图标
+                    defYM: null,
+                    pic: "../../../images/pics/calendar.gif"
+                };
+                new Calendar(this, options, defaults);
+            };
+
+        })(jQuery);
+
+        $("#test1").calendar();
+        
+    </script>
+</body>
+</html>
