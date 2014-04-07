@@ -38,7 +38,7 @@
     <div class="main">
         <div class="mainTit">日历时间结合插件</div>
         <div class="mainMess">
-            <div><input id="test1" type="text"></div>
+            <div>开始<input id="test1" type="text">结束<input id="test2" type="text"></div>
         </div>
     </div>
     <script src="../../../jquery.js"></script>
@@ -336,8 +336,9 @@
                         _this.block.find(".oneMonth").on("click","a",function(){
                             var $this = $(this);
                             if(!$this.hasClass("un")){
-                                _this.block.append(_this.oneTime());
                                 _this.day = $this.text();
+                                _this.block.append(_this.oneTime());
+                                
                                 //_this.elem.attr("value",_this.year+"-"+(_this.month+1)+"-"+$this.text());
                                //$("#calText").remove();
                             }
@@ -468,7 +469,8 @@
 
         })(jQuery);
 
-        $("#test1").calendar();
+        $("#test1").calendar({otherElemE:$("#test2")});
+        $("#test2").calendar({otherElemS:$("#test1")});
         
     </script>
 </body>
