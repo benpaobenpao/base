@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <style>
-        .calendar{position: absolute; display: inline-block; border: 1px solid #ececec; border-radius: 6px;}
+        .calendar{position: absolute; display: inline-block; border: 1px solid #ececec; border-radius: 6px; background: #fff;}
         .calendar .header{text-align: center; padding: 10px 0px;}
         .calendar .header a{margin: 0px 10px; cursor: pointer;}
         .calendar table{border-collapse: collapse;border-spacing: 0;}
@@ -16,15 +16,40 @@
         .calendar table td a.un{color: #999;background: #ececec; cursor: default;}
         .calendar table td a.unpre{}
 
-        .main{text-align: center;}
+        .main{text-align: center; width: 960px; margin: 0px auto; font-size: 14px; line-height: 20px;}
+        .main input{border: 1px solid #666;  background-color: #fff; background-position: right center; background-repeat: no-repeat; border-radius: 3px; padding: 3px 8px; margin-right: 20px;}
         .mainTit{color: #f00;font-size: 50px;font-weight: bold;text-align: center;text-shadow: 3px 1px 6px #f60;padding: 30px 0px 100px;}
         .testcal{display: inline-block; margin: 0px 30px;}
+        .mainMess{text-align: left; padding: 20px; background: #f5f5f5; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 30px;}
     </style>
 </head>
-<body>
-    <div style="padding:100px; text-align: center;">
-        <input id="test1" type="text">
-        <input id="test2" type="text">
+<body style="height: 1200px;">
+    <div class="main">
+        <div class="mainTit">日历初级版</div>
+        <div class="mainMess">
+            1、默认情况，使用方法如：$("#test").calendar();
+            <div><input id="test1" type="text"></div>
+        </div>
+        <div class="mainMess">
+            2、设置默认显示哪年那月，使用方法如：$("#test").calendar({defYM:"2012-12-12"});
+            <div><input id="test2" type="text"></div>
+        </div>
+        <div class="mainMess">
+            3、设置ICON的样式，使用方法如：$("#test").calendar({pic:"../../../images/pics/calendar.jpg"})或者$("#test").calendar({pic:"none"});
+            <div><input id="test3" type="text"><input id="test4" type="text"></div>
+        </div>
+        <div class="mainMess">
+            4、设置可选择的范围，使用方法如：$("#test").calendar({startDate:"2014-4-5"})或者$("#test").calendar({endDate:"2014-4-20"})或$("#test").calendar({startDate:"2014-4-5",endDate:"2014-4-20"});
+            <div><input id="test5" type="text"><input id="test6" type="text"><input id="test7" type="text"></div>
+        </div>
+        <div class="mainMess">
+            5、设置from...to...，使用方法如：$("#test").calendar({startDate:"2014-4-5"})或者$("#test").calendar({endDate:"2014-4-20"})或$("#test").calendar({startDate:"2014-4-5",endDate:"2014-4-20"});
+            <div><input id="test8" type="text"><input id="test9" type="text"></div>
+        </div>
+        <div class="mainMess">
+            6、设置星期的名称，使用方法如：$("#test").calendar({weekTit:["-7-","-1-","-2-","-3-","-4-","-5-","-6-"]});;
+            <div><input id="test10" type="text"></div>
+        </div>
     </div>
     <script src="../../../jquery.js"></script>
     <script>
@@ -104,7 +129,7 @@
 
         (function($) {
 
-            function mtest(elem, options, defaults){
+            function Calendar(elem, options, defaults){
                 var options = $.extend({}, defaults, options);
                 this.opts = options;
                 this.weekTit = this.opts.weekTit;
@@ -125,12 +150,15 @@
                 this.d = new Date(this.year, this.month, this.day);
                 this.week = new Date(this.year,this.month,1).getDay(); //this.d.getDay();
 
-                this.elem.css("background","url("+this.opts.pic+") right center no-repeat");
+                if(/gif|png|jpg/.test(this.opts.pic)){
+                    this.elem.css("background-image","url("+this.opts.pic+")");
+                }
+                
                 this.elem.attr("readonly","readonly");
                 this.init();
             }
 
-            mtest.prototype = {
+            Calendar.prototype = {
                 init: function(){
                     var _this = this;
                     _this.events();
@@ -243,12 +271,12 @@
                         $("#calText").remove();
                         $("body").append(_this.defHtml()).find(".oneMonth").html(_this.oneMonth());
 
-                        if(!!_this.opts.otherElemS){
+                        if(!!_this.opts.otherElemS && !!_this.opts.otherElemS.val()){
                             _this.opts.startDate = _this.opts.otherElemS.val();
                         }
 
 
-                        if(!!_this.opts.otherElemE){
+                        if(!!_this.opts.otherElemE && !!_this.opts.otherElemE.val()){
                             _this.opts.endDate = _this.opts.otherElemE.val();
                         }
 
@@ -294,7 +322,7 @@
                         });
 
                         _this.block.find(".calPreYear").on("click",function(){
-                            _this.year = _this.year + 1;
+                            _this.year = _this.year - 1;
                         
                             _this.block.find(".oneMonth").html(_this.oneMonth());
                             _this.limit();
@@ -313,7 +341,7 @@
                 }
             }
 
-            $.fn.test = function(options) {
+            $.fn.calendar = function(options) {
                 var defaults = {
                     weekTit: ["日","一","二","三","四","五","六"],
                     otherElemS: null,
@@ -325,26 +353,23 @@
                     pic: "../../../images/pics/calendar.gif"
                 };
 
-                new mtest(this, options, defaults);
+                new Calendar(this, options, defaults);
                
 
             };
 
         })(jQuery);
 
-        $("#test1").test({
-            startDate: "2014-4-10",
-            endDate: "2014-6-5",
-            defYM: "2014-4-12",
-            otherElemE: $("#test2")
-        });
-
-        $("#test2").test({
-            startDate: "2014-1-10",
-            endDate: "2014-8-15",
-            otherElemS: $("#test1")
-        });
-
+        $("#test1").calendar();
+        $("#test2").calendar({defYM:"2012-12-12"});
+        $("#test3").calendar({pic:"../../../images/pics/calendar.jpg"});
+        $("#test4").calendar({pic:"none"});
+        $("#test5").calendar({defYM:"2014-4-1",startDate:"2014-4-5"});
+        $("#test6").calendar({defYM:"2014-4-1",endDate:"2014-4-20"});
+        $("#test7").calendar({defYM:"2014-4-1",startDate:"2014-4-5",endDate:"2014-4-20"});
+        $("#test8").calendar({defYM:"2014-4-1",otherElemE:$("#test9"),startDate:"2014-4-5",endDate:"2014-4-25"});
+        $("#test9").calendar({defYM:"2014-4-1",otherElemS:$("#test8"),startDate:"2014-4-5",endDate:"2014-4-25"});
+        $("#test10").calendar({defYM:"2014-4-1",weekTit:["-7-","-1-","-2-","-3-","-4-","-5-","-6-"]});
         
     </script>
 </body>
