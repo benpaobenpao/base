@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>类型</title>
+    <link rel="stylesheet" href="../../base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">数据类型</div>
+        <div class="hiBlock">
+            javascript数据类型包括：number,string,boolean,undefined和null<br>
+            判断类型的方法有两种方式，undefined和object用typeof判断，其他用Object.prototype.toString.call
+        </div>
+        <pre data-type="javascript">
+            // 判断是不是字符串
+            Object.prototype.toString.call("abc");
+            结果：[object String]
+
+            // 判断是不是布尔值
+            Object.prototype.toString.call(true);
+            结果：[object Boolean]
+
+            // 判断是不是数值
+            Object.prototype.toString.call(123);
+            结果：[object Number]
+
+            // 判断是不是数组
+            Object.prototype.toString.call([]);
+            结果：[object Array]
+
+            // 判断是不是日期
+            Object.prototype.toString.call(123);
+            结果：[object Date]
+
+            // 判断是不是方法
+            Object.prototype.toString.call(function(){});
+            结果：[object Function]
+
+            // 判断是不是object
+            typeof({});
+            结果：object
+
+            // 判断是不是undefined，aaa没有定义
+            typeof(aaa);
+            结果：undefined
+        </pre>
+        <div class="hiBlock">
+            对数据类型判断的封装,使用方式如：base.iType.isString("abc");
+        </div>
+        <pre data-type="javascript">
+            var base = {};
+            (function(){
+                var iType = {
+                    /**
+                     * [typeName 返回类型]
+                     * @param  {[type]} s [检查的值]
+                     * @return {[String]}   [如果存在返回值的类型，否则返回空]
+                     */
+                    typeName: function(s){
+                        if(s!==null && s.constructor !== null){
+                            return Object.prototype.toString.call(s);
+                        } else{
+                            return "";
+                        }
+                    },
+                    /**
+                     * [isString 判断是不是字符串]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是字符串返回真，否则假]
+                     */
+                    isString: function(s){
+                        var _this = this;
+                        return /string/ig.test(_this.typeName(s));
+                    },
+                    /**
+                     * [isBoolean 判断是不是布尔值]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是布尔值返回真，否则假]
+                     */
+                    isBoolean: function(s){
+                        var _this = this;
+                        return /boolean/ig.test(_this.typeName(s));
+                    },
+                    /**
+                     * [isNumber 判断是不是数值]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是数值返回真，否则假]
+                     */
+                    isNumber: function(s){
+                        var _this = this;
+                        return /number/ig.test(_this.typeName(s));
+                    },
+                    /**
+                     * [isArray 判断是不是数组]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是数组返回真，否则假]
+                     */
+                    isArray: function(s){
+                        var _this = this;
+                        return /array/ig.test(_this.typeName(s));
+                    },
+                    /**
+                     * [isDate 判断是不是日期]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是日期返回真，否则假]
+                     */
+                    isDate: function(s){
+                        var _this = this;
+                        return /date/ig.test(_this.typeName(s));
+                    },
+                    /**
+                     * [isFunction 判断是不是方法]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是方法返回真，否则假]
+                     */
+                    isFunction: function(s){
+                        var _this = this;
+                        return /function/ig.test(_this.typeName(s));
+                    },
+                    /**
+                     * [isObject 判断是不是object]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是object返回真，否则假]
+                     */
+                    isObject: function(s){
+                        return typeof(s) === "object"?true:false;
+                    },
+                    /**
+                     * [isUndefined 判断是不是undefined]
+                     * @param  {[type]}  s [检查的值]
+                     * @return {Boolean}   [如果是undefined返回真，否则假]
+                     */
+                    isUndefined: function(s){
+                        return typeof(s) === "undefined"?true:false;
+                    }
+                };
+                base.iType = iType;
+            })();
+        </pre>
+    </div>
+    
+    <script>
+        var base = {};
+        (function(){
+            var iType = {
+                /**
+                 * [typeName 返回类型]
+                 * @param  {[type]} s [检查的值]
+                 * @return {[String]}   [如果存在返回值的类型，否则返回空]
+                 */
+                typeName: function(s){
+                    if(s!==null && s.constructor !== null){
+                        return Object.prototype.toString.call(s);
+                    } else{
+                        return "";
+                    }
+                },
+                /**
+                 * [isString 判断是不是字符串]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是字符串返回真，否则假]
+                 */
+                isString: function(s){
+                    var _this = this;
+                    return /string/ig.test(_this.typeName(s));
+                },
+                /**
+                 * [isBoolean 判断是不是布尔值]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是布尔值返回真，否则假]
+                 */
+                isBoolean: function(s){
+                    var _this = this;
+                    return /boolean/ig.test(_this.typeName(s));
+                },
+                /**
+                 * [isNumber 判断是不是数值]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是数值返回真，否则假]
+                 */
+                isNumber: function(s){
+                    var _this = this;
+                    return /number/ig.test(_this.typeName(s));
+                },
+                /**
+                 * [isArray 判断是不是数组]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是数组返回真，否则假]
+                 */
+                isArray: function(s){
+                    var _this = this;
+                    return /array/ig.test(_this.typeName(s));
+                },
+                /**
+                 * [isDate 判断是不是日期]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是日期返回真，否则假]
+                 */
+                isDate: function(s){
+                    var _this = this;
+                    return /date/ig.test(_this.typeName(s));
+                },
+                /**
+                 * [isFunction 判断是不是方法]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是方法返回真，否则假]
+                 */
+                isFunction: function(s){
+                    var _this = this;
+                    return /function/ig.test(_this.typeName(s));
+                },
+                /**
+                 * [isObject 判断是不是object]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是object返回真，否则假]
+                 */
+                isObject: function(s){
+                    return typeof(s) === "object"?true:false;
+                },
+                /**
+                 * [isUndefined 判断是不是undefined]
+                 * @param  {[type]}  s [检查的值]
+                 * @return {Boolean}   [如果是undefined返回真，否则假]
+                 */
+                isUndefined: function(s){
+                    return typeof(s) === "undefined"?true:false;
+                }
+            };
+            base.iType = iType;
+        })();
+    </script> 
+    <script src="../../hilight.js"></script>
+</body>
+</html>

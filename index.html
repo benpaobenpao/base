@@ -4,23 +4,82 @@
     <meta charset="UTF-8">
     <title>首页——benpaobenpao.github.io</title>
     <script src="http://benpaobenpao.github.io/unIE.js"></script>
-    <style>body,div,dl,dt,dd,a{margin:0;padding:0}dl,dt,dd{list-style:none}body{font:14px/20px "Microsoft Yahei",arial,sans-serif;color:#333}a{color:#333;text-decoration:none}.remarks{text-align:right;padding:10px 20px; }.remarks i{display:inline-block;width:20px;height:14px;background:#ccc;vertical-align:middle}.list{display:block}.listTit{height:60px;line-height:60px;font-size:24px;text-indent:20px;text-align:center;background:#f3f4f5;border-radius:0 0 3px 3px;border-top:2px solid #dd3300;text-shadow:1px 2px 8px #333}.listBlock{overflow:hidden;margin:10px auto;text-align:center}.item{margin:0 0 10px 0;padding:0 16px}.itemTit{display:block;height:36px;line-height:36px;text-align:center;font-size:18px;border:2px solid #cecece;background: #0099dd;border-radius:6px;transition:all .5s; }.itemTitUn{cursor:default;background:#eee}.itemTit:hover{color:#fff;background:#dd3300}.itemTitUn:hover{color:#333;background:#eee}.lnksBlock{text-align:center}.lnksBlock a{display:inline-block;width:160px;height:60px;line-height:60px;text-align:center;font-size:18px;border:2px solid #cecece;border-radius:6px;margin:0 10px 10px 10px}.itemBlock{padding:20px 0 60px;display:none}.itemBlock a{margin:0 10px}.itemBlock a:hover{color:#dd4250;text-decoration:underline}</style>
+    <style>
+    body,div,dl,dt,dd,a{margin:0;padding:0}dl,dt,dd{list-style:none}body{font:14px/20px "Microsoft Yahei",arial,sans-serif;color:#333}a{color:#333;text-decoration:none}.remarks{text-align:right;padding:10px 20px; }.remarks i{display:inline-block;width:20px;height:14px;background:#ccc;vertical-align:middle}
+        .main{
+            width: 1190px;
+            margin: 0px auto;
+            padding: 30px 0px 100px;
+        }
+        .main .list{
+            margin-bottom: 20px;
+            border: 1px solid #cecece;
+            border-radius: 6px;
+        }
+
+        .main .listTit{
+            font-size: 20px;
+            font-weight: bold;
+            padding: 20px;
+            color: #0066CC;
+            border-bottom: 1px solid #cecece;
+        }
+
+        .main .item{
+            border-bottom: 1px dashed #cecece;
+            padding: 10px 20px;
+        }
+        .main .item:last-child{
+            border-bottom: none;
+            bottom: 0px;
+        }
+        .main .itemTit{
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: default;
+            color: #353535;
+        }
+
+        .main .itemBlock,.main .lnksBlock{
+            overflow: hidden;
+            padding: 10px 10px 10px 0px;
+        }
+        .main .lnksBlock{
+            padding-left: 20px;
+        }
+
+        .main .itemBlock span{
+            color: #999;
+        }
+        
+        .main .itemBlock a,.main .lnksBlock a{
+            display: block;
+            float: left;
+            width: 20%;
+            overflow: hidden;
+            color: #0066ff;
+            white-space:nowrap; 
+            margin-bottom: 6px;
+        }
+    </style>
 </head>
 <body>
-    <div class="remarks">
-        <strong>备注：</strong><i></i>未发布内容
-    </div>
     <div class="main">
         <dl class="list">
             <dt class="listTit">css篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">scss</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">compass</a>
-                    <div class="itemBlock"></div> 
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div> 
                 </div>
                 <div class="item">
                     <a class="itemTit" href="javascript:void(0);">css</a>
@@ -36,20 +95,25 @@
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">布局</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">兼容性</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
             </dd>
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">javascript篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit" href="javascript:void(0);">原生</a>
                     <div class="itemBlock">
+                        <a href="./demo/js/type.html" target="_blank">类型</a>
                         <a href="./demo/js/array.html" target="_blank">数组</a>
                         <!-- <a href="./demo/js/string.html" target="_blank">字符串</a>
                         <a href="./demo/js/date.html" target="_blank">日期</a> -->
@@ -67,28 +131,38 @@
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">插件</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">第三方插件</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">第三方类库</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">模板引擎</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
             </dd>
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">jquery篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">用法</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit" href="javascript:void(0);">插件</a>
@@ -102,7 +176,9 @@
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">第三方插件</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit" href="javascript:void(0);">图表插件应用</a>
@@ -116,84 +192,110 @@
                 </div>
             </dd>
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">html篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">html</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">html5</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
             </dd> 
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">手机篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">手机</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
             </dd> 
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">工具篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">Sublime Text</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">Photoshop</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">grunt</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">koala</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">浏览器</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
             </dd>
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">操作篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">window快捷键</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">linux命令</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">git</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
             </dd>
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">生活篇</dt>
             <dd class="listBlock">
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">杂感</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
                 <div class="item">
                     <a class="itemTit itemTitUn" href="javascript:void(0);">照片</a>
-                    <div class="itemBlock"></div>
+                    <div class="itemBlock">
+                        <span>(暂无)</span>
+                    </div>
                 </div>
             </dd>
         </dl>
-        <dl>
+        <dl class="list">
             <dt class="listTit">友情链接</dt>
             <dd class="listBlock lnksBlock">
                 <a href="http://www.xdarui.com" target="_blank">Darrel.Hsu</a>
@@ -207,14 +309,14 @@
             </dd>
         </dl>
     </div>
-    <script src="http://files.cnblogs.com/kuikui/jquery-1.10.2.min.js"></script>
-    <script>
-        $(".itemTit").click(function(){
-            var $this = $(this);
-            if(!$this.hasClass("itemTitUn")){
-                $this.next().slideToggle();
-            }
-        });
-    </script>
+    <!-- <script src="http://files.cnblogs.com/kuikui/jquery-1.10.2.min.js"></script> -->
+    <!-- <script> 
+    //     $(".itemTit").click(function(){
+    //         var $this = $(this);
+    //         if(!$this.hasClass("itemTitUn")){
+    //             $this.next().slideToggle();
+    //         }
+    //     });
+    </script> -->
 </body>
 </html>
