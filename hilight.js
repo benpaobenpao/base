@@ -8,7 +8,15 @@ var hiLight = {
             if (ty === "javascript") {
                 pres[i].innerHTML = _this.js(tmp);
             }
+            if(ty === "css") {
+                pres[i].innerHTML = _this.css(tmp);
+            }
         }
+    },
+    css: function(s){
+        s = s.replace(/(?!\;)(\w+):([^;]*);?/g,"<span style='color:#96CBFE;'>$1</span>: <span style='color:#ff00ff;'>$2</span>;");
+        s = s.replace(/(\/\*[\s\S]*?\*\/|\/\/[^\r\n]*)/g,"<span style='color:#A8FF60;'>$1</span>")
+            return s;
     },
     js: function(s) {
     /*
