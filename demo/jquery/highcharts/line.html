@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>饼图</title>
+    <link rel="stylesheet" href="../../../base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">数据类型</div>
+        <div id="test"></div>
+        <pre data-type="javascript">
+            // 柱状图代码示例
+            Highcharts.setOptions({
+                colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'] 
+            });
+            $("#test").highcharts({
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: '半年资金分布'
+                },
+                xAxis: {
+                    categories: ['4月', '5月', '6月', '7月', '8月', '9月']
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    enabled: false,
+                    formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                            this.x +': '+ this.y +'°C';
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series: [{
+                    name: '总收益',
+                    data: [arr[0].total, arr[1].total, arr[2].total, arr[3].total, arr[4].total, arr[5].total]
+                }, {
+                    name: '进钱宝收益',
+                    data: [arr[0].plan, arr[1].plan, arr[2].plan, arr[3].plan, arr[4].plan, arr[5].plan]
+                },{
+                    name: '项目收益',
+                    data: [arr[0].loan, arr[1].loan, arr[2].loan, arr[3].loan, arr[4].loan, arr[5].loan]
+                }]
+            });
+        </pre>
+    </div>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../plugs/highcharts/js/highcharts.js"></script>
+    <script src="../../../hilight.js"></script>
+    <script>
+        var arr= [{total:100,plan:20,loan:80},
+        {total:300,plan:120,loan:180},
+        {total:10,plan:10,loan:0},
+        {total:200,plan:200,loan:0},
+        {total:100,plan:0,loan:100},
+        {total:100,plan:50,loan:50}];
+        Highcharts.setOptions({
+            colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'] 
+        });
+        $("#test").highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: '半年资金分布'
+            },
+            xAxis: {
+                categories: ['4月', '5月', '6月', '7月', '8月', '9月']
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                enabled: false,
+                formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                        this.x +': '+ this.y +'°C';
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: '总收益',
+                data: [arr[0].total, arr[1].total, arr[2].total, arr[3].total, arr[4].total, arr[5].total]
+            }, {
+                name: '进钱宝收益',
+                data: [arr[0].plan, arr[1].plan, arr[2].plan, arr[3].plan, arr[4].plan, arr[5].plan]
+            },{
+                name: '项目收益',
+                data: [arr[0].loan, arr[1].loan, arr[2].loan, arr[3].loan, arr[4].loan, arr[5].loan]
+            }]
+        });
+    </script>
+</body>
+</html>

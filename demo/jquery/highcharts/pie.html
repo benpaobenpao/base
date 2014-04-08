@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>饼图</title>
+    <link rel="stylesheet" href="../../../base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">数据类型</div>
+        <div id="test"></div>
+        <pre data-type="javascript">
+            // 饼图代码示例
+            $('#test').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    defaultSeriesType: 'pie'
+                },
+                title: {
+                    text: '资金状况分布'
+                },
+                tooltip: {
+                    pointFormat: '{name}{point.percentage:.1f}%'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        showInLegend: false,
+                        colors: ['#ff0000', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+                    }
+                },
+                series: [{
+                    data: [{
+                            name: '可用金额',
+                            y: 10,
+                            sliced: true,
+                            selected: true
+                        },
+                        ['奖励金额', 60],
+                        ['待还本金', 10],
+                        ['债权资产', 100],
+                        ['待还利息', 30]
+                    ]
+                }]
+            }); 
+        </pre>
+    </div>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../plugs/highcharts/js/highcharts.js"></script>
+    <script src="../../../hilight.js"></script>
+    <script>
+        $('#test').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                defaultSeriesType: 'pie'
+            },
+            title: {
+                text: '资金状况分布'
+            },
+            tooltip: {
+                pointFormat: '{name}{point.percentage:.1f}%'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    showInLegend: false,
+                    colors: ['#ff0000', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+                }
+            },
+            series: [{
+                data: [{
+                        name: '可用金额',
+                        y: 10,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['奖励金额', 60],
+                    ['待还本金', 10],
+                    ['债权资产', 100],
+                    ['待还利息', 30]
+                ]
+            }]
+        });
+    </script>
+</body>
+</html>
