@@ -3,8 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <title>原生字符串</title>
+  <link rel="stylesheet" href="../../base.css">
 </head>
 <body>
-  字符串
+    <div class="main">
+        <div class="hiTitle">字符串</div>
+        <div class="hiBlock">
+            字符串常用操作介绍
+        </div>
+        <pre data-type="javascript">
+            // 1、创建字符串。
+            var str1 = new String("abc");
+            var str2 = "abc";
+        </pre>
+        <pre data-type="javascript">
+            // 2、length属性，length字符长度。
+            var len = "abc".length;
+        </pre>
+        <pre data-type="javascript">
+            // 3、charAt方法，返回指定位置的字符，索引不在0到字符串长度之间返回空。
+            var str = "abcedf";
+            str.charAt(0);
+            结果："a"
+            str.charAt(5);
+            结果："f"
+            str.charAt(6);
+            结果：""
+            str.charAt(-1);
+            结果：""
+        </pre>
+        <pre data-type="javascript">
+            // 4、charCodeAt方法，可返回指定位置的字符的 Unicode 编码，索引不在0到字符串长度之间返NaN。
+            var str = "abcedf";
+            str.charCodeAt(0);
+            结果：97
+            str.charCodeAt(5);
+            结果：102
+            str.charCodeAt(6);
+            结果：NaN
+            str.charCodeAt(-1);
+            结果：NaN
+        </pre>
+        <pre data-type="javascript">
+            // 5、indexOf，方法可返回某个指定的字符串值在字符串中首次出现的位置。如果要检索的字符串值没有出现，则该方法返回 -1。默认从0的位置开始索引。
+            var str = "abcedfabc";
+            str.indexOf("bc");
+            结果：1
+            str.indexOf("bc",3);
+            结果：7
+            str.indexOf("str");
+            结果：-1
+        </pre>
+        <pre data-type="javascript">
+            // 6、lastIndexOf，返回一个指定的字符串值最后出现的位置，在一个字符串中的指定位置从后向前搜索。如果要检索的字符串值没有出现，则该方法返回 -1。默认从字符串长度减一的位置开始索引。
+            var str = "abcedfabc";
+            str.lastIndexOf("bc");
+            结果：7
+            str.lastIndexOf("bc",3);
+            结果：1
+            str.lastIndexOf("str");
+            结果：-1
+        </pre>
+        <pre data-type="javascript">
+            // 7、substr在字符串中抽取从索引下标开始的指定数目的字符。要抽取的子串的起始下标。必须是数值。如果是负数，那么该参数声明从字符串的尾部开始算起的位置。
+            var str = "abcedfabc";
+            str.substr();
+            结果："abcedfabc"
+            str.substr(1);
+            结果："bcedfabc"
+            str.substr(-1);
+            结果："c"
+            str.substr(1,3);
+            结果："bce"
+            str.substr(-1,3);
+            结果："c"
+        </pre>
+        <pre data-type="javascript">
+            // 8、substring提取字符串中介于两个指定下标之间的字符。
+            var str = "abcedfabc";
+            str.substring();
+            结果："abcedfabc"
+            str.substring(1);
+            结果："bcedfabc"
+            str.substring(1,3);
+            结果："bc"
+        </pre>
+        <pre data-type="javascript">
+            // 9、slice提取字符串的某个部分，并以新的字符串返回被提取的部分。如果是负数，则该参数规定的是从字符串的尾部开始算起的位置。
+            var str = "abcedfabc";
+            str.slice();
+            结果："abcedfabc"
+            str.slice(1);
+            结果："bcedfabc"
+            str.slice(1,3);
+            结果："bc"
+            str.slice(-1);
+            结果："c"
+            str.slice(-5,-3);
+            结果："df"
+        </pre>
+        <pre data-type="javascript">
+            // 10、toUpperCase把字符串转换为大写。
+            var str = "abcedfabc";
+            str.toUpperCase();
+            结果："ABCEDFABC"
+        </pre>
+        <pre data-type="javascript">
+            // 11、toLowerCase把字符串转换为大写。
+            var str = "Abcedfabc";
+            str.toLowerCase();
+            结果："abcedfabc"
+        </pre>
+        <pre data-type="javascript">
+            // 12、match在字符串内检索指定的值，或找到一个或多个正则表达式的匹配，存放匹配结果的数组。
+            var str = "ab1ce2df3abc";
+            str.match("ab");
+            结果：["ab"]
+            str.match(/ab/g);
+            结果：["ab", "ab"]
+            str.match(/\d/g);
+            结果：["1", "2", "3"]
+        </pre>
+        <pre data-type="javascript">
+            // 13、search用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。如果没有找到任何匹配的子串，则返回 -1。
+            var str = "ab1ce2df3abc";
+            str.search("ab");
+            结果：0
+            str.search(/ab/g);
+            结果: 0
+        </pre>
+        <pre data-type="javascript">
+            // 14、replace用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+            var str = "ab1ce2df3abc";
+            str.replace("ab","");
+            结果："1ce2df3abc"
+            str.replace(/\d/g,"_");
+            结果："ab_ce_df_abc"
+        </pre>
+        <pre data-type="javascript">
+            // 15、split用于把一个字符串分割成字符串数组。
+            var str = "ab1ce2df3abc";
+            str.split("ab");
+            结果：["", "1ce2df3", "c"]
+            str.split(/\d/);
+            结果：["ab", "ce", "df", "abc"]
+        </pre>
+        <pre data-type="javascript">
+            // 16、用于连接两个或多个字符串。
+            var str1 = "abc";
+            var str2 = "def";
+            str1.concat(str2);
+            结果："abcdef"
+        </pre>
+    </div>
+    <script src="../../hilight.js"></script>
 </body>
 </html>
