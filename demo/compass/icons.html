@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>compass icon</title>
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="icons.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">compass icons</div>
+            <div class="hiBlock">
+                示例效果
+            </div>
+            <div class="testBlock">
+                <div class="test mtest1"></div>
+                <div class="test mtest2"></div>
+                <div class="test mtest3"></div>
+                <div class="test mtest4"></div>
+                <div class="test mtest5"></div>
+            </div>
+            <div class="hiBlock">
+                sprite使用方法
+            </div>
+            <pre data-type="css">
+                @import "compass/utilities";
+                @import "images/_icon1/*.png";
+                  
+                .mtest1{ @include _icon1-sprite(m1); }
+                .mtest2{ @include _icon1-sprite(m2); }
+                .mtest3{ @include _icon1-sprite(m3); } 
+                .mtest4{ @include _icon1-sprite(m4); }
+                .mtest5{ @include _icon1-sprite(m5); } 
+            </pre>
+        </div>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>

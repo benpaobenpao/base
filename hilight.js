@@ -16,7 +16,7 @@ var hiLight = {
     css: function(s){
         s = s.replace(/(?!:)(.*):([^;}\r\n]*)/g,"<span style='color:#dd3300'>$1</span>:<span style='color:#dddd33'>$2</span>");
         s = s.replace(/(\/\*[\s\S]*?\*\/|\/\/[^\r\n]*)/g,"<span style='color:#A8FF60'>$1</span>");
-        s = s.replace(/(\@include[^\r\n]*)/g,"<span style='color:#33dddd'>$1</span>");
+        s = s.replace(/(\@include[^\r\n}]*)/g,"<span style='color:#33dddd'>$1</span>");
         return s;
     },
     js: function(s) {
