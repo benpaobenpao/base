@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>compass css3</title>
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="css3.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">compass css3</div>
+            <div class="hiBlock">
+                示例效果
+            </div>
+            <div class="testBlock">
+                <div class="test mbdrs1">圆角</div>
+                <div class="test mbdrs2">圆角</div>
+                <div class="test mboxsdw1">阴影</div>
+                <div class="test mboxsdw2">阴影</div>
+                <div class="test mopa">透明度</div>
+                <div class="test mtxtsdw">文字阴影</div>
+                <div class="test mtfm1">形变</div>
+                <div class="test mtfm2">形变</div>
+                <div class="test mtfm3">形变</div>
+                <div class="test mtstn">过度(鼠标)</div>
+                <div class="test bkgrd1">背景色</div>
+                <div class="test bkgrd2">背景色</div>
+            </div>
+            <div class="hiBlock">
+                compass css3的常用样式使用方法，用浅蓝色显示：<span style="display:inline-block;width:30px; height: 20px;line-height:20px; background: #33dddd;vertical-align: middle;"></span>
+            </div>
+            <pre data-type="css">
+                @import "compass/css3";
+                .test{
+                    display: inline-block;
+                    color: #333;
+                    width: 200px;
+                    height: 100px;
+                    line-height: 100px;
+                    border: 10px solid #000;
+                    background: #fff;
+                    margin: 0px 30px 50px;
+                }
+                // 圆角
+                .mbdrs1{
+                    @include border-radius(10px); 
+                }         
+                // 圆角
+                .mbdrs2{
+                    @include border-radius(10px 10px 0px 0px); 
+                } 
+                // 外阴影
+                .mboxsdw1{
+                    @include box-shadow(3px 3px 10px #f00);
+                }
+                // 内阴影
+                .mboxsdw2{
+                    @include box-shadow(0px 0px 10px #f00 inset);
+                }
+                // 透明度
+                .mopa{
+                    @include opacity(0.6);
+                    background: #f00; 
+                }
+                // 文字阴影
+                .mtxtsdw{
+                    @include text-shadow(1px 1px 6px #f00);
+                }
+                // 形变-元素翻转给定的角度，垂直线（Y 轴）
+                .mtfm1{
+                    @include transform(skewY(10deg));
+                }
+                // 形变-元素的尺寸会增加或减少
+                .mtfm2{
+                    @include transform(rotate(10deg));
+                }
+                // 元素从其当前位置移动，根据给定的 left（x 坐标） 和 top（y 坐标）
+                .mtfm3{
+                    @include transform(translateX(0px) rotate(-10deg));
+                }
+                // 过度
+                .mtstn{
+                    @include transition(all 0.3s);
+                    cursor: pointer;
+                    &:hover{
+                        border-color: #f00;
+                        @include border-radius(30px);
+                    }
+                }
+                // 背景纯色
+                .bkgrd1{
+                    @include background(#f00);
+                }
+                // 背景渐变
+                .bkgrd2{
+                    @include background(linear-gradient(left top,#f00,#ff0));
+                }
+            </pre>
+        </div>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
