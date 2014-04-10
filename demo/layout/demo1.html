@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>布局</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/layout1.css">
+    <style>.main{width: auto; min-width: 640px; overflow: hidden;}</style>
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">布局</div>
+        <div class="hiBlock">
+            左侧固定（200px），右侧自适应，主体最小宽度640px。<br>
+            右侧自适应部分为主体内容，展示给用户看的，虽然浏览器可以缩到很小很小的一块，但是已经不符合实际意义的需要了，没有必要对不符合要求的处理，所以才给主体定义最小宽度。关于IE6不支持min-width可以采用js改变浏览器大小的时候触发。
+        </div>
+        <pre data-type="css">
+            .layout1{
+                background: #dd33dd;
+                padding: 20px;
+                min-width: 600px;
+                .laylt{
+                    float: left;
+                    width: 180px;
+                    padding: 10px;
+                    background: #f00;
+                }
+                .layrt{
+                    margin-left: 200px;
+                    padding: 10px;
+                    background: #0ff;
+                }
+            }
+        </pre>
+    </div>
+    <div class="layout1">
+        <div class="laylt">左侧固定(副区)</div>
+        <div class="layrt">
+            右侧自适应(主区)<br>
+            右侧自适应(主区)<br>
+            右侧自适应(主区)<br>
+            右侧自适应(主区)<br>
+            右侧自适应(主区)<br>
+            右侧自适应(主区)<br>
+        </div>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
