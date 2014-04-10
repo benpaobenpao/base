@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>布局</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/layout4.css">
+    <style>.main{width: auto; min-width: 640px; overflow: hidden;}</style>
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">三列等高布局</div>
+        <div class="hiBlock">
+            三列等高，左右侧固定（200px），中部自适应，主体最小宽度640px。
+        </div>
+        <pre data-type="css">
+            .layout{
+                background: #dd33dd;
+                padding: 20px;
+                min-width: 600px;
+                margin-bottom: 100px;
+                overflow: hidden;
+                .laylt{
+                    float: left;
+                    width: 180px;
+                    padding: 10px;
+                }
+                .layrt{
+                    float: right;
+                    width: 180px;
+                    padding: 10px;
+                }
+                .layblock{
+                    padding: 10px;
+                    border-left: 220px solid #f00;
+                    border-right: 220px solid #0ff;
+                    background: #f60;
+                }
+            }
+        </pre>
+    </div>
+    <div class="layout">
+        <div class="laylt">左侧固定(副区)</div>
+        <div class="layrt">
+            <div class="layrtMain" contentEditable="true">
+                右侧固定(副区)
+            </div>
+        </div>
+        <div class="layblock">
+            <div class="blocklt" contentEditable="true">
+                可编辑-中部自适应(主区)<br>
+                可编辑-中部自适应(主区)<br>
+                可编辑-中部自适应(主区)<br>
+                可编辑-中部自适应(主区)<br>
+                可编辑-中部自适应(主区)<br>
+                可编辑-中部自适应(主区)
+            </div>
+        </div>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
