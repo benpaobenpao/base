@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>布局</title>
     <link rel="stylesheet" href="../../css/base.css">
-    <link rel="stylesheet" href="../../css/demo/layout2.css">
+    <link rel="stylesheet" href="../../css/demo/layout3.css">
     <style>.main{width: auto; min-width: 640px; overflow: hidden;}</style>
 </head>
 <body>
     <div class="main">
-        <div class="hiTitle">两列等高布局</div>
+        <div class="hiTitle">左右两侧固定中部自适应</div>
         <div class="hiBlock">
-            两列等高，左侧固定（200px），右侧自适应，主体最小宽度640px。
+            左右两侧固定（200px），中部自适应，主体最小宽度640px。
         </div>
         <pre data-type="css">
             .layout{
@@ -24,16 +24,18 @@
                     float: left;
                     width: 180px;
                     padding: 10px;
-
+                    background: #f00;
                 }
                 .layrt{
+                    float: right;
+                    width: 180px;
+                    padding: 10px;
                     background: #0ff;
                 }
-                .layrtMain{
-                    border-left: 20px solid #dd33dd;
-                    margin-left: 200px;
+                .layblock{
                     padding: 10px;
                     background: #f60;
+                    margin: 0px 200px; 
                 }
             }
         </pre>
@@ -41,14 +43,15 @@
     <div class="layout">
         <div class="laylt">左侧固定(副区)</div>
         <div class="layrt">
-            <div class="layrtMain" contentEditable="true">
-                可编辑-右侧自适应(主区)<br>
-                可编辑-右侧自适应(主区)<br>
-                可编辑-右侧自适应(主区)<br>
-                可编辑-右侧自适应(主区)<br>
-                可编辑-右侧自适应(主区)<br>
-                可编辑-右侧自适应(主区)
-            </div>
+            右侧固定(副区)
+        </div>
+        <div class="layblock">
+            中部自适应(主区)<br>
+            中部自适应(主区)<br>
+            中部自适应(主区)<br>
+            中部自适应(主区)<br>
+            中部自适应(主区)<br>
+            中部自适应(主区)
         </div>
     </div>
     <script src="../../hilight.js"></script>

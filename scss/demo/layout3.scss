@@ -8,15 +8,17 @@
         float: left;
         width: 180px;
         padding: 10px;
-
+        background: #f00;
     }
     .layrt{
+        float: right;
+        width: 180px;
+        padding: 10px;
         background: #0ff;
     }
-    .layrtMain{
-        border-left: 20px solid #dd33dd;
-        margin-left: 200px;
+    .layblock{
         padding: 10px;
         background: #f60;
+        margin: 0px 200px; 
     }
 }
