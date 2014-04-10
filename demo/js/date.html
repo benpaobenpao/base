@@ -1,10 +1,89 @@
 <!doctype html>
 <html lang="cn">
 <head>
-  <meta charset="UTF-8">
-  <title>原生日期</title>
+    <meta charset="UTF-8">
+    <title>日期</title>
+    <link rel="stylesheet" href="../../css/base.css">
 </head>
 <body>
-  日期
+    <div class="main">
+        <div class="hiTitle">日期</div>
+        <div class="hiBlock">
+            1、创建日期
+        </div>
+        <pre data-type="javascript">
+            // 创建日期，返回当天的日期和时间。
+            var d = new Date();
+            结果：Thu Apr 10 2014 10:35:39 GMT+0800 (中国标准时间)
+        </pre>
+        <div class="hiBlock">
+            2、常用方法
+        </div>
+        <pre data-type="javascript">
+            // getFullYear 返回一个表示年份的 4 位数字。
+            d.getFullYear();
+            结果：2014
+
+            // getMonth 返回表示月份的数字(0-11)。0是一月...11是12月。
+            d.getMonth();
+            结果：3
+
+            // getDate 返回月份的某一天。
+            d.getDate();
+            结果：10
+
+            // getDay 返回星期几(0-6)，0是星期日，1是星期一...6星期六。
+            d.getDay();
+            结果：4
+
+            // getHours 返回时间的小时。
+            d.getHours();
+            结果：10
+
+            // getMinutes 返回时间的分钟。
+            d.getMinutes();
+            结果：50
+
+            // getSeconds 返回时间的秒。
+            d.getSeconds();
+            结果：10
+
+            // getMilliseconds 返回时间的毫秒。
+            d.setMilliseconds();
+            结果：155
+
+            // getTime 返回距 1970 年 1 月 1 日之间的毫秒数。
+            d.getTime();
+            结果：1397098580633
+
+            // setFullYear 设置一个表示年份的 4 位数字。
+            d.setFullYear(2013);
+
+            // setMonth 设置表示月份的数字(0-11)。0是一月...11是12月。
+            d.setMonth(5);
+
+            // setDate 设置一个月的某一天。
+            d.setDate(15);
+
+            // setDay 设置星期几(0-6)，0是星期日，1是星期一...6星期六。
+            d.setDay(3);
+
+            // setHours 设置时间的小时。
+            d.setHours(8);
+
+            // setMinutes 设置时间的分钟。
+            d.setMinutes(10);
+
+            // setSeconds 设置时间的秒。
+            dsetSeconds(10);
+
+            // setMilliseconds 设置时间的毫秒。
+            d.setMilliseconds(100);
+
+            // setTime 以毫秒设置 Date 对象。
+            d.setTime(1397098580633);
+        </pre>
+    </div>
+    <script src="../../hilight.js"></script>
 </body>
 </html>
