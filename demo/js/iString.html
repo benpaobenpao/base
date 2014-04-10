@@ -3,20 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <title>字符串扩展</title>
+    <link rel="stylesheet" href="../../base.css">
 </head>
 <body>
     <div class="main">
         <div class="hiTitle">字符串扩展</div>
         <div class="hiBlock">
-            
+            字符串扩展，ECMAScript5支持的方法，如果低版本浏览器不支持，建议在String.prototype中添加。根据业务需求定义的方法建议采用iString方式扩展。
         </div>
         <pre data-type="javascript">
-      
+            var base = {};
+            (function(){
+                var iString = {
+                    /**
+                     * [init ECMAScript5支持的方法建议这么扩展]
+                     * @return {[type]} [description]
+                     */
+                    init: function(){
+                        // 过滤两边空格
+                        if(!String.prototype.trim){
+                            String.prototype.trim = function(){
+                                return this.replace(/(^\s*)|(\s*$)/g, ""); 
+                            }
+                        }
+                    },
+                    /**
+                     * [dbNum 将数字0到9转换成字符串"00"到"09"]
+                     * @param  {[Digital]} n [0到9数字]
+                     * @return {[String]}   ["00"到"09"]
+                     */
+                    dbNum: function(n){
+                        if(n.toString().length===1){
+                            return "0" + n;
+                        }
+                    },
+                    /**
+                     * [numToMoney 将数字格式化字符串金钱格式]
+                     * @param  {[Digital]} m [数字]
+                     * @param  {[Digital]} n [分割，默认3位]
+                     * @return {[String]}   [金钱格式字符串]
+                     */
+                    numToMoney: function(m,n){
+                        n = n || 3;
+                        m = m.toString();
+                        if (m.length <= n) {
+                            return m;
+                        }
+                        if (!/^(\+|-)?(\d+)(\.\d+)?$/.test(m)) {
+                            return m;
+                        }
+                        var a = RegExp.$1, b = RegExp.$2, c = RegExp.$3;
+                        var re = new RegExp();
+                        re.compile("(\\d)(\\d{"+n+"})(,|$)");
+                        while (re.test(b)) {
+                            b = b.replace(re, "$1,$2$3");
+                        }
+                        return a + "" + b + "" + c;
+                    }
+                };
+                base.iString = iString;
+                base.iString.init();
+            })();
+
+            var str1 = "     aaa       ";
+            console.log(str1.length);
+            结果：15
+            str1 = str1.length;
+            console.log(str1);
+            结果：3
+
+            base.iString.dbNum(8);
+            结果："08"
+
+            base.iString.numToMoney(1234567.000123);
+            结果： "1,234,567.000123"
         </pre>
+        <script>
+            var base = {};
+            (function(){
+                var iString = {
+                    /**
+                     * [init ECMAScript5支持的方法建议这么扩展]
+                     * @return {[type]} [description]
+                     */
+                    init: function(){
+                        // 过滤两边空格
+                        if(!String.prototype.trim){
+                            String.prototype.trim = function(){
+                                return this.replace(/(^\s*)|(\s*$)/g, ""); 
+                            }
+                        }
+                    },
+                    /**
+                     * [dbNum 将数字0到9转换成字符串"00"到"09"]
+                     * @param  {[Digital]} n [0到9数字]
+                     * @return {[String]}   ["00"到"09"]
+                     */
+                    dbNum: function(n){
+                        if(n.toString().length===1){
+                            return "0" + n;
+                        }
+                    },
+                    /**
+                     * [numToMoney 将数字格式化字符串金钱格式]
+                     * @param  {[Digital]} m [数字]
+                     * @param  {[Digital]} n [分割，默认3位]
+                     * @return {[String]}   [金钱格式字符串]
+                     */
+                    numToMoney: function(m,n){
+                        n = n || 3;
+                        m = m.toString();
+                        if (m.length <= n) {
+                            return m;
+                        }
+                        if (!/^(\+|-)?(\d+)(\.\d+)?$/.test(m)) {
+                            return m;
+                        }
+                        var a = RegExp.$1, b = RegExp.$2, c = RegExp.$3;
+                        var re = new RegExp();
+                        re.compile("(\\d)(\\d{"+n+"})(,|$)");
+                        while (re.test(b)) {
+                            b = b.replace(re, "$1,$2$3");
+                        }
+                        return a + "" + b + "" + c;
+                    }
+                };
+                base.iString = iString;
+                base.iString.init();
+            })();
+        </script>
     </div>
     <script src="../../hilight.js"></script>
-    <script>
-
-    </script>
+    
 </body>
 </html>
