@@ -1,0 +1,23 @@
+.layout{
+    background: #dd33dd;
+    padding: 20px;
+    min-width: 600px;
+    margin-bottom: 100px;
+    overflow: hidden;
+    .laylt{
+        float: left;
+        width: 180px;
+        height: 100%;
+        padding: 10px;
+
+    }
+    .layrt{
+        background: #0ff;
+    }
+    .layrtMain{
+        border-left: 20px solid #dd33dd;
+        margin-left: 200px;
+        padding: 10px;
+        background: #f60;
+    }
+}

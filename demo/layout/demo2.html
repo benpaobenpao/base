@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>布局</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/layout2.css">
+    <style>.main{width: auto; min-width: 640px; overflow: hidden;}</style>
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">两列等高布局</div>
+        <div class="hiBlock">
+            两列等高，左侧固定（200px），右侧自适应，主体最小宽度640px。
+        </div>
+        <pre data-type="css">
+            .layout{
+                background: #dd33dd;
+                padding: 20px;
+                min-width: 600px;
+                margin-bottom: 100px;
+                overflow: hidden;
+                .laylt{
+                    float: left;
+                    width: 180px;
+                    height: 100%;
+                    padding: 10px;
+
+                }
+                .layrt{
+                    background: #0ff;
+                }
+                .layrtMain{
+                    border-left: 20px solid #dd33dd;
+                    margin-left: 200px;
+                    padding: 10px;
+                    background: #f60;
+                }
+            }
+        </pre>
+    </div>
+    <div class="layout">
+        <div class="laylt">左侧固定(副区)</div>
+        <div class="layrt">
+            <div class="layrtMain" contentEditable="true">
+                可编辑-右侧自适应(主区)<br>
+                可编辑-右侧自适应(主区)<br>
+                可编辑-右侧自适应(主区)<br>
+                可编辑-右侧自适应(主区)<br>
+                可编辑-右侧自适应(主区)<br>
+                可编辑-右侧自适应(主区)
+            </div>
+        </div>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
