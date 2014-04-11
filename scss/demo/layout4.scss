@@ -14,10 +14,14 @@
         width: 180px;
         padding: 10px;
     }
-    .layblock{
-        padding: 10px;
+    .layBlock{
         border-left: 220px solid #f00;
         border-right: 220px solid #0ff;
         background: #f60;
+    }
+    .layBlockMain{
+        padding: 10px;
+        border-left: 20px solid #dd33dd;
+        border-right: 20px solid #dd33dd;
     }
 }
