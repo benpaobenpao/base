@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式</title>
+    <link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">正则表达式</div>
+        <div class="hiBlock">
+            正则表达式，对有手机号码、邮箱、简体中文、金额格式、银行卡进行判断
+        </div>
+        <pre data-type="javascript">
+            var base = {};
+            (function(){
+                var iVerify = {
+                    /**
+                     * [isPhone 判断是不是手机号码]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isPhone: function(str){
+                        var reg = /^1[3|4|5|8]\d{9}$/;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isEmail 判断是不是邮箱]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isEmail: function(str){
+                        var reg = /^\w+@\w+\.\w+\.?\w+$/;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isSimpleCN 判断是不是简体中文]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isSimpleCN: function(str){
+                        var reg = /^[\u4E00-\u9FFF]+$/g;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isDigENCN 判断是不是由数字英文和简体中文组合]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isDigENCN: function(str){
+                        var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+$/g;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isMoney 判断是不是金额格式，如：100.10]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isMoney: function(str){
+                        var reg = /^(([1-9]{1}\d*)|([0]{1}))(\.?(\d){1,2})?$/;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isCard 判断是不是银行卡号]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isCard: function(str){
+                        var reg = /^\d{16,19}$|^\d{6}[- ]\d{10,13}$|^\d{4}[- ]\d{4}[- ]\d{4}[- ]\d{4,7}$/;
+                        return reg.test(str);
+                    }
+                };
+                base.iVerify = iVerify;
+            })();
+        </pre>
+        <script>
+            var base = {};
+            (function(){
+                var iVerify = {
+                    /**
+                     * [isPhone 判断是不是手机号码]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isPhone: function(str){
+                        var reg = /^1[3|4|5|8]\d{9}$/;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isEmail 判断是不是邮箱]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isEmail: function(str){
+                        var reg = /^\w+@\w+\.\w+\.?\w+$/;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isSimpleCN 判断是不是简体中文]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isSimpleCN: function(str){
+                        var reg = /^[\u4E00-\u9FFF]+$/g;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isDigENCN 判断是不是由数字英文和简体中文组合]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isDigENCN: function(str){
+                        var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+$/g;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isMoney 判断是不是金额格式，如：100.10]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isMoney: function(str){
+                        var reg = /^(([1-9]{1}\d*)|([0]{1}))(\.?(\d){1,2})?$/;
+                        return reg.test(str);
+                    },
+                    /**
+                     * [isCard 判断是不是银行卡号]
+                     * @param  {[String]}  str [被检测的字符串]
+                     * @return {Boolean}     [是返回真，否则假]
+                     */
+                    isCard: function(str){
+                        var reg = /^\d{16,19}$|^\d{6}[- ]\d{10,13}$|^\d{4}[- ]\d{4}[- ]\d{4}[- ]\d{4,7}$/;
+                        return reg.test(str);
+                    }
+                };
+                base.iVerify = iVerify;
+            })();
+        </script>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
