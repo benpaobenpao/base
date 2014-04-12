@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>scss基础介绍</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/appLayout1.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">scss基础介绍</div>
+        <div class="hiBlock">
+            主要讲解变量，文件引入，函数的使用，判断条件和循环的使用方法。前提需要定义一种规则，至少在某个阶段都要遵循这个规则。否则scss强悍的功能会淡然失色。
+        </div>
+        <pre data-type="css">
+            /**
+             * 1、变量的使用------$
+             * 设置默认基础样式
+             */
+            $color: #000;
+            $background: #fff;
+            body{
+                color: $color;
+                $background: $background;
+            }
+
+
+            /**
+             * 2、文件的引入------@import
+             * 将reset.scss文件导入当前文件中
+             */
+            @import "reset.scss";
+
+
+            /**
+             * 3、函数的使用------@mixin
+             */
+            @mixin button($c: #000,$bg: #dd3300){
+                color: $c;
+                background: $bg;
+                border: 1px solid $bg*1.5;
+            }
+            @include button();
+            @include button(#f60);
+
+
+            /**
+             * 4、条件语句的使用------@if
+             */
+            @mixin menu($type: top){
+                position: absolute;
+                @if $type == top {
+                    top: 0px;
+                } @else if $type== bottom {
+                    bottom: 0px;
+                } else{
+                    top: 0px;
+                }
+            }
+            @include menu();
+
+
+            /**
+             * 5、循环条件的使用------@for
+             */
+            @for $i from 0 through 10 {
+                .animatedDelay#{$i} {
+                    -webkit-animation-delay: 0.1s*$i;
+                    animation-delay: 0.1s*$i; 
+                }
+            }
+        </pre>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>

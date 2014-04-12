@@ -50,50 +50,57 @@
     animation-fill-mode: both;
 }
 
-.animatedDelay0{
-    -webkit-animation-delay: 0s;
-    animation-delay: 0s;
-} 
-.animatedDelay1{
-    -webkit-animation-delay: 0.1s;
-    animation-delay: 0.1s;
-} 
-.animatedDelay2{
-    -webkit-animation-delay: 0.2s;
-    animation-delay: 0.2s;
-} 
-.animatedDelay3{
-    -webkit-animation-delay: 0.3s;
-    animation-delay: 0.3s;
-} 
-.animatedDelay4{
-    -webkit-animation-delay: 0.4s;
-    animation-delay: 0.4s;
-} 
-.animatedDelay5{
-    -webkit-animation-delay: 0.5s;
-    animation-delay: 0.5s;
-} 
-.animatedDelay6{
-    -webkit-animation-delay: 0.6s;
-    animation-delay: 0.6s;
-} 
-.animatedDelay7{
-    -webkit-animation-delay: 0.7s;
-    animation-delay: 0.7s;
-} 
-.animatedDelay8{
-    -webkit-animation-delay: 0.8s;
-    animation-delay: 0.8s;
-} 
-.animatedDelay9{
-    -webkit-animation-delay: 0.9s;
-    animation-delay: 0.9s;
-} 
-.animatedDelay10{
-    -webkit-animation-delay: 1.0s;
-    animation-delay: 1.0s;
-} 
+@for $i from 0 through 10 {
+    .animatedDelay#{$i} {
+        -webkit-animation-delay: 0.1s*$i;
+        animation-delay: 0.1s*$i; 
+    }
+}
+
+// .animatedDelay0{
+//     -webkit-animation-delay: 0s;
+//     animation-delay: 0s;
+// } 
+// .animatedDelay1{
+//     -webkit-animation-delay: 0.1s;
+//     animation-delay: 0.1s;
+// } 
+// .animatedDelay2{
+//     -webkit-animation-delay: 0.2s;
+//     animation-delay: 0.2s;
+// } 
+// .animatedDelay3{
+//     -webkit-animation-delay: 0.3s;
+//     animation-delay: 0.3s;
+// } 
+// .animatedDelay4{
+//     -webkit-animation-delay: 0.4s;
+//     animation-delay: 0.4s;
+// } 
+// .animatedDelay5{
+//     -webkit-animation-delay: 0.5s;
+//     animation-delay: 0.5s;
+// } 
+// .animatedDelay6{
+//     -webkit-animation-delay: 0.6s;
+//     animation-delay: 0.6s;
+// } 
+// .animatedDelay7{
+//     -webkit-animation-delay: 0.7s;
+//     animation-delay: 0.7s;
+// } 
+// .animatedDelay8{
+//     -webkit-animation-delay: 0.8s;
+//     animation-delay: 0.8s;
+// } 
+// .animatedDelay9{
+//     -webkit-animation-delay: 0.9s;
+//     animation-delay: 0.9s;
+// } 
+// .animatedDelay10{
+//     -webkit-animation-delay: 1.0s;
+//     animation-delay: 1.0s;
+// } 
 
 .fadeinrightbig{
     -webkit-animation-name: fadeinrightbig;
