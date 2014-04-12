@@ -1,10 +1,104 @@
 <!doctype html>
-<html lang="cn">
-<head>
-    <meta charset="UTF-8">
-    <title>test</title>
-</head>
-<body>
-    test...test...
-</body>
-</html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+            div.example{background-color: #f00;}
+
+            @media screen and (min-width: 640px) {
+                div.example {
+                    background-color: #0f0;
+                }
+            }
+            @media screen and (max-width: 1100px) {
+                div.example {
+                    background-color: #00f;
+                }
+            }
+
+            /*@media screen and (min-width: 640px)
+
+            @fant-face{
+                font-family: Runic;
+                src: url(*.eot);
+            }
+
+            @keyframes myfirst{
+                0%{ background: red;}
+                100% {background: yellow;}
+            }
+
+            div{
+                animation: myfirst 5s ease;
+            }*/
+        </style>
+    </head>
+    <body>
+        <div class="example" style="height: 100px;"></div>
+        <script>
+            // function Base(){
+            //     this.name="bName";
+            // };
+
+            // Base.prototype.bFun = function(str){
+            //     console.log("方法"+str);
+            // };
+
+            // function Child(){
+            //     this.sex = "man";
+            // };
+
+            // Child.prototype = new Base();
+            // Child.prototype.cFun = function(str){
+            //     console.log("C"+str);
+            // };
+
+            // var cc = new Child();
+            // console.log(cc.name);
+            // console.log(cc.sex);
+            // console.log(cc.bFun("123"));
+
+
+            function pare(name){
+                this.name = name;
+                this.sayHello = function(){
+                    console.log("你好"+this.name);
+                }
+            };
+
+            function child(name,sex){
+                pare.call(this,name);
+                this.sex = sex;
+                this.sayYY = function(){
+                    console.log("你好"+this.name+"___"+this.sex);
+                }
+            };
+
+            var  mm = new child("张三","男");
+
+            mm.sayHello();
+            console.log("---------");
+            mm.sayYY();
+
+            
+
+
+
+        </script>
+    </body>
+</html>    
+
+
+
+
+
+
+
+
+
+
+
+
+
+

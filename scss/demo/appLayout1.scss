@@ -1,0 +1,124 @@
+@import "compass/css3";
+
+.phoneNav{
+    padding: 8px 10px;
+    color: #666666;
+    text-align: center;
+    border-bottom: 1px solid #c0c0c0;
+    background: #f5f5f5;
+    overflow: hidden;
+    span{
+        //float: left;
+        display: inline-block;
+        font-size: 14px;
+        line-height: 16px;
+        padding: 1px 6px;
+        @include border-radius(6px);
+        margin: auto 6px;
+        cursor: pointer;
+        &.on{
+            color: #3300dd;
+            background: #f1fefe;
+            cursor: default;
+        }
+    }
+}
+.phoneBlock{
+    font-size: 12px;
+    overflow: hidden;
+    .block{
+        float: left;
+        width: 100%;
+        background: #f0f0f0;
+        display: none;
+        &.on{
+            display: block;
+        }
+    }
+    .item{
+        padding: 10px 10px;
+        border-bottom: 1px solid #d8d8d8;
+        @include box-shadow(0px 1px 1px #f9f9f9);
+    }
+}
+
+
+.animated {
+    -webkit-animation-duration: 0.3s;
+    -webkit-animation-fill-mode: both;
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+}
+
+.animatedDelay0{
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+} 
+.animatedDelay1{
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+} 
+.animatedDelay2{
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+} 
+.animatedDelay3{
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+} 
+.animatedDelay4{
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+} 
+.animatedDelay5{
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+} 
+.animatedDelay6{
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+} 
+.animatedDelay7{
+    -webkit-animation-delay: 0.7s;
+    animation-delay: 0.7s;
+} 
+.animatedDelay8{
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+} 
+.animatedDelay9{
+    -webkit-animation-delay: 0.9s;
+    animation-delay: 0.9s;
+} 
+.animatedDelay10{
+    -webkit-animation-delay: 1.0s;
+    animation-delay: 1.0s;
+} 
+
+.fadeinrightbig{
+    -webkit-animation-name: fadeinrightbig;
+    animation-name: fadeinrightbig;
+}
+@-webkit-keyframes fadeinrightbig {
+    0% {
+        opacity: 0;
+        -webkit-transform: translatex(2000px);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translatex(0);
+    }
+}
+@keyframes fadeinrightbig {
+    0% {
+        opacity: 0;
+        transform: translatex(2000px);
+    }
+    100% {
+        opacity: 1;
+        transform: translatex(0);
+    }
+}
+
+

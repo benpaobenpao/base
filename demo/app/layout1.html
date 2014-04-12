@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+    <meta content="yes" name="apple-mobile-web-app-capable">     
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">     
+    <meta content="telephone=no" name="format-detection"> 
+    <title>移动端</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/appLayout1.css">
+</head>
+<body>
+    <div id="pNav" class="phoneNav">
+        <span class="on">新闻</span>
+        <span>电影</span>
+        <span>娱乐</span>
+        <span>游戏</span>
+    </div>
+    <div id="pBlock" class="phoneBlock">
+        <div class="block on">
+            <div class="item animated fadeinrightbig animatedDelay0">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay1">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay2">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay3">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay4">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay5">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay6">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay7">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay8">新闻...</div>
+            <div class="item animated fadeinrightbig animatedDelay9">新闻...</div>
+        </div>
+        <div class="block">
+            <div class="item animated fadeinrightbig animatedDelay0">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay1">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay2">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay3">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay4">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay5">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay6">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay7">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay8">电影...</div>
+            <div class="item animated fadeinrightbig animatedDelay9">电影...</div>
+        </div>
+        <div class="block">
+            <div class="item animated fadeinrightbig animatedDelay0">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay1">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay2">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay3">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay4">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay5">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay6">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay7">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay8">娱乐...</div>
+            <div class="item animated fadeinrightbig animatedDelay9">娱乐...</div>
+        </div>
+        <div class="block">
+            <div class="item animated fadeinrightbig animatedDelay0">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay1">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay2">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay3">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay4">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay5">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay6">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay7">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay8">游戏...</div>
+            <div class="item animated fadeinrightbig animatedDelay9">游戏...</div>
+        </div>
+   </div>
+    <script src="../../plugs/zepto/zepto.js"></script>
+    <script src="../../plugs/zepto/event.js"></script>
+    <script src="../../plugs/zepto/touch.js"></script>
+    <script>
+        (function($){
+            $("#pNav span").tap(function(){
+                var $this = $(this);
+                $this.parent().find("span").removeClass("on");
+                $this.addClass("on");
+                var num = $this.index();
+                $('.block').hide().eq(num).show();
+            });
+        })(Zepto);
+    </script>
+</body>
+</html>
