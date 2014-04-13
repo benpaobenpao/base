@@ -79,6 +79,21 @@
                 var num = $this.index();
                 $('.block').hide().eq(num).show();
             });
+
+            $("#pBlock .block").swipeLeft(function(){
+                var $this = $(this);
+                var num = $this.index()+1;
+                $("#pNav span").removeClass("on").eq(num).addClass("on");
+                $('.block').hide().eq(num).show();
+            });
+
+            $("#pBlock .block").swipeRight(function(){
+                var $this = $(this);
+                var num = $this.index()-1;
+                $("#pNav span").removeClass("on").eq(num).addClass("on");
+                $('.block').hide().eq(num).show();
+            });
+
         })(Zepto);
     </script>
 </body>
