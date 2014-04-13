@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>cookie</title>
+    <link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">
+            cookie
+        </div>
+        <div class="hiBlock">
+            对cookie的读取、设置及删除操作。
+        </div>
+        <pre data-type="javascript">
+            /**
+             * cookie的读取、设置、删除
+             * 
+             * base.cookie('cookieName'); //读取Cookie值
+             * base.cookie('cookieName', 'cookieValue'); //设置cookie的值
+             * base.cookie('cookieName', 'cookieValue', {expires: 7, path: '/', domain: 'iqianjin.com', secure: true});//新建一个cookie 包括有效期 路径 域名等
+             * base.cookie('cookieName', null); //删除一个cookie
+             * 
+             * @method cookie
+             * @param  {String} key     设置或读取的cookie name
+             * @param  {String} value   设置的cookie value
+             * @param  {Object} options 有效期、路径、
+             * @return {Object} document.cookie 
+             */
+            var base = {};
+            (function(){
+                var cookie = function (key, value, options){
+                    if (arguments.length > 1 && String(value) !== "[object Object]") {   
+                        options = jQuery.extend({}, options); 
+                        if (value === null || value === undefined) {
+                            options.expires = -1;
+                        }
+                        if (typeof options.expires === 'number') {
+                            var days = options.expires, t = options.expires = new Date();
+                            t.setDate(t.getDate() + days);
+                        }
+                        value = String(value);
+                        return (document.cookie = [
+                            encodeURIComponent(key), '=',
+                            options.raw ? value : encodeURIComponent(value),
+                            options.expires ? '; expires=' + options.expires.toUTCString() : '',
+                            options.path ? '; path=' + options.path : '',
+                            options.domain ? '; domain=' + options.domain : '',
+                            options.secure ? '; secure' : ''
+                        ].join(''));
+                    }
+                    options = value || {};
+                    var result, decode = options.raw ? function (s) { return s; } : decodeURIComponent;
+                    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+                };
+                base.cookie = cookie;
+            })();
+        </pre>
+    </div>
+    <script src="../../jquery.js"></script>
+    <script src="../../hilight.js"></script>
+    <script>
+        /**
+         * cookie的读取、设置、删除
+         * <pre>
+         * base.cookie('cookieName'); //读取Cookie值
+         * base.cookie('cookieName', 'cookieValue'); //设置cookie的值
+         * base.cookie('cookieName', 'cookieValue', {expires: 7, path: '/', domain: 'iqianjin.com', secure: true});//新建一个cookie 包括有效期 路径 域名等
+         * base.cookie('cookieName', null); //删除一个cookie
+         * </pre>
+         * @method cookie
+         * @param  {String} key     设置或读取的cookie name
+         * @param  {String} value   设置的cookie value
+         * @param  {Object} options 有效期、路径、
+         * @return {Object} document.cookie 
+         */
+        var base = {};
+        (function(){
+            var cookie = function (key, value, options){
+                if (arguments.length > 1 && String(value) !== "[object Object]") {   
+                    options = jQuery.extend({}, options); 
+                    if (value === null || value === undefined) {
+                        options.expires = -1;
+                    }
+                    if (typeof options.expires === 'number') {
+                        var days = options.expires, t = options.expires = new Date();
+                        t.setDate(t.getDate() + days);
+                    }
+                    value = String(value);
+                    return (document.cookie = [
+                        encodeURIComponent(key), '=',
+                        options.raw ? value : encodeURIComponent(value),
+                        options.expires ? '; expires=' + options.expires.toUTCString() : '',
+                        options.path ? '; path=' + options.path : '',
+                        options.domain ? '; domain=' + options.domain : '',
+                        options.secure ? '; secure' : ''
+                    ].join(''));
+                }
+                options = value || {};
+                var result, decode = options.raw ? function (s) { return s; } : decodeURIComponent;
+                return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+            };
+            base.cookie = cookie;
+        })();
+    </script>
+</body>
+</html>
