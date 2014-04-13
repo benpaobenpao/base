@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>类</title>
+    <link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">类</div>
+        <div class="hiBlock">
+            js中模拟类的实现方式通常有两种，一种是函数模拟类，另一种是表达式方式模拟类。<br>
+            函数模拟类，功能更强大，除了公共属性和公共方法，还可以声明私有属性和私有方法以及静态属性和静态方法。使用方式函数模拟类公共属性、公共方法需要用对象的方式调用，静态属性和静态方法函数类名称直接调用方法，私有的不能访问。表达式模拟类类名直接调用属性和方法。
+        </div>
+        <pre data-type="javascript">
+            // 类：函数方式
+            function FunBase(){
+                // 公共属性
+                this.name = "李四";
+                // 私有属性
+                var isIE6 = /MSIE\s*6/ig.test(navigator.appVersion);
+                // 公共方法
+                this.test = function(){
+                    var _this = this;
+                    console.log(_this.name);
+                };
+                // 私有方法
+                function IE(){
+                    if(isIE6){
+                        console.log("IE6........");
+                    }
+                }
+            };
+            //静态属性
+            FunBase.IP = "0000000000000";
+            //静态方法
+            FunBase.isOK = function(o){
+                return (o instanceof FunBase);
+            };
+
+            //创建一个f对象
+            var f = new FunBase();
+            // 使用公用属性和公用方法
+            f.name;
+            f.test();
+            // 使用静态属性和静态方法
+            FunBase.IP;
+            FunBase.isOK({});
+
+
+            // 类：表达式方式
+            var ExpBase = {
+                name: "张三",
+                test: function(){
+                    var _this = this;
+                    console.log(_this.name);
+                }
+            };
+
+            // 使用属性和方法
+            ExpBase.name;
+            ExpBase.test();
+        </pre>
+    </div>
+    <script>
+        // 类：函数方式
+        function FunBase(){
+            // 公共属性
+            this.name = "李四";
+            // 私有属性
+            var isIE6 = /MSIE\s*6/ig.test(navigator.appVersion);
+            // 公共方法
+            this.test = function(){
+                var _this = this;
+                console.log(_this.name);
+            };
+            // 私有方法
+            function IE(){
+                if(isIE6){
+                    console.log("IE6........");
+                }
+            }
+        };
+        //静态属性
+        FunBase.IP = "0000000000000";
+        //静态方法
+        FunBase.isOK = function(o){
+            return (o instanceof FunBase);
+        };
+
+        //创建一个f对象
+        var f = new FunBase();
+        // 使用公用属性和公用方法
+        f.name;
+        f.test();
+        // 使用静态属性和静态方法
+        FunBase.IP;
+        FunBase.isOK({});
+
+
+        // 类：表达式方式
+        var ExpBase = {
+            name: "张三",
+            test: function(){
+                var _this = this;
+                console.log(_this.name);
+            }
+        };
+
+        // 使用属性和方法
+        ExpBase.name;
+        ExpBase.test();
+    </script>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
