@@ -83,6 +83,9 @@
             $("#pBlock .block").swipeLeft(function(){
                 var $this = $(this);
                 var num = $this.index()+1;
+                if(num>3){
+                    num = 0;
+                }
                 $("#pNav span").removeClass("on").eq(num).addClass("on");
                 $('.block').hide().eq(num).show();
             });
@@ -90,6 +93,9 @@
             $("#pBlock .block").swipeRight(function(){
                 var $this = $(this);
                 var num = $this.index()-1;
+                if(num<0){
+                    num = 3;
+                }
                 $("#pNav span").removeClass("on").eq(num).addClass("on");
                 $('.block').hide().eq(num).show();
             });

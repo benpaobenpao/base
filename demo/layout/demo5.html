@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>自适应布局</title>
+    <link rel="stylesheet" href="../../css/demo/layout5.css">
+</head>
+<body>
+    <div class="header contain clearfix">
+        <div class="logo">LOGO</div>
+        <div class="search">自适应布局</div>
+        <div class="userInfo">信息</div>
+    </div>
+    <div class="contain clearfix">
+        <div class="message">
+            自适应布局介绍，宽屏采用1200px，窄屏采用960px，每一栏固定大小为80px，总共15栏，
+            宽屏与窄屏相差240px（3栏）。<br>
+            下面的例子从4个方面介绍了，自使用布局的使用方法：1、没有规则，2、有规则，主区小块隐藏，
+            3、有规则，副区隐藏，4、有规则，不符合固定栏的分配方式。<br>
+            关于IE678在加载中，判断是不是窄屏浏览器，如果是加载样式覆盖。本页面没有做处理。
+        </div>
+    </div>
+    <div class="goodsBg contain clearfix">
+        <div class="block">
+            <div class="goods block12 clearfix">
+                <div class="block6"><span>显示1</span></div>
+                <div class="block3 IEHidden"><span>显示2（隐）</span></div>
+                <div class="block3"><span>显示3</span></div>
+                <div class="block3"><span>显示4</span></div>
+                <div class="block3"><span>显示5</span></div>
+                <div class="block3 IEHidden"><span>显示6（隐）</span></div>
+                <div class="block3"><span>显示7</span></div>
+            </div>
+            <div class="goodSide block3"><span>侧边栏</span></div>
+        </div>
+    </div>
+    <div class="hotBg contain clearfix">
+        <div class="block">
+            <div class="hot block12 clearfix">
+                <div class="block6"><span>显示1</span></div>
+                <div class="block3"><span>显示2</span></div>
+                <div class="block3"><span>显示3</span></div>
+                <div class="block3"><span>显示4</span></div>
+                <div class="block3"><span>显示5</span></div>
+                <div class="block3"><span>显示6</span></div>
+                <div class="block3"><span>显示7</span></div>
+            </div>
+            <div class="hotSide block3 IEHidden"><span>侧边栏（隐）</span></div>
+        </div>
+    </div>
+    <div class="contain clearfix">
+        <div class="lan clearfix">
+            <div class="blockAuto lan4"><span>栏目（缩）</span></div>
+            <div class="blockAuto lan4"><span>栏目（缩）</span></div>
+            <div class="blockAuto lan4"><span>栏目（缩）</span></div>
+            <div class="blockAuto lan4"><span>栏目（缩）</span></div>
+        </div>
+    </div>
+</body>
+</html>
