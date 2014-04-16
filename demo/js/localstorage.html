@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>本地存储</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/layout1.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">本地存储localStorage</div>
+        <div class="hiBlock">
+            localStorage本地存储数据，最大存储数据5M。<br>
+            提供了length属性和setItem，getItem，key，removeItem，clear方法。
+        </div>
+        <pre data-type="javascript">
+            // length属性 存储列表的长度
+            // localStorage.length;
+            // 
+            // setItem方法 将数据存储到存储列表中
+            // localStorage.setItem("key","val");
+            // 
+            // getItem方法 获取存储列表中值
+            // localStorage.getItem("key");
+            // 
+            // key方法 获取指定位置的名称
+            // localStorage.key(0);
+            // 
+            // removeItem 移除存储列表中的值
+            // localStorage.removeItem("key");
+            // 
+            // clear方法 清除存储列表中的所有数据
+            // localStorage.clear();
+
+            if(window.localStorage){
+                localStorage.clear();
+                console.log(localStorage.length);
+                结果：0
+                localStorage.setItem("key1","val1");
+                console.log(localStorage.length);
+                结果：1
+                localStorage.key2 = "val2";           // 不推荐使用
+                console.log(localStorage.length);
+                结果：2
+                localStorage.setItem("key3","val3");
+                localStorage.setItem("key4","val4");
+                localStorage.setItem("key5","val5");
+                console.log(localStorage.length);
+                结果：5
+                console.log(localStorage.getItem("key3"));
+                结果：val3
+                console.log(localStorage.key(0));
+                结果：key1
+                localStorage.removeItem("key1");
+                console.log(localStorage.length);
+                结果：4
+                delete localStorage.key5;             // 不推荐使用
+                console.log(localStorage.length);  
+                结果：3
+                console.log(localStorage.key1);       // 不推荐使用
+                结果：undefined
+                console.log(localStorage["key1"]);    // 不推荐使用
+                结果：undefined
+                console.log(localStorage.getItem("key1"));
+                结果：null
+                console.log(localStorage.key(0));
+                结果：key2
+                
+                var dataGoods = {"list1":{"ID":"1001","name":"商品1","price":100},
+                "list2":{"ID":"1002","name":"商品2","price":200},
+                "list3":{"ID":"1003","name":"商品3","price":300},
+                "list4":{"ID":"1004","name":"商品4","price":400},
+                "list5":{"ID":"1005","name":"商品5","price":500}};
+                localStorage.setItem("dataGoods",JSON.stringify(dataGoods));
+                var obj = JSON.parse(localStorage.getItem("dataGoods"));
+                for(var o in obj){
+                    console.log(obj[o].ID+"___"+obj[o].name+"___"+obj[o].price);
+                }
+                结果：1001___商品1___100
+                结果：1002___商品2___200
+                结果：1003___商品3___300
+                结果：1004___商品4___400
+                结果：1005___商品5___500 
+            }
+        </pre>
+    </div>
+    <script>
+        // length属性 存储列表的长度
+        // localStorage.length;
+        // 
+        // setItem方法 将数据存储到存储列表中
+        // localStorage.setItem("key","val");
+        // 
+        // getItem方法 获取存储列表中值
+        // localStorage.getItem("key");
+        // 
+        // key方法 获取指定位置的名称
+        // localStorage.key(0);
+        // 
+        // removeItem 移除存储列表中的值
+        // localStorage.removeItem("key");
+        // 
+        // clear方法 清除存储列表中的所有数据
+        // localStorage.clear();
+
+        if(window.localStorage){
+            localStorage.clear();
+            console.log(localStorage.length);
+            localStorage.setItem("key1","val1");
+            console.log(localStorage.length);
+            localStorage.key2 = "val2";
+            console.log(localStorage.length);
+            localStorage.setItem("key3","val3");
+            localStorage.setItem("key4","val4");
+            localStorage.setItem("key5","val5");
+            console.log(localStorage.length);
+            console.log(localStorage.getItem("key3"));
+            console.log(localStorage.key(0));
+            localStorage.removeItem("key1");
+            console.log(localStorage.length);
+            delete localStorage.key5;
+            console.log(localStorage.length);
+            console.log(localStorage.key1);
+            console.log(localStorage["key1"]);
+            console.log(localStorage.getItem("key1"));
+            console.log(localStorage.key(0));
+            var dataGoods = {"list1":{"ID":"1001","name":"商品1","price":100},"list2":{"ID":"1002","name":"商品2","price":200},"list3":{"ID":"1003","name":"商品3","price":300},"list4":{"ID":"1004","name":"商品4","price":400},"list5":{"ID":"1005","name":"商品5","price":500}};
+            localStorage.setItem("dataGoods",JSON.stringify(dataGoods));
+            var obj = JSON.parse(localStorage.getItem("dataGoods"));
+            for(var o in obj){
+                console.log(obj[o].ID+"___"+obj[o].name+"___"+obj[o].price);
+            }
+        }
+    </script>
+    <script src="../../hilight.js"></script>
+</body>
+</html>

@@ -129,12 +129,14 @@
     
 }
 
-@media screen and (max-width: 1200px){ 
+@media screen and (max-width: 1199px){ 
     .contain{
         width: 960px; 
     }
     .IEHidden{
-        display: none;
+        //display: none;
+        width: 0px;
+        overflow: hidden;
     }
     .header{
         .search{
