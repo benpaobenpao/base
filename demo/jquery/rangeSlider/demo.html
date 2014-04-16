@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>滑块</title>
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../plugs/rangeSlider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="../../../plugs/rangeSlider/css/ion.rangeSlider.skinNice.css">
+    <style>
+        .optsMess{padding: 60px;}
+        .opts{padding: 0px 60px 60px;}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">滑块——slider</div>
+        <div class="hiBlock">
+            rangeSlider：<a href="http://ionden.com/a/plugins/ion.rangeSlider/en.html" target="_blank">官网</a>
+            <div class="optsMess">价格区间：<label id="price"></label></div>
+            <div class="opts">
+                <input id="test" type="text">
+            </div>
+        </div>
+        <pre data-type="javascript">
+            var price = $("#price");
+            $("#test").ionRangeSlider({
+                min: 0,           // min 最小值
+                max: 5000,        // max 最大值
+                from: 1000,       // from 起始点
+                to: 4000,         // to 结束点
+                type: 'double',   // 滑块条类型
+                step: 1,          // 滑块移动步长
+                prefix: "¥",      // 在数值前添加字符文本
+                prettify: false,  // 数值是不是采用空格分隔
+                hasGrid: true,    // 添加样式属性
+                // 初始化时执行
+                onLoad: function (obj) {        
+                    price.html(obj.fromNumber+"元 至 "+obj.toNumber+"元");
+                },
+                // 滑块移动时执行
+                onChange: function (obj) {      
+                    price.html(obj.fromNumber+"元 至"+obj.toNumber+"元");
+                }
+            });
+        </pre>
+    </div>
+    <script src="../../../hilight.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../plugs/rangeSlider/js/ion.rangeSlider.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var price = $("#price");
+            $("#test").ionRangeSlider({
+                min: 0,           // min 最小值
+                max: 5000,        // max 最大值
+                from: 1000,       // from 起始点
+                to: 4000,         // to 结束点
+                type: 'double',   // 滑块条类型
+                step: 1,          // 滑块移动步长
+                prefix: "¥",      // 在数值前添加字符文本
+                prettify: false,  // 数值是不是采用空格分隔
+                hasGrid: true,    // 添加样式属性
+                // 初始化时执行
+                onLoad: function (obj) {        
+                    price.html(obj.fromNumber+"元 至 "+obj.toNumber+"元");
+                },
+                // 滑块移动时执行
+                onChange: function (obj) {      
+                    price.html(obj.fromNumber+"元 至"+obj.toNumber+"元");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
