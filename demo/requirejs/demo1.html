@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>requirejs</title>
+    <link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">requirejs</div>
+        <div class="hiBlock">
+            requirejs特点：模块化管理，主动部分为页面可视化区域加载文件资源，被动部分为事件出发加载文件资源。
+        </div>
+        <pre data-type="javascript">
+            // 页面可视化内容主动加载文件
+            require.config({
+                baseUrl: "js",
+                paths: {
+                    jquery: "libs/jquery",
+                    testa: "testa"
+                }
+            });
+
+            $("#test").on("click",function(){
+                require(["testa"],function(a){
+                    // CODE ...
+                    // testa.js： 点击事件触发加载testa.js
+                });
+            });
+
+            // 被动加载文件
+            // testa.js文件
+            define(function() {
+                var data = {};
+                return {
+                    data: data
+                };
+            });
+        </pre>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
