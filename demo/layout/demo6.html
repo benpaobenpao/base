@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>顶部固定</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/layout6.css">
+</head>
+<body>
+    <div class="lanMenu">
+        顶部固定
+    </div>
+    <div class="main">
+        <div class="hiTitle">fixed</div>
+        <div class="hiBlock">
+            位置被设置为 fixed 的元素，可定位于相对于浏览器窗口的指定坐标。此元素的位置可通过 "left"、"top"、"right" 以及"bottom" 属性来规定。
+            IE6不支持，解决办法：css中可以通过expression控制，也可以通过js控制。(原理：)
+        </div>
+        <pre data-type="css">
+            // 顶部固定
+            .lanMenu{
+                position: fixed;
+                width: 100%;
+                height: 30px;
+                top: 0px;
+                left: 0px;
+                line-height: 30px;
+                border: 1px solid #999;
+                background: #fff;
+                @include box-shadow(0px 0px 20px 3px rgba(0,0,0,.5));
+                _position:absolute;
+                _top:expression(documentElement.scrollTop);
+            }
+
+            // IE6防止滚动的时候抖动
+            body{
+                _background-image:url(about:blank); 
+                _background-attachment:fixed; 
+            }
+        </pre>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
