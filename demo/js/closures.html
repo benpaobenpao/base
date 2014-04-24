@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包和匿名函数</title>
+    <link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">闭包和匿名函数</div>
+        <div class="hiBlock">
+            闭包是指一个拥有许多变量和绑定了这些变量的环境的表达式。<br>
+            匿名函数是指一类无需定义标识符（函数名）的函数或子程序。<br>
+            实际中，闭包与匿名函数通常配合使用。
+        </div>
+        <pre data-type="javascript">
+            // 定义闭包
+            function test0(a,b){
+                var c = a + b;
+                console.log(c);
+            }
+            test0(5,5);
+            结果：10
+
+            
+            // 定义匿名函数
+            (function(){
+                // 定义匿名函数
+            });
+
+            // 匿名函数立即执行
+            (function(){
+                console.log("匿名函数...");
+            })();
+            结果：匿名函数... 
+        </pre>
+        <pre data-type="javascript">
+            // 例子一
+            function test1(a){
+                return function(b){
+                    return a + b;
+                };
+            };
+            console.log(test1(1)("m"));
+            结果：1m
+        </pre>
+        <pre data-type="javascript">
+            // 例子二
+            function test2(){
+                var i = 0;
+                return function(){
+                    i++;
+                    console.log(i);
+                };
+            }
+            var t1 = test2();
+            t1();
+            结果：1
+            t1();
+            结果：2
+            t1();
+            结果：3
+            var t2 = test2();
+            t2();
+            结果：1
+            test2()();
+            结果：1
+        </pre>
+        <pre data-type="javascript">
+            // 例子三
+            function test3(){
+                for(var i=0;i < 3;i++){
+                    console.log("test3="+i);
+                }
+            }
+            test3();
+            结果：test3=0
+            结果：test3=1
+            结果：test3=2
+
+            function test4(){
+                for(var i=0;i < 3;i++){
+                    setTimeout(function(){
+                        console.log("test4=" + i);
+                    },500);
+                }
+            }
+            test4();
+            结果：test4=3 
+            结果：test4=3
+            结果：test4=3
+
+            function test5(){
+                for(var i=0;i < 3;i++){
+                    (function(j){
+                        setTimeout(function(){
+                            console.log("test5=" + j);
+                        },500);
+                    })(i);
+                } 
+            }
+            test5();
+            结果：test5=0
+            结果：test5=1
+            结果：test5=2
+
+            function test6(callback){
+                for(var i=0;i < 3;i++){
+                    !!callback&&callback(i);
+                }
+            }
+            test6(function(a){
+                setTimeout(function(){
+                    console.log("mcall="+a);
+                },500);
+            });
+            结果：mcall=0
+            结果：mcall=1
+            结果：mcall=2
+        </pre>
+    </div>
+    <script src="../../hilight.js"></script>
+    <script>
+        // 闭包
+        function test0(a,b){
+            var c = a + b;
+            console.log(c);
+        }
+        test0(5,5);
+
+        // 匿名函数
+        (function(){
+            // 定义匿名函数
+        });
+
+        // 匿名函数立即执行
+        (function(){
+            console.log("匿名函数...");
+        })();
+
+
+        // 例子一
+        function test1(a){
+            return function(b){
+                return a + b;
+            };
+        };
+        console.log(test1(1)("m"));
+
+        // 例子二
+        function test2(){
+            var i = 0;
+            return function(){
+                i++;
+                console.log(i);
+            };
+        }
+        var t1 = test2();
+        t1();
+        t1();
+        t1();
+        var t2 = test2();
+        t2();
+        test2()();
+
+        // 例子三
+        function test3(){
+            for(var i=0;i<3;i++){
+                console.log("test3="+i);
+            }
+        }
+        test3();
+
+        function test4(){
+            for(var i=0;i<3;i++){
+                setTimeout(function(){
+                    console.log("test4=" + i);
+                },500);
+            }
+        }
+        test4();
+
+        function test5(){
+            for(var i=0;i<3;i++){
+                (function(j){
+                    setTimeout(function(){
+                        console.log("test5=" + j);
+                    },500);
+                })(i);
+            } 
+        }
+        test5();
+
+        function test6(callback){
+            for(var i=0;i<3;i++){
+                !!callback&&callback(i);
+            }
+        }
+        test6(function(a){
+            setTimeout(function(){
+                console.log("mcall="+a);
+            },500);
+        });
+    </script>
+</body>
+</html>
