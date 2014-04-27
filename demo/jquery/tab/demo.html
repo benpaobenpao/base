@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>标签切换</title>
+    <style>
+        *{margin: 0px; padding: 0px;}
+        ul,li{list-style: none;}
+        body{
+            font-size: 14px;
+            line-height: 20px;
+        }
+        .mTab{
+            width: 960px;
+            margin: 60px auto;
+        }
+        .mTabHeader{
+            position: relative;
+            height: 48px;
+            line-height: 47px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .mTabHeader ul{
+            overflow: hidden;
+        }
+        .mTabHeader li{
+            float: left;
+            width: 150px;
+            color: #000;
+            border: 1px solid #BDBFBE;
+            border-radius: 6px 6px 0px 0px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .mTabHeader li.on{
+            position: relative;
+            font-weight: bold;
+            background: #ffff66;
+            box-shadow: 0px 1px 2px 0px #fff inset;
+            cursor: default;
+        }
+        
+        .mTabLine{
+            position: absolute;
+            left: 0px;
+            bottom: -1px;
+            display: block;
+            width: 152px;
+            height: 3px;
+            font-size: 0px;
+            background: #ff6600;
+        }
+
+        .mTabLine em{
+            position: absolute;
+            left: 50%;
+            bottom: 0px;
+            display: block;
+            width: 0px;
+            height: 0px;
+            font-size: 0px;
+            border-width: 8px;
+            border-color:  transparent transparent #ff6600 transparent;
+            border-style: solid;
+            margin-left: -8px;
+        }
+        
+        .mTabMain{
+            border: 1px solid #bdbfbe;
+            overflow: hidden;
+        }
+        .mTabItem{
+            padding: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="mTab">
+        <div class="mTabHeader">
+            <ul>
+                <li class="on">
+                    <span>第一项</span>
+                </li>
+                <li>
+                    <span>第二项</span>
+                </li>
+                <li>
+                    <span>第三项</span>
+                </li>
+                <li>
+                    <span>第四项</span>
+                </li>
+                <li>
+                    <span>第五项</span>
+                </li>
+            </ul>
+            <i class="mTabLine"><em></em></i>
+        </div>
+        <div class="mTabMain">
+            <div class="mTabItem" style="display:block;">
+                第一项<br>
+                第一项<br>
+                第一项<br>
+                第一项<br>
+                第一项<br>
+            </div>
+            <div class="mTabItem">
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+                第二项<br>
+            </div>
+            <div class="mTabItem">
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+                第三项<br>
+            </div>
+            <div class="mTabItem">
+                第四项<br>
+                第四项<br>
+                第四项<br>
+            </div>
+            <div class="mTabItem">
+                第五项<br>
+                第五项<br>
+                第五项<br>
+            </div>
+        </div>
+    </div>
+    <script src="../../../jquery.js"></script>
+    <script>
+        (function($, window, document,undefined){
+            var defaults = {clicks:[]};
+            $.fn.mTab = function(options){
+                var $this = $(this);
+                if(!$this.selector){
+                    return;
+                }
+                var opts = $.extend({},defaults,options),
+                isload = true,
+                tabs = $this.find(".mTabHeader li"),
+                items = $this.find(".mTabItem"),
+                line = $this.find(".mTabLine"),
+                main = $this.find(".mTabMain");
+                function init(){
+                    events();
+                };
+                function events(){
+                    tabs.on("click",function(){
+                        var $this = $(this);
+                        var num = $this.index();
+                        tabs.removeClass("on").eq(num).addClass("on");
+                        var l = $this.position().left,
+                        h = items.hide().eq(num).outerHeight();
+                        if(isload){
+                            isload = false;
+                            var dh = main.outerHeight();
+                            main.css({height:dh+"px"}).animate({height:h+"px"},300,function(){
+                                items.eq(num).show();
+                            });
+                        }
+                        line.animate({left:l+"px"},300);
+                        main.animate({height:h+"px"},300,function(){
+                            items.eq(num).show();
+                        });
+                    });
+                };
+                init();
+            };
+        })(jQuery, window, document);
+        $(".mTab").mTab();
+    </script>
+</body>
+</html>
