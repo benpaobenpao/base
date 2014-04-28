@@ -12,7 +12,8 @@ $purple: #87318c;
     display: inline-block;
     width: 136px;
     height: 30px;
-    line-height: 30px;
+    vertical-align: middle;
+    font-size: 14px;
     text-align: center;
     cursor: pointer;
 }
@@ -68,6 +69,7 @@ $purple: #87318c;
 }
 
 .btnGroups{
+    font-size: 0px;
     text-align: center;
     margin: 30px auto;
 }

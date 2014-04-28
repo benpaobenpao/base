@@ -1,0 +1,23 @@
+@import "compass/css3";
+
+body{
+    background-color: #cf4647;
+    background-size: 50px 50px;
+    @include background-image(linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent));
+}
+
+.mBox{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 99999;
+    display: inline-block;
+    width: 500px;
+    height: 300px;
+    margin: -153px 0px 0px -253px;
+    border: 6px solid rgba(0,0,0,0.3);
+    border: 6px solid #999999\9;
+    background: #fff;
+    @include border-radius(6px);
+    @include background-clip(padding-box);
+}
