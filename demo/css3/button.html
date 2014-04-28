@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>按钮</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/css3Button.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">按钮</div>
+        <div class="hiBlock">
+            按钮是最基本的交互方式，特别呈现漂亮的按钮一套。
+            input[button]组按钮和a[link]组按钮。<br>
+            input定义宽高是包括context、padding和border<br>
+            a定义宽高指的是context<br>
+            建议：input[button]作为交互性按钮使用，a[link]作为链接性按钮使用。
+        </div>
+        <div class="btnGroups">
+            <input class="button btnBlue" type="button" value="按钮">
+            <input class="button btnGreen" type="button" value="按钮">
+            <input class="button btnOrage" type="button" value="按钮">
+            <input class="button btnRed" type="button" value="按钮">
+            <input class="button btnPurple" type="button" value="按钮">
+            <input class="button btnBlue btnDisabled" type="button" value="按钮">
+        </div>
+        <div class="btnGroups">
+            <a class="lnkBtn btnBlue" href="http://benpaobenpao.github.io" target="_blank">按钮</a>
+            <a class="lnkBtn btnGreen" href="http://benpaobenpao.github.io" target="_blank">按钮</a>
+            <a class="lnkBtn btnOrage" href="http://benpaobenpao.github.io" target="_blank">按钮</a>
+            <a class="lnkBtn btnRed" href="http://benpaobenpao.github.io" target="_blank">按钮</a>
+            <a class="lnkBtn btnPurple" href="http://benpaobenpao.github.io" target="_blank">按钮</a>
+            <a class="lnkBtn btnBlue btnDisabled" href="javascript:void(0);">按钮</a>
+        </div>
+    </div>
+    <script src="../../jquery.js"></script>
+    <script>
+        $(".button").on("click",function(){
+            var $this = $(this);
+            if(!$this.hasClass("btnDisabled")){
+                $this.addClass("btnDoing btnDisabled").attr({disabled:"disabled",value:"执行中"});
+                setTimeout(function(){
+                    $this.removeClass("btnDoing btnDisabled").removeAttr("disabled").attr({value:"按钮"});
+                },2000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+@import "compass/css3";
+
+
+$blue: #00a1cb;
+$green: #7db500;
+$orage: #f18d05;
+$red: #e54028;
+$purple: #87318c;
+
+
+.button,.lnkBtn{
+    display: inline-block;
+    width: 136px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+.lnkBtn{
+    width: 134px;
+    height: 28px;
+    line-height: 28px;
+}
+
+
+@mixin buttonColor($bg: $blue,$c:#fff){
+    color: $c;
+    border: 1px solid $bg*0.8;
+    @include background-image(linear-gradient(top, $bg*1.1 50%, $bg 51%));
+    background: $bg+\9;
+    @include box-shadow($bg*1.5 0 1px 0 inset);
+    @include text-shadow(#5f8a38 0 -1px 0);
+    &:hover{
+        @include background-image(linear-gradient(top, $bg*1.15 50%, $bg*0.95 51%));
+    }
+}
+
+.btnBlue{
+    @include buttonColor($blue);
+}
+
+.btnGreen{
+    @include buttonColor($green);
+}
+
+.btnOrage{
+    @include buttonColor($orage);
+}
+
+.btnRed{
+    @include buttonColor($red);
+}
+
+.btnPurple{
+    @include buttonColor($purple);
+}
+
+.btnDisabled{
+    color: #999999;
+    background: #eeeeee;
+    border: 1px solid #dddddd;
+    @include box-shadow(#fff 0 0 0 inset);
+    @include text-shadow(0 1px 1px #ffffff);
+    cursor: default;
+    &:hover{
+        background: #eeeeee;
+    }
+}
+
+.btnGroups{
+    text-align: center;
+    margin: 30px auto;
+}
+
+.btnGroups .button,.btnGroups .lnkBtn{
+    margin: auto 10px; 
+}
