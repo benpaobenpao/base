@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/jsDrag.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">拖拽</div>
+        <div class="hiBlock">
+            拖拽元素设置draggable="true"属性
+        </div>
+        <div class="dragMain">
+            <div class="drag" draggable="true"></div>
+        </div>
+        <pre data-type="html">
+            &lt;div class="drag" draggable="true"&gt;&lt;/div&gt;
+        </pre>
+        <div class="hiBlock">
+            事件
+            <table class="dragTable">
+                <tr>
+                    <td>dragstart</td>
+                    <td>拖拽元素时触发，事件对象拖拽元素(移动元素)</td>
+                </tr>
+                <tr>
+                    <td>drag</td>
+                    <td>拖拽元素时触发，事件对象拖拽元素（原元素）</td>
+                </tr>
+                <tr>
+                    <td>dragenter</td>
+                    <td>拖拽元素进入目标元素时触发，事件对象目标元素</td>
+                </tr>
+                <tr>
+                    <td>dragover</td>
+                    <td>拖拽元素在目标元素上移动时触发，事件对象目标元素</td>
+                </tr>
+                <tr>
+                    <td>dragleave</td>
+                    <td>拖拽元素离开目标元素时触发，事件对象目标元素</td>
+                </tr>
+                <tr>
+                    <td>drop</td>
+                    <td>将拖拽元素放在目标元素内时触发，事件对象目标元素</td>
+                </tr>
+                <tr>
+                    <td>dragend</td>
+                    <td>拖拽完毕时触发，事件对象拖拽元素</td>
+                </tr>
+                
+            </table>
+        </div>
+        <div class="dragMain">
+            <div id="test1" class="drag" draggable="true"></div>
+        </div>
+        <pre data-type="javascript">
+            //拖拽元素移动时，移动元素背景设置为红色，原元素背景设置为红色半透明，移动完毕背景设置为白色不透明。
+            (function(){
+                var test1 = document.getElementById("test1");
+                // 拖拽元素时触发，事件对象拖拽元素(移动元素)
+                test1.addEventListener("dragstart",function(){
+                    this.style.background="#ff0000";
+                },false);
+                // 拖拽元素时触发，事件对象拖拽元素（原元素）
+                test1.addEventListener("drag",function(){
+                    this.style.opacity= 0.3;
+                },false);
+                //拖拽完毕时触发，事件对象拖拽元素
+                test1.addEventListener("dragend",function(){
+                    this.style.opacity= 1;
+                    this.style.background = "#ffffff";
+                },false);
+            })();
+        </pre>
+        <script type="text/javascript">
+            (function(){
+                var test1 = document.getElementById("test1");
+                test1.addEventListener("dragstart",function(){
+                    this.style.background="#ff0000";
+                },false);
+                test1.addEventListener("drag",function(){
+                    this.style.opacity= 0.3;
+                },false);
+                test1.addEventListener("dragend",function(){
+                    this.style.opacity= 1;
+                    this.style.background = "#ffffff";
+                },false);
+            })();
+        </script>
+        <div class="hiBlock">
+            将元素添加到目标元素及从目标区域中删除元素。
+        </div>
+        <div class="dragMain dragMainBox">
+            <div id="smDragOld" class="smDragOld">
+                <div class="drag smDrag smRed" draggable="true" sign="sign"></div>
+                <div class="drag smDrag smGreen" draggable="true" sign="sign"></div>
+                <div class="drag smDrag smBlue" draggable="true" sign="sign"></div>
+            </div>
+            <div id="smDragBox" class="smDragBox"></div>
+        </div>
+        <pre data-type="javascript">
+            (function(){
+                var smDragOld = document.getElementById("smDragOld"),
+                oldDrags = smDragOld.getElementsByClassName("smDrag"),
+                smDragBox = document.getElementById("smDragBox"),
+                oldElem = null;
+                [].forEach.call(oldDrags, function(elem) {
+                    elem.addEventListener("dragstart",function(){
+                        oldElem = this;
+                    },false);
+                    elem.addEventListener("drag",function(){
+                        this.style.opacity= 0.3;
+                    },false);
+                    elem.addEventListener("dragend",function(){
+                        this.style.opacity= 1;
+                        this.removeAttribute("sign");
+                        oldElem = null;
+                    },false);
+                });
+                smDragBox.addEventListener("dragenter",function(){
+                    if(!!oldElem.getAttribute("sign")){
+                        
+                    }
+                },false);
+                // 将目标区域中的元素移除
+                smDragBox.addEventListener("dragleave",function(){
+                    if(!oldElem.getAttribute("sign")){
+                        this.removeChild(oldElem);
+                    }
+                },false);
+                // 向目标元素添加元素
+                smDragBox.addEventListener("dragover",function(e){
+                    e.stopPropagation();
+                    e.preventDefault();
+                    this.appendChild(oldElem);
+                },false);
+            })();
+        </pre>
+        <script>
+            (function(){
+                var smDragOld = document.getElementById("smDragOld"),
+                oldDrags = smDragOld.getElementsByClassName("smDrag"),
+                smDragBox = document.getElementById("smDragBox"),
+                oldElem = null;
+                [].forEach.call(oldDrags, function(elem) {
+                    elem.addEventListener("dragstart",function(){
+                        oldElem = this;
+                    },false);
+                    elem.addEventListener("drag",function(){
+                        this.style.opacity= 0.3;
+                    },false);
+                    elem.addEventListener("dragend",function(){
+                        this.style.opacity= 1;
+                        this.removeAttribute("sign");
+                        oldElem = null;
+                    },false);
+                });
+                smDragBox.addEventListener("dragenter",function(){
+                    if(!!oldElem.getAttribute("sign")){
+                        
+                    }
+                },false);
+                // 将目标区域中的元素移除
+                smDragBox.addEventListener("dragleave",function(){
+                    if(!oldElem.getAttribute("sign")){
+                        this.removeChild(oldElem);
+                    }
+                },false);
+                // 向目标元素添加元素
+                smDragBox.addEventListener("dragover",function(e){
+                    e.stopPropagation();
+                    e.preventDefault();
+                    this.appendChild(oldElem);
+                },false);
+            })();
+        </script>
+        <div class="hiBlock">
+            互换位置
+        </div>
+        <div class="dragMain">
+            <div id="dragLine" class="dragLine">
+                <div class="line line1" draggable="true"></div>
+                <div class="line line2" draggable="true"></div>
+                <div class="line line3" draggable="true"></div>
+                <div class="line line4" draggable="true"></div>
+                <div class="line line5" draggable="true"></div>
+                <div class="line line6" draggable="true"></div>
+            </div>
+        </div>
+        <pre data-type="javascript">
+            (function(){
+                var lines = document.getElementById("dragLine").getElementsByClassName("line"),
+                elem = null,
+                elemCs = null,
+                target = null,
+                targetCs = null;
+                [].forEach.call(lines,function(obj){
+                    obj.addEventListener("dragstart",function(e){
+                        elem = this;
+                        elemCs = this.getAttribute("class");
+                    },false);
+                    obj.addEventListener("drag",function(){
+                        
+                    },false);
+                    obj.addEventListener("dragend",function(){
+                        if(elemCs !== targetCs){
+                            target.setAttribute("class",elemCs);
+                            elem.setAttribute("class",targetCs);
+                        }
+                    },false);
+                    obj.addEventListener("dragenter",function(e){
+                        e.stopPropagation();
+                        e.preventDefault();
+                        target = this;
+                        targetCs = this.getAttribute("class");
+                    },false);
+                });
+            })();
+        </pre>
+        <script>
+            (function(){
+                var lines = document.getElementById("dragLine").getElementsByClassName("line"),
+                elem = null,
+                elemCs = null,
+                target = null,
+                targetCs = null;
+                [].forEach.call(lines,function(obj){
+                    obj.addEventListener("dragstart",function(e){
+                        elem = this;
+                        elemCs = this.getAttribute("class");
+                    },false);
+                    obj.addEventListener("drag",function(){
+                        
+                    },false);
+                    obj.addEventListener("dragend",function(){
+                        if(elemCs !== targetCs){
+                            target.setAttribute("class",elemCs);
+                            elem.setAttribute("class",targetCs);
+                        }
+                    },false);
+                    obj.addEventListener("dragenter",function(e){
+                        e.stopPropagation();
+                        e.preventDefault();
+                        target = this;
+                        targetCs = this.getAttribute("class");
+                    },false);
+                });
+            })();
+        </script>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>

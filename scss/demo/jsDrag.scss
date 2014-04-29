@@ -1,0 +1,95 @@
+@import "compass/css3";
+
+.dragMain{
+    position: relative;
+    padding: 20px;
+    border: 8px solid rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    @include border-radius(8px);
+    @include background-clip(padding-box);
+}
+
+pre{
+    margin-bottom: 100px;
+}
+
+.drag{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #333;
+    cursor: move;
+}
+
+.smDrag{
+    height: 20px;
+    margin: 10px 0px;
+}
+
+.smRed{
+    background: #ff0000;
+}
+
+.smGreen{
+    background: #00ff00;
+}
+
+.smBlue{
+    background: #0000ff;
+}
+
+.dragTable{
+    margin: 10px 0px;
+    td{
+        padding: 6px 10px;
+        border: 1px solid #333;
+    }
+}
+
+.smDragOld{
+    width: 102px;
+}
+
+.dragMainBox{
+    height: 110px;    
+}
+
+.smDragBox{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 200px;
+    height: 106px;
+    padding: 0px 20px;
+    border: 1px solid #333;
+}
+
+.smBoxTip{
+    display: block;
+    position: absolute;
+    width: 80px;
+    height: 20px;
+    line-height: 18px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid #333;
+    top: -1px;
+    right: -1px;
+}
+
+.dragLine{
+    font-size:0px;
+    line-height: 0px;
+    .line{
+        display: inline-block;
+        width: 100px;
+        height: 20px;
+        margin-right: 10px;
+        border: 1px solid #333;
+        cursor: move;
+    }
+    @for $i from 0 through 6{
+        .line#{$i} {
+            background: rgb(30*$i,255-$i*30,$i*30);
+        }
+    }
+}
