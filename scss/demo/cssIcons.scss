@@ -1,0 +1,86 @@
+@import "compass/utilities";
+@import "compass/css3";
+$icons: sprite-map("sprite/icon2/*.png", $spacing: 0px, $layout: smart);
+
+pre{
+    margin-bottom: 60px;
+}
+
+
+@mixin cssicons($name:ok){
+    display: inline-block;
+    background-image: sprite-url($icons);
+    background-position: sprite-position($icons, $name);
+    @include sprite-dimensions($icons, $name);
+}
+
+.ok{
+    @include cssicons(ok);
+}
+
+.error{
+    @include cssicons(error);
+}
+
+.search{
+    @include cssicons(search);
+}
+
+.form{
+    margin: 0px auto;
+    padding: 20px;
+    background: #fff;
+}
+
+.item{
+    label,span,input{
+        font-size: 14px;
+        line-height: 20px;
+        vertical-align: middle;
+    }
+    input{
+        width: 280px;
+        height: 30px;
+        text-indent: 6px;
+        line-height: 30px\9;
+        border: 1px solid #999;
+        @include border-radius(3px);
+        @include box-shadow(0px 1px 1px #999*1.2 inset);
+        margin: 0px 10px;
+        &:focus{
+            outline: 0px;
+            border: 1px solid #6666dd;
+            @include box-shadow(0px 1px 1px #6666dd*0.8 inset);
+        }
+    }
+}
+
+.searchBox{
+    position: relative;
+    width: 300px;
+    height: 40px;
+    border: 1px solid #999;
+    input,em{
+        font-size: 14px;
+        line-height: 30px;
+        vertical-align: middle;
+    }
+    input{
+        width: 298px; 
+        height: 38px; 
+        line-height: 20px;
+        line-height: 38px\9;
+        text-indent: 6px;
+        border: none;
+        &:focus{
+            border: none;
+            outline: 0px;
+        }
+    }
+    em{
+        position: absolute;
+        right: 8px;
+        top: 2px;
+        cursor: pointer;
+    }
+}

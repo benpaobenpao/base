@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>文字图片内联元素垂直居中</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/demo/cssIcons.css">
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">文字图片垂直居中</div>
+        <div class="hiBlock">
+            <div class="form">
+                <div class="item">
+                    <label>姓名：</label>
+                    <input type="text" placeholder="文本框" /> 
+                    <span class="ok">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+        <pre data-type="css">
+            // 小图标合并
+            $icons: sprite-map("sprite/icon2/*.png", $spacing: 0px, $layout: smart);
+            @mixin cssicons($name:ok){
+                display: inline-block;
+                background-image: sprite-url($icons);
+                background-position: sprite-position($icons, $name);
+                @include sprite-dimensions($icons, $name);
+            }
+            .ok{
+                @include cssicons(ok);
+            }
+            .error{
+                @include cssicons(error);
+            }
+            .search{
+                @include cssicons(search);
+            }
+            // 将label，span，input内联元素设置为vertical-align：middle；
+            // input获取焦点时，注意点有光标垂直居中，光标距离左边的尺寸，边框的外发光。
+            // 焦点垂直居中对齐，高级浏览器设置vertical-align：middle。ie6-ie8使用hack设置行高同宽高。
+            // 默认焦点光标距离左边的尺寸，设置text-indent：6px。
+            // 获取焦点时取消边框外发光，设置outline：0。
+            .item{
+                label,span,input{
+                    font-size: 14px;
+                    line-height: 20px;
+                    vertical-align: middle;
+                }
+                input{
+                    width: 280px;
+                    height: 30px;
+                    text-indent: 6px;
+                    line-height: 30px\9;
+                    border: 1px solid #999;
+                    @include border-radius(3px);
+                    @include box-shadow(0px 1px 1px #999*1.2 inset);
+                    margin: 0px 10px;
+                    &:focus{
+                        outline: 0px;
+                        border: 1px solid #6666dd;
+                        @include box-shadow(0px 1px 1px #6666dd*0.8 inset);
+                    }
+                }
+            }
+        </pre>
+        <div class="hiBlock">
+            <div class="form">
+                <div class="searchBox">
+                    <input type="text" placeholder="搜索" />
+                    <em class="search">&nbsp;</em>
+                </div>
+            </div>
+        </div>
+        <pre data-type="css">
+            // 用position：absolute；top：4px；right：10px；
+            .searchBox{
+                position: relative;
+                width: 300px;
+                height: 40px;
+                border: 1px solid #999;
+                input,em{
+                    font-size: 14px;
+                    line-height: 30px;
+                    vertical-align: middle;
+                }
+                input{
+                    width: 298px; 
+                    height: 38px; 
+                    line-height: 20px;
+                    line-height: 38px\9;
+                    text-indent: 6px;
+                    border: none;
+                    &:focus{
+                        border: none;
+                        outline: 0px;
+                    }
+                }
+                em{
+                    position: absolute;
+                    right: 8px;
+                    top: 2px;
+                    cursor: pointer;
+                }
+            }
+        </pre>
+    </div>
+    <script src="../../hilight.js"></script>
+</body>
+</html>
