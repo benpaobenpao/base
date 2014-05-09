@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>checkbox选项</title>
+    <link rel="stylesheet" href="../../../css/base.css">
+    <style>
+        *{margin:0px;padding: 0px;}
+        ul,li{list-style: none;}
+        .skillBox{width: 600px; overflow: hidden; background: #fff; padding: 20px; border: 3px solid #dd3300; margin: 100px auto 0px; }
+        .skillTxt { height: 0px; color: #ffffff; background: #dd3300;}
+        .skillBoxLbl{display: inline-block; padding: 6px;}
+        .skillBoxLbl i{cursor:pointer; width: 10px; height: 10px; display: inline-block; background: #39d; vertical-align: middle;}
+        .skillBox .skillCom{margin-bottom: 10px;}
+        .skillBox .list{margin-bottom: 10px;}
+        .skillBox .listTit{ cursor: pointer;}
+        .skillBox ul{overflow: hidden;}
+        .skillBox .skillMain ul{display: none;}
+        .skillBox ul li{float: left; width: 80px; margin: 8px 10px; }
+        .skillBox ul li input{cursor: pointer;};
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="hiTitle">checkbox选项</div>
+        <div class="hiBlock">
+            checkbox复选框的应用，本实例用户可以选择技能，常用技能是技能组的常用项，选择常用技能的同时技能组的相同选项也被选中，取消相同选项同时取消，同理，选择技能组常用技能也选中。同时把选中的选项显示在顶部，顶部项中点击删除可以删除对应的选项，同时也取消选择。(代码略显臃肿，可优化)
+        </div>
+        <div id="test" class="skillBox">
+            <div class="skillTxt"></div>
+            <div class="skillCom">
+                <div class="skillComTit">常用技能</div>
+                <ul>
+                    <li><input name="skill" type="checkbox"><label for="">a11</label></li>
+                    <li><input name="skill" type="checkbox"><label for="">b22</label></li>
+                    <li><input name="skill" type="checkbox"><label for="">33</label></li>
+                    <li><input name="skill" type="checkbox"><label for="">44</label></li>
+                    <li><input name="skill" type="checkbox"><label for="">a55</label></li>
+                    <li><input name="skill" type="checkbox"><label for="">a66</label></li>
+                    <li><input name="skill" type="checkbox"><label for="">b77</label></li>
+                </ul>
+            </div>
+            <div class="skillMain">
+                <div class="list">
+                    <div class="listTit">技能组一</div>
+                    <ul>
+                        <li><input name="skill" type="checkbox"><label for="">11</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">22</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">33</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">44</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">55</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">66</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">77</label></li>
+                    </ul>
+                </div>
+                <div class="list">
+                    <div class="listTit">技能组二</div>
+                    <ul>
+                        <li><input name="skill" type="checkbox"><label for="">a11</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">a22</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">a33</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">a44</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">a55</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">a66</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">a77</label></li>
+                    </ul>
+                </div>
+                <div class="list">
+                    <div class="listTit">技能组三</div>
+                    <ul>
+                        <li><input name="skill" type="checkbox"><label for="">b11</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">b22</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">b33</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">b44</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">b55</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">b66</label></li>
+                        <li><input name="skill" type="checkbox"><label for="">b77</label></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input id="mtest" type="hidden" />
+    <script src="../../../jquery.js"></script>
+    <script>
+        (function($){
+            function checkboxSkill(elem,options,defaults){
+                var options = $.extend({}, defaults, options);
+                this.opts = options;
+                this.elem = elem;
+                this.init();
+            }
+            checkboxSkill.prototype = {
+                init: function(){
+                    var _this = this;
+                    _this.elem.find(".listTit").each(function(k,v){
+                        $(this).attr("mindex",k);
+                    });
+                    _this.events();
+                },
+                events: function(){
+                    var _this = this;
+                    _this.elem.on("click","input",function(e){
+                        e = e || window.events;
+                        var $this = $(this);
+                        var p = $this.parent(),
+                            txt = $.trim(p.find("label").html()),
+                            skills =_this.elem.find(".skillTxt");     
+                        if(!!$this.attr("checked")){                                
+                            _this.elem.find("input").each(function(k,v){
+                                var tmpP = $(this).parent();
+                                if(txt === $.trim(tmpP.find("label").html())){
+                                    tmpP.find("input").removeAttr("checked");
+                                     tmpP.find("input")[0].checked = false; 
+                                }
+                            });
+                            skills.find("span").each(function(k,v){
+                                if(txt === $.trim($(this).html())){
+                                    $(this).parent().remove();
+                                    if(!$(".skillTxt span").length){
+                                        $(".skillTxt").animate({
+                                            height: "0px",
+                                            marginBottom:"0px"
+                                            },
+                                            600);
+                                    }
+                                }
+                            });
+                        } else if(skills.find("span").length<_this.opts.length){
+                            $this.attr("checked","checked");
+                            skills.append("<label class='skillBoxLbl'><span>"+txt+"</span><i>&nbsp;</i></label>");
+                            skills.animate({height:"30px",marginBottom:"10px"},600);
+                            _this.elem.find("input").each(function(k,v){
+                                var tmpP = $(this).parent();
+                                if(txt === $.trim(tmpP.find("label").html())){
+                                    tmpP.find("input").attr("checked","checked");
+                                    tmpP.find("input")[0].checked=true;
+                                }
+                            });
+                        } else{
+                            $this.removeAttr("checked");
+                            alert("不能超过"+_this.opts.length+"个");
+                        }
+                        var tmpVal = null;
+                        skills.find("span").each(function(k,v){
+                            tmpVal = $.trim($(this).html()) + "__";
+                            _this.opts.tarId.attr("value",tmpVal);
+                            
+                        });
+                    });
+
+                   
+                    var tmpI = null;
+                    _this.elem.find(".listTit").click(function(){
+                        var $this = $(this);
+                        if(tmpI !== $this.attr("mindex")){
+                            tmpI = $this.attr("mindex");
+                            _this.elem.find(".list ul").slideUp();
+                            $this.parent().show().find("ul").slideDown();
+                        }
+                    });
+
+                    _this.elem.find(".skillTxt").on("click","i",function(){
+                        var $this = $(this);
+                        var p = $this.parent(),
+                            txt = $.trim(p.find("span").html());
+                        p.remove();
+                        _this.elem.find("input").each(function(k,v){
+                            var tmpP = $(this).parent();
+                            if(txt === $.trim(tmpP.find("label").html())){
+                                tmpP.find("input").removeAttr("checked");
+                                tmpP.find("input")[0].checked=false;
+                            }
+                            if(!$(".skillTxt span").length){
+                                $(".skillTxt").animate({
+                                    height: "0px",
+                                    marginBottom:"0px"
+                                    },
+                                    600);
+                            }
+                        });
+                    });
+                }
+            };
+            $.fn.checkboxSkill= function(options){
+                var defaults = {tarId:null,length:10};
+                if(!this.selector){
+                    return;
+                }
+                new checkboxSkill(this,options,defaults);
+            }
+        })(jQuery);
+        $("#test").checkboxSkill({tarId:$("mtest")});
+    </script>
+</body>
+</html>
