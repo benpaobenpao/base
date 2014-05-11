@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="按钮" >
+    <div style="display:none;width: 100px; height: 100px; border: 1px solid #333; background: #f00;"></div>
+    <script src="../../../jquery.js"></script>
+    <script>
+        $("input").click(function(){
+            $("div").fadeIn();
+        });
+    </script>
+</body>
+</html>

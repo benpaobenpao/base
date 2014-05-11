@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin: 0px;padding: 0px;}
+        body{
+            height: 2000px;
+        }
+    </style>
+</head>
+<body>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../plugs/mousewheel/mousewheel.js"></script>
+    <script>
+        var index = 0;
+        $("html").mousewheel(function(event, delta){
+            if(delta>0){ // up
+                console.log("bb");
+                //console.log(deltaX+"___"+deltaY);
+            } 
+            if(delta<0){ // down
+                index++;
+                console.log(index);
+                console.log("aa");
+                //console.log(deltaX+"___"+deltaY);
+            }
+            event.stopPropagation();
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

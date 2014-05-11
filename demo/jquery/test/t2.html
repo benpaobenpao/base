@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>活动专题---www.cnblogs.com/kuikui</title>
+        <meta charset="utf-8">
+        <script src="http://files0.cnitblog.com/kuikui/jquery.js"></script>
+        <style>
+            *{margin: 0px; padding: 0px;}
+            body{height: 1000px;overflow: hidden;}
+            .bodyon{overflow:hidden;}
+            .mbtns{ position: absolute; left:0px; top:0px; width: 100%; height: 30px; line-height: 30px;text-align: center; z-index: 10; background: rgba(255,255,255,0.5);}
+            .mbtns input{border:0px;}
+            .mbtns .on{background:#F00;}
+            .bigBg{
+                position: relative;
+                width: 120%;
+                height: 1000px;
+                margin-left: -10%;
+                
+            }
+            .wrapper{height:1000px;overflow:hidden; width:960px; margin: 0px auto;}
+            #test{position:relative;width:5000px;height:7000px;border:1px solid #000;margin:0px auto;overflow:hidden;}
+            .mtest{position:absolute;left:0px;top:0px;width:960px;height:1000px;}
+            .mtest1{background:#FF0000;left:0px;top:0px;z-index:1;}
+            .mtest2{background:#00FF00;left:2000px;top:2000px;}
+            .mtest3{background:#0000FF;left:0px;top:3000px;}
+            .mtest4{background:#FFFF00;left:1000px;top:4000px;}
+            .mtest5{background:#00FFFF;left:3000px;top:5000px;}
+            .mtest6{background:#FF00FF;left:0px;top:6000px;}
+        </style>
+    </head>
+</html>
+<body>
+    <div class="mbtns">
+        <input type="button" value="btn1" class="mbtn on">
+        <input type="button" value="btn2" class="mbtn">
+        <input type="button" value="btn3" class="mbtn">
+        <input type="button" value="btn4" class="mbtn">
+        <input type="button" value="btn5" class="mbtn">
+        <input type="button" value="btn6" class="mbtn">
+    </div>
+    <div class="bigBg">
+        <div class="wrapper">
+            <div id="test">
+                <div class="mtest mtest1"></div>
+                <div class="mtest mtest2"></div>
+                <div class="mtest mtest3"></div>
+                <div class="mtest mtest4"></div>
+                <div class="mtest mtest5"></div>
+                <div class="mtest mtest6"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var num = 0;
+        var direct = 0;
+        var islock = true;
+        var isFirefox = /firefox/ig.test(navigator.userAgent);
+        var mousewheel = isFirefox?"DOMMouseScroll":"mousewheel";
+        var docH = $(document).height();
+        var winH = $(window).height();
+        var rollH = 0;
+        var test = $("#test");
+    
+        function running(num){
+            $("body").addClass("bodyon");
+            $(document).scrollTop(0);
+            $(".mbtns input").removeClass("on").eq(num).addClass("on");
+            switch(num){
+                case 0:
+                    test.animate({"left":"0px","top":"0px"},500,function(){$(document).scrollTop(0);setTimeout(function(){islock=true;$(document).scrollTop(1);$("body").removeClass("bodyon");},500);});
+                    break;
+                case 1:
+                    test.animate({left:"-2000px",top:"-2000px"},500,function(){$(".mem7").addClass("mrun7");setTimeout(function(){islock=true;$(document).scrollTop(1);$("body").removeClass("bodyon");},500);});               
+                    break;
+                case 2:
+
+                    test.animate({left:"0px",top:"-3000px"},500,function(){$(".mem8").addClass("mrun8");setTimeout(function(){islock=true;$(document).scrollTop(1);$("body").removeClass("bodyon");},500);});
+                    break;
+                case 3:
+                    test.animate({left:"-1000px",top:"-4000px"},500,function(){setTimeout(function(){islock=true;$(document).scrollTop(1);$("body").removeClass("bodyon");$("body").removeClass("bodyon");},500);});
+                    break;
+                case 4:
+                    test.animate({left:"-3000px",top:"-5000px"},500,function(){setTimeout(function(){islock=true;$(document).scrollTop(1);$("body").removeClass("bodyon");},500);});
+                    break;
+                case 5:
+                    test.animate({left:"0px",top:"-6000px"},500,function(){setTimeout(function(){islock=true;$(document).scrollTop(1);$("body").removeClass("bodyon");},500);});
+                    break;
+            }
+        }
+    
+        $(".mbtns input").click(function(){
+            islock = false;
+            num = $(this).index();
+            running(num);
+        });
+
+        document.addEventListener(mousewheel,function(e){
+            e = e || window.event;
+            if(!isFirefox){
+                direct = e.wheelDelta>0?-1:1;
+            }
+            else{
+                direct = e.detail<0?-1:1;
+            }
+        },false);
+
+        $(window).resize(function(){
+            docH = $(document).height();
+            winH = $(window).height();
+        });
+    
+        $(".bigBg").scroll(function(){
+            rollH = $(this).scrollTop(); 
+            if(islock){
+                if((rollH===docH-winH) && (direct === 1 )){
+                    num++;
+                    if(num>5){
+                        num = 5;
+                        return;
+                    }
+                    if(!((num===5)||(num===0))){islock = false;}
+                    running(num);
+                }
+                else if((rollH ===0)&&(direct === -1)){
+                    num--;
+                    if(num<0){
+                        num = 0;
+                        return;
+                    }
+                    if(!((num===5)||(num===0))){islock = false;}
+                    running(num);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

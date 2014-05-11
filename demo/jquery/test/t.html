@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body style="height: 2000px;">
+    <script>
+        var stop = null;
+        var t = 0;
+        window.onscroll = function(){
+            t = document.documentElement.scrollTop || document.body.scrollTop;
+            console.log("a"+t);
+            if(stop){
+                clearTimeout(stop);
+            }
+            stop = setTimeout(function(){   
+               console.log(t);
+               window.scrollTo(0,t);
+            },100);
+        };
+    </script>
+    
+</body>
+</html>

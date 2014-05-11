@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>滚动抖动</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="http://files0.cnitblog.com/kuikui/jquery.js"></script>
+        <style>
+            *{margin: 0px;padding: 0px;}
+            body{position: relative; overflow-x:hidden;background-image:url(about:blank);background-attachment:fixed;}
+            .test{position: absolute; left: 50%; width: 2000px; height: 700px; margin-left: -1000px; overflow: hidden;}
+            .test1{top:0px; background: #FF0000;}
+            .test2{top:700px; background: #00FF00;}
+            .main{ position: relative; width: 960px; height: 100%; margin: 0px auto; background: rgba(255,255,255,0.3);}
+            .exmp{ position: absolute; width:100px; height: 100px;}
+            .exmp1_1{left:50px; top:0px; border:2px solid #0000FF;}
+            .exmp1_2{right: 50px; top:696px; border:2px solid #FFFF00;}
+            .exmp2_1{left:50px; top:0px; border:2px solid #FF00FF;}
+            .exmp2_2{right: 50px; top:696px; border:2px solid #00FFFF;}
+        </style>
+    </head>
+    <body>
+        <div class="test test1">
+            <div class="main">
+                <div class="exmp exmp1_1"></div>
+                <div class="exmp exmp1_2"></div>
+            </div>
+        </div>
+        <div class="test test2">
+            <div class="main">
+                <div class="exmp exmp2_1"></div>
+                <div class="exmp exmp2_2"></div>
+            </div>
+        </div>
+        <script>
+            var exmp1_1=$(".exmp1_1"),exmp1_2=$(".exmp1_2");
+            var exmp2_1=$(".exmp2_1"),exmp2_2=$(".exmp2_2");
+            $(window).scroll(function(){
+                var tmp = $(this).scrollTop();
+                if(tmp<800){
+                    test1(tmp);
+                }
+                else if(tmp>800 && tmp <1600){
+                    test2(tmp);
+                }
+
+            });
+            
+            function test1(m){
+                exmp1_1.css({"top":m+"px"});
+                exmp1_2.css({"top":(-m+686)+"px"});
+            }
+            function test2(m){
+                exmp2_1.css({"top":(m-800)*2+"px"});
+                exmp2_2.css({"top":(-m+800+686)+"px"});
+            }
+        </script>
+    </body>
+</html>

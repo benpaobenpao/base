@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin:0px;padding: 0px;}
+        .header{
+            position: fixed;
+            top:0px;
+            width: 100%;
+            height: 80px;
+            background: #f0f;
+        }
+        .test{
+            height: 800px;
+            background: #f00;
+            margin-bottom: 20px;
+        }
+        .test1{
+            background: #f00;
+        }
+        .test2{
+            background: #f60;
+        }
+        .test3{
+            background: #f66;
+        }
+        .test4{
+            background: #f99;
+        }
+        .focus{
+            margin-top: 100px;
+            height: 600px;
+            background: #0066ff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+    <div id="focus" class="focus"></div>
+    <div id="menu">
+        <span>第一项</span>
+        <span>第二项</span>
+        <span>第三项</span>
+        <span>第四项</span>
+    </div>
+    <div class="test test1">1</div>
+    <div class="test test2">2</div>
+    <div class="test test3">3</div>
+    <div class="test test4">4</div>
+    <script src="../../../jquery.js"></script>
+    <script>
+        $(function(){
+            // var menu = $("#menu");
+            // var focus = $("#focus");
+            // menu.find("span").on("click",function(){
+            //     var $this = $(this);
+            //     var i = $this.index();
+            //     var t = $(".test").eq(i).offset().top;
+                
+            //     $("html,body").animate({
+            //         scrollTop: t + "px"
+            //         },500);
+            // });
+
+
+            // var mousewheel =(/Firefox/ig.test( navigator.userAgent))?"DOMMouseScroll":"mousewheel";
+            // window.addEventListener("DOMMouseScroll",function(e){
+            //     e = e || window.event;
+                
+            // },false);
+
+            // window.onmousewheel = function(e){
+            //     e = e || window.event;
+            //     winScroll(e);
+            // }
+
+            // function isWheel(e){
+            //     e = e || window.event;
+            //     var wheel = e.wheelDelta || e.detail;
+
+            //     if(-120===wheel ||3===wheel){           // 向下滚动
+            //         return true;
+            //     } else if(120===wheel || -3 ===wheel){  // 向上滚动
+            //         return false;
+            //     }
+            // }
+
+            // var stop = null;
+            // function winScroll(e){
+            //     e = e || window.event;
+            //     var t = document.documentElement.scrollTop || document.body.scrollTop;
+            //     if(isWheel(e) && t < 100){
+            //         focus.animate({
+            //         marginTop: -300 + "px"
+            //         },300);
+            //     } 
+            //     if(isWheel(e) && t >= 100){
+            //         focus.stop().css({marginTop:"-300px"});
+            //     }
+
+            //     if(!isWheel(e) && t < 300){
+            //         focus.animate({
+            //         marginTop: 100 + "px"
+            //         },300);
+            //     }
+            // }
+
+
+            
+
+        });
+    </script>
+</body>
+</html>
