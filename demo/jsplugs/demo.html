@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin:0px; padding: 0px;}
+        ul,li{list-style: none;}
+        li{ float: left; width: 100px; text-align: center; border: 1px solid #999; cursor: pointer; }
+        li div{ height: 100px; background: #f00; display: none;}
+    </style>
+</head>
+<body>
+    <div>
+        <ul id="test">
+            <li>
+                <span>第一组</span>
+                <div></div>
+            </li>
+            <li>
+                <span>第二组</span>
+                <div></div>
+            </li>
+            <li>
+                <span>第三组</span>
+                <div></div>
+            </li>
+            <li>
+                <span>第四组</span>
+                <div></div>
+            </li>
+            <li>
+                <span>第五组</span>
+                <div></div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        function getId(id){
+            return document.getElementById(id);
+        }
+        function addEvent(elem,type,fn){
+            if(!!window.addEventListener){
+                elem.addEventListener(type,fn,false);
+            } else if(!!window.attechEvent){
+                elem.attachEvent("on"+type,fn);
+            } else{
+                elem["on"+type] = fn;
+            } 
+        }
+        function forEach(arr,callback){
+            if(Array.prototype.forEach){
+                Array.prototype.forEach.call(arr,callback);
+            } else{
+                for(var i=0,len=arr.length;i < len;i++){
+                callback.call(arr,arr[i],i);
+                }
+            }
+        }
+
+        var test = getId("test");
+
+        forEach(test.childNodes,function(item,index){
+            addEvent(item,"mouseover",function(){
+                item.getElementsByTagName("div")[0].style.display="block";
+            });
+            addEvent(item,"mouseout",function(){
+                item.getElementsByTagName("div")[0].style.display="none";
+            });
+        });
+    </script>
+</body>
+</html>

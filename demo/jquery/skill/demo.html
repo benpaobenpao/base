@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin:0;padding: 0;}
+        ul,li,dl,dd{list-style: none;}
+        body{
+            background: #fff;
+            color: #999;
+            font-size: 14px;
+            line-height: 20px;
+        }
+        .clearfix{}
+        .clearfix:after{display:block;content:"";font-size: 0;clear:both;}
+        .skillDown{
+            width: 546px;
+            background: #fff;
+            border: 2px solid #54990f;
+        }
+        .skillDownHeader{
+            height: 20px;
+            background: #f0f1f2;
+            padding: 17px 20px;
+            margin-bottom: 20px;
+        }
+        .skillDownHeader label{
+            display: inline-block;
+            color: #fff;
+            padding: 0px 6px;
+            background: #8cbf26;
+            margin-right: 6px;
+            cursor: pointer;
+        }
+        .skillDownHeader label span{
+            margin-right: 10px;
+        }
+        .skillDownHeader label i{
+            font-style: normal;
+            cursor: pointer;
+        }
+        .skillDownHeader label:hover i{
+            color: #ccc;
+        }
+        .skillDownErr{
+            margin-top: -22px;
+            color: #f22718;
+            height: 20px;
+            padding: 2px 18px;
+            background: rgba(30,30,30,0.1);
+            background: #999\9;
+            visibility: none;
+        }
+        .skillDownList{
+            color: #999999;
+            font-size: 14px;
+        }
+        .skillDownItem{
+            margin-bottom: 6px;
+        }
+        .skillDownItemTit{
+            display: block;
+            width: 104px;
+            height: 32px;
+            line-height: 32px;
+            color: #5c991f;
+            text-indent: 10px;
+            cursor: pointer;
+        }
+        .skillDownItemTitOn{
+            color: #5c991f;
+            background: #f0f1f2;
+        }
+        .skillDownItemLt{
+            position: relative;
+            float: left;
+            margin-left: 10px;
+        }
+        .skillDownItemLt i{
+            position: absolute;
+            right: -10px;
+            top: 10px;
+            display: block;
+            width: 0px;
+            height: 0px;
+            font-size: 0px;
+            line-height: 0px;
+            border-width: 6px;
+            border-style: solid; 
+            border-color:  transparent transparent  transparent #5c991f;
+        }
+        .skillDownItemLt i.on{
+            border-color: #c8cacc  transparent transparent  transparent ;
+            top: 12px;
+            right: -1px;
+        }
+        .skillDownItemRt{
+            float: left;
+        }
+        .skillDownArr{
+            width: 422px;
+        }
+        .skillDownArrOn{
+            background: #f0f1f2;
+        }
+        .skillDownArr li{
+            float: left;
+            display: inline-block;
+            width: 112px;
+            margin: 6px 10px 6px;
+            word-wrap:break-word;
+        }
+        .skillDownArr li span{
+            display: inline-block;
+            padding: 0px 6px;
+            cursor: pointer;
+        }
+        .skillDownArr li span.on{
+            color: #fff;
+            background: #8cbf26;
+        }
+        .skillDownBtns{
+            text-align: right;
+            padding: 12px 19px 12px;
+        }
+        .skillDownBtns input{
+            width: 126px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            margin-left: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+        .skillDownBtnOk{
+            color: #fff;
+            background: #5fa224;
+            border: 2px solid #5fa224;
+        }
+        .skillDownBtnCal{
+            color: #999999;
+            background: #fff;
+            border: 2px solid #999999;
+        }
+    </style>
+</head>
+<body>
+    <input id="mtest" type="hidden" value="word,flash,JS,db1">
+    <button id="test"><span class="txt">选择类型</span><i>a</i></button>
+    <!-- <div class="skillDown">
+        <div class="skillDownHeader">
+            <label><span>outlook</span><i>x</i></label>
+            <label><span>outlook</span><i>x</i></label>
+        </div>
+        <div class="skillDownList">
+            <div class="skillDownItem clearfix">
+                <div class="skillDownItemLt">
+                    <span class="skillDownItemTit skillDownItemOn">办公室应用类</span>
+                    <i>&nbsp;</i>
+                </div>
+                <div class="skillDownItemRt">
+                    <ul class="skillDownArr clearfix skillDownArrOn">
+                        <li><span class="on">outlook</span></li>
+                        <li><span class="on">word</span></li>
+                        <li><span>PowerPoint</span></li>
+                        <li><span>web</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="skillDownItem clearfix">
+                <div class="skillDownItemLt">
+                    <span class="skillDownItemTit">办公室应用类</span>
+                    <i>&nbsp;</i>
+                </div>
+                <div class="skillDownItemRt">
+                    <ul class="skillDownArr clearfix">
+                        <li><span>outlook</span></li>
+                        <li><span>word</span></li>
+                        <li><span>PowerPoint</span></li>
+                        <li><span>web</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="skillDownItem clearfix">
+                <div class="skillDownItemLt">
+                    <span class="skillDownItemTit">办公室应用类</span>
+                    <i>&nbsp;</i>
+                </div>
+                <div class="skillDownItemRt">
+                    <ul class="skillDownArr clearfix">
+                        <li><span>outlook</span></li>
+                        <li><span>word</span></li>
+                        <li><span>PowerPoint</span></li>
+                        <li><span>web</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <script src="../../../jquery.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>

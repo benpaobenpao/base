@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input class="btn" id="test" type="button" value="按钮">
+    <input class="btn" type="button" value="按钮" data-color="#0f0">
+    <input class="btn" type="button" value="按钮" data-color="#ff0">
+    <input class="btn" type="button" value="按钮" >
+    <script src="../../../jquery.js"></script>
+    <script>
+        // 定义
+        //$.fn.extend(object)
+        //$.extend([deep,]target[,object1][,objectN]);
+        
+        // $.extend 作用：将两个或多个对象的内容合并到第一个对象。
+        var obj0 = {};
+        var obj1 = {
+            name: "张三",
+            age: 10,
+            arr: [1,2],
+            obj: {
+                weight: 52,
+                price: 100
+            }
+        };
+
+        var obj2 = {
+            name: "李四",
+            level: 1,
+            arr: [1,3],
+            obj: {
+                price: 300
+            }
+        };
+
+        console.log($.extend(obj0 , obj1 , obj2));
+        console.log(obj0);
+        console.log(obj1);
+        console.log(obj2);
+
+
+        // console.log($.extend(true, obj0, obj1 , obj2));
+        // console.log(obj0);
+        // console.log(obj1);
+        // console.log(obj2);
+
+        
+
+        // $.fn.extend 作用：合并对象的内容到jQuery原型提供新的jQuery实例方法。
+
+
+        // 例子一：
+        // jQuery.fn.extend({
+        //     check: function(){
+        //         return this.click(function(){
+        //             $(this).css({background: "#f00"});
+        //         });
+        //     }
+        // });
+        // $("#test").check();
+        
+
+        // // 例子二：
+        // (function($){
+        //     $.fn.check = function(){
+        //         this.click(function(){
+        //             $(this).css({background: "#f00"});
+        //         });
+        //     }
+        // })(jQuery); 
+        // $("#test").check();
+
+
+        // 例子三：
+        // (function($){
+        //     var boxModel = function(elem,defaults,options){
+        //         this.opts = $.extend({},defaults,options);
+        //         this.elem = elem;
+        //         this.init();
+        //     };
+
+        //     boxModel.prototype = {
+        //         init: function(){
+        //             var _this = this;
+        //             _this.events();
+        //         },
+        //         events: function(){
+        //             var _this = this;
+        //             _this.elem.click(function(){
+        //                 $("body").css({background: _this.opts.background});
+        //             });
+        //         }
+        //     };
+
+        //     $.fn.boxModel = function(options){
+        //         var defaults = {
+        //             background: "#000"
+        //         };
+        //         new boxModel($(this),defaults,options);
+        //     };
+        // })(jQuery);
+
+        // $("#test").boxModel({background:"#f00"});
+
+
+        // 例子四
+        (function($){
+            var boxModel = function(elem, defaults, options){
+                this.opts = $.extend({},defaults,options);
+                this.elem = elem;
+                this.init();
+            };
+
+            boxModel.prototype = {
+                init: function(){
+                    var _this = this;
+                    _this.events();
+                },
+                events: function(){
+                    var _this = this;
+                    var color = _this.elem.attr("data-color");
+                    _this.elem.click(function(){
+                        if(!!color){
+                            _this.elem.css({background:color});
+                        } else{
+                            _this.elem.css({background:_this.opts.background}); 
+                        }
+                    });
+                    
+                },
+                getData: function(){
+                    return "abc";
+                }
+            };
+
+            $.fn.boxModel = function(options){
+                var defaults = {
+                    background: "#000"
+                };
+                var $this = $(this);
+                if(!$this.selector){
+                    return;
+                }
+
+                $this.each(function(item,index){
+                    new boxModel($(this),defaults,options);
+                });
+            }
+        })(jQuery);
+
+        //$("#test").boxModel({background:"#f00"});
+        $(".btn").boxModel();
+    </script>
+</body>
+</html>

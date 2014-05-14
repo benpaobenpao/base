@@ -1,0 +1,43 @@
+
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script data-main="../js/entry" src="../js/libs/require.min.js"></script>
+    <style>
+        *{margin: 0px; padding: 0px;}
+        .test1{
+            width: 100px;
+            height: 100px;
+            padding: 20px;
+            border: 10px solid #f00;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+
+            box-sizing: border-box;
+        }
+
+        .test2{
+            width: 100px;
+            height: 100px;
+            padding: 20px;
+            border: 10px solid #f00;
+        }
+    </style>
+</head>
+<body>
+    <div id="search_container"></div>
+    <div class="test1"></div>
+    <div class="test2"></div>
+    <script type="text/template" id="search_template">
+        <label>Search <%= who %></label>
+        <input type="text" id="search_input" />
+        <input type="button" id="search_button" value="Search" />
+
+        <% _.each(people,function(name) { %>
+            <div><%= name %></div>
+        <% }) %>
+    </script>
+</body>
+</html>

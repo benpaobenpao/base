@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script data-main="../js/template" src="../js/libs/require.min.js"></script>
+</head>
+<body>
+    <div id="list"></div>
+    <script type="text/template" id="listTemplate">
+        <% _.each(arr,function(item,index) { %>
+            <div class="item">
+                <label>姓名：<span><%= index %><%= item.name %></span>
+                年龄：<span><%= item.age?item.age:"(无)" %></span>
+                数组：<span><% _.each(item.list,function(sitem,sindex) { %>
+                    <%= item.name + sitem %>
+                <% }) %></span>
+                对象：<span><% _.each(item.children,function(sitem,sindex){ %>
+                    <%= sitem %>
+                <% }) %></span></label>
+            </div>
+        <% }) %>
+    </script>
+</body>
+</html>
