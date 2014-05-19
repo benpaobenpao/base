@@ -46,11 +46,11 @@ transition-property	规定设置过渡效果的 CSS 属性的名称。
 transition-duration	规定完成过渡效果需要多少秒或毫秒。
 transition-timing-function	规定速度效果的速度曲线。
 transition-delay	定义过渡效果何时开始。
-demo[http://benpaobenpao.github.io/demo/css3/animate/transition.html]
+demo[http://benpaobenpao.github.io/demo/css3/transition.html]
 
 ##box-sizing介绍
 盒模型是分为两种，第一种是W3C的标准模型，另一种是IE的传统模型，他们相同之处都是对元素计算尺寸的模型，具体说就是对元素的width,height,padding,border以及元素实际尺寸的计算关系；
 1、content-box:此值为其默认值，其让元素维持W3C的标准Box Model，也就是说元素的宽度/高度（width/height）等于元素边框宽度（border）加上元素内边距（padding）加上元素内容宽度/高度（content width/height）即：Element Width/Height = border+padding+content width/height。
 2、border-box:此值让元素维持IE传统的Box Model（IE6以下版本），也就是说元素的宽度/高度等于元素内容的宽度/高度。（从上面Box Model介绍可知，我们这里的content width/height包含了元素的border,padding,内容的width/height【此处的内容宽度/高度=width/height-border-padding】）。
 语法：box-sizing: content-box|border-box|inherit;
-demo[http://benpaobenpao.github.io/demo/css3/animate/box-sizing.html]
+demo[http://benpaobenpao.github.io/demo/css3/box-sizing.html]
