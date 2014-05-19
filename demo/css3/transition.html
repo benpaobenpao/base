@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<title>transition</title>
+	<style>
+		.list{
+			cursor: pointer;
+		}
+		.list .item{
+			width: 100px;
+			height: 50px;
+			margin-bottom: 20px;
+			background: #f00;
+		}
+		.list:hover .item{
+			width: 500px;
+		}
+		.item1{
+			-webkit-transition: width 1s ease; /*逐渐变慢*/
+			-moz-transform: width 1s ease;
+			-ms-transform: width 1s ease;
+			-o-transform: width 1s ease;
+			transform: width 1s ease;
+		}
+		.item2{
+			-webkit-transition: width 1s linear; /*匀速*/
+			-moz-transform: width 1s linear;
+			-ms-transform: width 1s linear;
+			-o-transform: width 1s linear;
+			transform: width 1s linear;
+		}
+		.item3{
+			-webkit-transition: width 1s ease-in; /*加速*/
+			-moz-transform: width 1s ease-in;
+			-ms-transform: width 1s ease-in;
+			-o-transform: width 1s ease-in;
+			transform: width 1s ease-in;
+		}
+		.item4{
+			-webkit-transition: width 1s ease-out; /*减速*/
+			-moz-transform: width 1s ease-out;
+			-ms-transform: width 1s ease-out;
+			-o-transform: width 1s ease-out;
+			transform: width 1s ease-out;
+		}
+		.item5{
+			-webkit-transition: width 1s ease-in-out; /*加速然后减速*/
+			-moz-transform: width 1s ease-in-out;
+			-ms-transform: width 1s ease-in-out;
+			-o-transform: width 1s ease-in-out;
+			transform: width 1s ease-in-out;
+		}
+		.item6{
+			-webkit-transition: width 1s cubic-bezier(0.1,0.3,0.5,1); /*cubic-bezier曲线*/
+			-moz-transform: width 1s cubic-bezier(0.1,0.3,0.5,1);
+			-ms-transform: width 1s cubic-bezier(0.1,0.3,0.5,1);
+			-o-transform: width 1s cubic-bezier(0.1,0.3,0.5,1);
+			transform: width 1s cubic-bezier(0.1,0.3,0.5,1);
+		}
+	</style>
+</head>
+<body>
+	<div class="list">
+		<div class="item item1"></div>
+		<div class="item item2"></div>
+		<div class="item item3"></div>
+		<div class="item item4"></div>
+		<div class="item item5"></div>
+		<div class="item item6"></div>
+	</div>
+</body>
+</html>
