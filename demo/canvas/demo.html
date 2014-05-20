@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="test" width="500px" height="300px"></canvas>
+    <script>
+        var test = document.getElementById("test");
+        var ctx = test.getContext("2d");
+
+        ctx.beginPath();
+        ctx.moveTo(75, 50);
+        ctx.lineTo(200, 85);
+        ctx.lineTo(200, 95);
+        ctx.lineTo(210, 105);
+        ctx.lineTo(210, 175);
+        ctx.stroke();
+        ctx.close();//封闭
+        ctx.closePath();
+    </script>
+</body>
+</html>

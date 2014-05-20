@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Router</title>
+	<script src="./js/libs/jquery.min.js"></script>
+	<script src="./js/libs/underscore.min.js"></script>
+	<script src="./js/libs/backbone.min.js"></script>
+	<link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+	<div class="main">
+		<div class="hiTitle">Backbone-Router</div>
+		<pre data-type="javascript">
+			(function($){
+				// 定义视图
+				var ListView = Backbone.View.extend({   
+					render: function(){
+						$(this.el).html("Display list of invoices.");
+					}
+				});
+
+				var PageView = Backbone.View.extend({
+					render: function(){
+						$(this.el).html("Displaying invoice #" + this.id + ".");
+					}
+				});
+
+				/*
+				*web应用程序通常需要为应用的重要位置提供可链接，可收藏，可分享的 URLs。 直到最近， 
+				*锚点（hash）片段（#page）可以被用来提供这种链接， 同时随着 History API 的到来，锚点已经可以用于处理标准 URLs （/
+				*page）。 Backbone.Router 为客户端路由提供了许多方法，并能连接到指定的动作（actions）和事件（events）。 对于不支持 
+				*History API 的旧浏览器，路由提供了优雅的回调函数并可以透明的进行 URL 片段的转换。
+				*/
+
+				/*
+				*页面加载期间，当应用已经创建了所有的路由，需要调用 Backbone.history.start()，
+				*或 Backbone.history.start({pushState : true}) 来确保驱动初始化 URL 的路由。
+				*/
+				var Workspace = Backbone.Router.extend({
+					routes: {
+						"" : "invoiceList",
+						"invoice": "invoiceList",                  //  #invoice
+						"invoice/:id": "invoicePage",              //  #invoice/1
+						"help/:topic/page:page": "helpPage",       //  #help/test/page1
+						"download/*path": "downloadPage"           //  "download/*path 路由可以匹配 #download/a/b/c，这时传入动作的参数为 "a/b/c"。
+					},
+					invoiceList: function(){
+						var listView = new ListView({el: "body"});
+						listView.render();
+					},
+					invoicePage: function(id){
+						var pageView = new PageView({el: "body", id: id});
+						pageView.render();
+					},
+					helpPage: function(topic,page){
+						console.log(topic);
+						console.log(page);
+					},
+					downloadPage: function(page){
+						console.log(page);
+					}
+				});
+
+				$(function(){
+					new Workspace();
+					Backbone.history.start();
+				});
+
+			})(jQuery);
+		</pre>
+	</div>
+	<script>
+		(function($){
+			// 定义视图
+			var ListView = Backbone.View.extend({   
+				render: function(){
+					$(this.el).html("Display list of invoices.");
+				}
+			});
+
+			var PageView = Backbone.View.extend({
+				render: function(){
+					$(this.el).html("Displaying invoice #" + this.id + ".");
+				}
+			});
+
+			// web应用程序通常需要为应用的重要位置提供可链接，可收藏，可分享的 URLs。 直到最近， 锚点（hash）片段（#page）可以被用来提供这种链接， 同时随着 History API 的到来，锚点已经可以用于处理标准 URLs （/page）。 Backbone.Router 为客户端路由提供了许多方法，并能连接到指定的动作（actions）和事件（events）。 对于不支持 History API 的旧浏览器，路由提供了优雅的回调函数并可以透明的进行 URL 片段的转换。
+
+			//页面加载期间，当应用已经创建了所有的路由，需要调用 Backbone.history.start()，或 Backbone.history.start({pushState : true}) 来确保驱动初始化 URL 的路由。
+			var Workspace = Backbone.Router.extend({
+				routes: {
+					"" : "invoiceList",
+					"invoice": "invoiceList",                  //  #invoice
+					"invoice/:id": "invoicePage",              //  #invoice/1
+					"help/:topic/page:page": "helpPage",       //  #help/test/page1
+					"download/*path": "downloadPage"           //  "download/*path 路由可以匹配 #download/a/b/c，这时传入动作的参数为 "a/b/c"。
+				},
+				invoiceList: function(){
+					var listView = new ListView({el: "body"});
+					listView.render();
+				},
+				invoicePage: function(id){
+					var pageView = new PageView({el: "body", id: id});
+					pageView.render();
+				},
+				helpPage: function(topic,page){
+					console.log(topic);
+					console.log(page);
+				},
+				downloadPage: function(page){
+					console.log(page);
+				}
+			});
+
+			$(function(){
+				new Workspace();
+				Backbone.history.start();
+			});
+
+		})(jQuery);
+	</script>
+	<script src="../../../hilight.js"></script>
+</body>
+</html>

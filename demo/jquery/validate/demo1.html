@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form class="cmxform" id="commentForm" method="get" action="">
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+        <legend class="ui-widget ui-widget-header ui-corner-all">Please provide your name, email address (won't be published) and a comment</legend>
+        <p>
+            <label for="cname">Name (required, at least 2 characters)</label>
+            <input id="cname" name="name" class="ui-widget-content" minlength="2" required type="text" />
+        <p>
+            <label for="cemail">E-Mail (required)</label>
+            <input id="cemail" name="email" class="ui-widget-content" type="email" required />
+        </p>
+        <p>
+            <label for="curl">URL (optional)</label>
+            <input id="curl" name="url" class="ui-widget-content" value="" type="url" />
+        </p>
+        <p>
+            <label for="ccomment">Your comment (required)</label>
+            <textarea id="ccomment" name="comment" class="ui-widget-content" required></textarea>
+        </p>
+        <p>
+            <button class="submit" type="submit">Submit</button>
+        </p>
+    </fieldset>
+</form>
+
+
+<script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
+<script type="text/javascript">
+$.validator.setDefaults({
+    submitHandler: function() { alert("submitted!"); },
+    showErrors: function(map, list) {
+        // there's probably a way to simplify this
+        var focussed = document.activeElement;
+        if (focussed && $(focussed).is("input, textarea")) {
+            $(this.currentForm).tooltip("close", { currentTarget: focussed }, true)
+        }
+        this.currentElements.removeAttr("title").removeClass("ui-state-highlight");
+        $.each(list, function(index, error) {
+            $(error.element).attr("title", error.message).addClass("ui-state-highlight");
+        });
+        if (focussed && $(focussed).is("input, textarea")) {
+            $(this.currentForm).tooltip("open", { target: focussed });
+        }
+    }
+});
+
+(function() {
+    // use custom tooltip; disable animations for now to work around lack of refresh method on tooltip
+    $("#commentForm).tooltip({
+        show: false,
+        hide: false
+    });
+
+    // validate the comment form when it is submitted
+    $("#commentForm").validate();
+
+    
+})();
+</script>
+</body>
+</html>

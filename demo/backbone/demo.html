@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Backbone</title>
+	<script src="./js/libs/jquery.min.js"></script>
+	<script src="./js/libs/underscore.min.js"></script>
+	<script src="./js/libs/backbone.min.js"></script>
+	<link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+	<div class="main">
+		<div class="hiTitle">Backbone介绍</div>
+		<pre data-type="javascript">
+			(function($){
+				// 定义一个模型
+				var DemoModel = Backbone.Model.extend({
+					// 设置默认参数
+					defaults:{
+						price: 0,
+						quantity: 0
+					},
+					// 定义方法
+					amout: function(){
+						return this.get("price") * this.get("quantity");
+					}
+					
+				});
+				// 定义一个视图
+				var DemoView = Backbone.View.extend({
+					// 定义模版
+					template: _.template("\
+						Price: <%= price %>.\
+						Quantity: <%= quantity %>.\
+						Amount: <%= amount %>.\
+					"),
+					// 渲染视图
+					render: function(){
+						var html = this.template({
+							price: this.model.get('price'),
+							quantity: this.model.get('quantity'),
+							amount: this.model.amout()
+						});
+						$(this.el).html(html);
+					}
+				});
+
+				$(function(){
+					var demoModel = new DemoModel({price: 2, quantity: 3});
+					var demoView = new DemoView({
+						model: demoModel,
+						el: '#test'
+					});
+					demoView.render();
+				});
+			})(jQuery);
+		</pre>
+		<div id="test" class="hiBlock"></div>
+	</div>
+	<script>
+		(function($){
+			// 定义一个模型
+			var DemoModel = Backbone.Model.extend({
+				// 设置默认参数
+				defaults:{
+					price: 0,
+					quantity: 0
+				},
+				// 定义方法
+				amout: function(){
+					return this.get("price") * this.get("quantity");
+				}
+				
+			});
+			// 定义一个视图
+			var DemoView = Backbone.View.extend({
+				// 定义模版
+				template: _.template("\
+					Price: <%= price %>.\
+					Quantity: <%= quantity %>.\
+					Amount: <%= amount %>.\
+				"),
+				// 渲染视图
+				render: function(){
+					var html = this.template({
+						price: this.model.get('price'),
+						quantity: this.model.get('quantity'),
+						amount: this.model.amout()
+					});
+					$(this.el).html(html);
+				}
+			});
+
+			$(function(){
+				var demoModel = new DemoModel({price: 2, quantity: 3});
+				var demoView = new DemoView({
+					model: demoModel,
+					el: "#test"
+				});
+				demoView.render();
+			});
+		})(jQuery);
+	</script>
+	<script src="../../../hilight.js"></script>
+</body>
+</html>

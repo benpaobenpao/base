@@ -15,7 +15,7 @@ a{
 
 // pre ======> css,js,html
 pre{
-    display: block;
+    display: block; 
     color: #fff; 
     font-size: 14px;
     line-height: 24px; 
@@ -25,6 +25,7 @@ pre{
     margin-bottom: 30px;
     @include border-radius(6px);
     display: none\9;
+    word-wrap: break-word;
 }
 
 // 

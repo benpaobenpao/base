@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<title>model</title>
+	<script src="./js/libs/jquery.min.js"></script>
+	<script src="./js/libs/underscore.min.js"></script>
+	<script src="./js/libs/backbone.min.js"></script>
+	<link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+	<div class="main">
+		<div class="hiTitle">Backbone-Model</div>
+		<pre data-type="javascript">
+			// 定义一个model
+			var InvoiceItemModel = Backbone.Model.extend({
+				// 设置默认参数
+				defaults: {
+					description: "",
+					price: 0,
+					quantity: 1,
+					data: function(){
+						var date = new Date();
+						return "date",date.toISOString();
+					}()
+				},
+				// 如果定义了 initialize 函数，该函数会在模型创建后执行。
+				initialize: function(){
+					if(!this.has("date")){
+
+					}
+				},
+				// 方法
+				amount: function(){
+					return this.get("price") * this.get("quantity");
+				}
+			});
+
+			$(function(){
+				var model1 = new InvoiceItemModel({
+					date: "2012-1-1",
+					description: "miaoshu",
+					price: 22,
+					quantity: 3
+				});
+
+				var model2 = new InvoiceItemModel({
+					description: "miaoshu...miaoshu",
+					price: 17
+				});
+
+				// 获取属性
+				model2.get("date");
+				model2.get("quantity");
+
+				// 设置属性
+				model1.set("quantity",5);
+				model1.set({
+					quantity: 10,
+					price: 10
+				});
+
+
+				var quantity = model1.get("quantity");
+				var price = model1.get("price");
+
+				// 移除单个属性和移除所有属性
+				model1.unset("quantity");
+				model1.clear();
+
+				if(!model1.has("quantity")){
+					console.log("quantity的属性不存在");
+				}
+
+				var hacker = new Backbone.Model({
+			      name: "< script>alert('xss')<\/ script>"    // 转意
+			    });
+
+				var escaped_name = hacker.escape("name");
+				console.log(escaped_name);
+
+				model1.id = Math.random().toString(36).substr(2);
+				var id = model1.id;
+				var cid = model1.cid;
+				console.log(id,cid);
+			});
+		</pre>
+	</div>
+	<script>
+		// 定义一个model
+		var InvoiceItemModel = Backbone.Model.extend({
+			// 设置默认参数
+			defaults: {
+				description: "",
+				price: 0,
+				quantity: 1,
+				data: function(){
+					var date = new Date();
+					return "date",date.toISOString();
+				}()
+			},
+			// 如果定义了 initialize 函数，该函数会在模型创建后执行。
+			initialize: function(){
+				if(!this.has("date")){
+
+				}
+			},
+			// 方法
+			amount: function(){
+				return this.get("price") * this.get("quantity");
+			}
+		});
+
+		$(function(){
+			var model1 = new InvoiceItemModel({
+				date: "2012-1-1",
+				description: "miaoshu",
+				price: 22,
+				quantity: 3
+			});
+
+			var model2 = new InvoiceItemModel({
+				description: "miaoshu...miaoshu",
+				price: 17
+			});
+
+			// 获取属性
+			model2.get("date");
+			model2.get("quantity");
+
+			// 设置属性
+			model1.set("quantity",5);
+			model1.set({
+				quantity: 10,
+				price: 10
+			});
+
+
+			var quantity = model1.get("quantity");
+			var price = model1.get("price");
+
+			// 移除单个属性和移除所有属性
+			model1.unset("quantity");
+			model1.clear();
+
+			if(!model1.has("quantity")){
+				console.log("quantity的属性不存在");
+			}
+
+			var hacker = new Backbone.Model({
+		      name: "<script>alert('xss')<\/script>"    // 转意
+		    });
+
+			var escaped_name = hacker.escape("name");
+			console.log(escaped_name);
+
+			model1.id = Math.random().toString(36).substr(2);
+			var id = model1.id;
+			var cid = model1.cid;
+			console.log(id,cid);
+		});
+	</script>
+	<script src="../../../hilight.js"></script>
+</body>
+</html>

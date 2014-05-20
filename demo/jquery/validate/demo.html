@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>validate表单验证</title>
+    
+    <style>
+        *{margin:0;padding: 0;}
+        .formMain{
+            width: 960px;
+            border: 8px solid #f1f1f1;
+            padding: 20px;
+            margin: 100px auto;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .formMain .item{
+            margin-bottom: 20px;
+        }
+        .text {
+            width: 300px;
+            height: 30px;
+            text-indent: 6px;
+            border: 2px solid #ccc;
+            outline: 0;
+        }
+        .formMain .item label{
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+        }
+        .tip{
+            border: 6px solid #fff;
+            height: 18px;
+        }
+        .errorTip{
+            border: 6px solid #f00;
+            background: #f66;
+        }
+        .error{
+            border: 2px solid #f00;
+        }
+        .success{
+            border: 2px solid #0f0;
+        }
+        .btn{
+            width: 100px;
+            height: 36px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form id="form" class="formMain">
+        <div id="errmess" class="tip"></div>
+        <div class="item">
+            <label>用户名：</label><input id="nickname" class="text" type="text" name="nickname"  placeholder="输入6到20个字符" />
+        </div>
+
+        <div class="item">
+            <label class="add-on">邮箱：</label><input id="email" class="text" type="text" name="email" placeholder="输入您常用的邮箱"  />
+        </div>
+
+        <div class="item">
+            <label class="add-on">链接地址：</label><input id="url" class="text" type="text" name="url" placeholder="输入您的链接地址"  />
+        </div>
+        <div class="item">
+            <label>&nbsp;</label><button class="btn" type="submit">Send</button>
+        </div>
+    </form>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../plugs/validation/jquery.validate.min.js"></script>
+    <script>
+        $("form").validate({
+            debug: false,
+            errorClass: 'error',
+            validClass: "success",
+            onkeyup:false, 
+            onfocusout: false,
+            rules:{
+                nickname: {
+                    required: true,
+                    rangelength: [6,20]
+                },
+                email:{
+                    required: true,
+                    email: true
+                },
+                url: {
+                    required: true,
+                    url: true
+                }
+            },
+            messages: {
+                nickname: {
+                    required: "用户名不能为空",
+                    minlength: "用户名长度6到20"
+                },
+                email: {
+                    required: "邮箱不能为空",
+                    email: "邮箱格式错误"
+                },
+                url:{
+                    required: "链接地址不能为空",
+                    url: "你的url"
+                }
+            },
+            showErrors: function(map, list) {
+                var focussed = document.activeElement;
+                this.currentElements.removeAttr("title").removeClass("ui-state-highlight");
+                $.each(list, function(index, error) {
+                    $("#errmess").addClass("errorTip").html(error.message);
+                    $(error.element).addClass("error");
+                    console.log($(error.element));
+                    // $(error.element).keyup(function(){
+                    //     $(error.element).removeClass("error");
+                    //     $("#errmess").removeClass("errorTip").html("");
+                    // });
+                    return false;
+                });
+            },
+            submitHandler: function() { alert("submitted!"); }
+        }); 
+        
+    </script>
+</body>
+</html>
