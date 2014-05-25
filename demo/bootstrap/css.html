@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>bootstrap之css使用</title>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+	<style>
+		.container{margin-bottom: 50px;}
+		.container .row{margin-bottom: 10px;}
+		.success{background: #dff0d8;}
+		.warning{background: #fcf8e3;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 success">第一项</div>
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 warning">第二项</div>
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 success">第三项</div>
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 warning">第四项</div>
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 success">第五项</div>
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 warning">第六项</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 success">.col-md-4</div>
+			<div class="col-md-4 col-md-offset-4 warning">col-md-4 col-md-offset-4</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 success">left</div>
+			<div class="col-md-3 warning">right</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9 col-md-push-3 success">left</div>
+			<div class="col-md-3 col-md-pull-9 warning">right</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<div class="btn-group">
+					<button class="btn btn-info visible-xs visible-sm"><span class="glyphicon glyphicon-th"></span></button>
+				</div>
+			</div>
+			<div class="col-md-4 col-md-offset-8">
+				<ul class="nav nav-pills nav-justified visible-md visible-lg">
+					<li><a href="#">导航1</a></li>
+					<li><a href="#">导航2</a></li>
+					<li><a href="#">导航3</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row text-left success">
+			<div>文字</div>
+		</div>
+		<div class="row text-center warning">
+			<div>文字</div>
+		</div>
+		<div class="row text-right success">
+			<div>文字</div>
+		</div>
+	</div>
+</body>
+</html>

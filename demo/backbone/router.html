@@ -69,7 +69,9 @@
 
 			})(jQuery);
 		</pre>
+		<div id="test" class="hiBlock"></div>
 	</div>
+	
 	<script>
 		(function($){
 			// 定义视图
@@ -97,11 +99,11 @@
 					"download/*path": "downloadPage"           //  "download/*path 路由可以匹配 #download/a/b/c，这时传入动作的参数为 "a/b/c"。
 				},
 				invoiceList: function(){
-					var listView = new ListView({el: "body"});
+					var listView = new ListView({el: "#test"});
 					listView.render();
 				},
 				invoicePage: function(id){
-					var pageView = new PageView({el: "body", id: id});
+					var pageView = new PageView({el: "#test", id: id});
 					pageView.render();
 				},
 				helpPage: function(topic,page){
