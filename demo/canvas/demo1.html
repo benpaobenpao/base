@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="test" width="600px" height="600px"  ></canvas>
+    <script>
+        function circlePoint(x, y, r, a) {
+            var tmpx = x + r * Math.cos(a * Math.PI / 180);
+            var tmpy = y + r * Math.sin(a * Math.PI / 180);
+            return {
+                x: tmpx,
+                y: tmpy
+            }
+        }
+
+        function polygon(context,x, y, n, r) {
+            context.beginPath();
+            context.fillStyle = 'rgba(215,216,217,.3)'; //填充红色，半透明
+            context.strokeStyle = 'hsl(210,0%,50%)'; //填充绿色
+            context.lineWidth = 1; //设置线宽
+            for(var i=0;i<n;i++){
+                var tmpPoint = circlePoint(x, y, r, (360 / n) * i);
+                if(0===i){
+                    context.moveTo(tmpPoint.x, tmpPoint.y);
+                } else{
+                    context.lineTo(tmpPoint.x, tmpPoint.y);
+                }
+
+            }
+            context.closePath();
+            context.stroke();
+            context.fill();
+        }
+
+        var test = document.getElementById("test");
+        var ctx = test.getContext("2d");
+
+       
+
+        for (var i = 0; i < 4; i++) {
+            polygon(ctx,300,300,6,120-30*i);
+        }
+
+        for (var i = 0; i < 6; i++) {
+            ctx.beginPath();
+            ctx.strokeStyle = "#999999";
+            ctx.lineWidth = 1;
+            //ctx.fillStyle = "rgb(192, 80, 77)";
+            ctx.moveTo(300, 300);
+            var tmpPoint = circlePoint(300, 300, 120,  (360 / 6) * i);
+            ctx.lineTo(tmpPoint.x, tmpPoint.y);
+            ctx.stroke();
+        }
+
+        var arr = [1, 0.25, 0.75, 0.75, 1,0.5];
+        ctx.beginPath();
+        ctx.strokeStyle = "#93c54f";
+        ctx.lineWidth = 2;
+        var grd = ctx.createRadialGradient(300, 300, 0, 300, 300, 300);
+        grd.addColorStop(0, "rgba(255,255,255,0)");
+        grd.addColorStop(1, "rgba(128,187,45,0.6)");
+        ctx.fillStyle = grd;
+        for (var i = 0; i < 6; i++) {
+            var tmpPoint = circlePoint(300, 300, 120 * arr[i], (360 / 6) * i);
+            if (0 === i) {
+                ctx.moveTo(tmpPoint.x, tmpPoint.y);
+            } else {
+                ctx.lineTo(tmpPoint.x, tmpPoint.y);
+            }
+        }
+
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+    </script>
+</body>
+</html>
