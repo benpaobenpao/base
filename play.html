@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="http://benpaobenpao.github.io/css/base.css">
+  <script src="http://benpaobenpao.github.io/jquery.js"></script>
+  <style type="text/css">
+    html,body{background: #f6f6f6;-webkit-user-select: none;-moz-user-select: none;user-select: none;}
+    .game{ position: relative; width: 300px; height: 400px; border: 1px solid #ccc; margin: 50px auto; background: #fff; border-radius: 5px;}
+    .start,.end{ position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+    .start-title,.end-title{display:block; color: #0f0; font-size:30px; font-weight: bold; margin: 80px auto 0px;}
+    .start-btn,.end-btn{display: inline-block; width: 180px; height: 36px; line-height: 36px; color: #00f; margin: 30px auto 0; font-size: 18px; border: 6px solid #999; border-radius: 30px; text-decoration: none; background: #0f0; cursor: pointer;-webkit-transition: all .3s ease-in;-moz-transition: all .3s ease-in;transition: all .3s ease-in;}
+    .start-btn:hover,.end-btn:hover{width: 280px;}
+    .start-message,.end-message{width: 260px; color: #333; margin: 20px auto 0; text-align: left; font-size: 12px; line-height: 20px;}
+    .start{z-index: 100; text-align: center;}
+    .end{z-index: 101; display: none;text-align: center; background: rgba(0,0,0,.7);}
+    .end .end-message{text-align: center; color: #0f0;}
+    .play{display: none;position: relative; width: 100%; height: 100%;}
+    .tree{position: absolute; bottom: 0; left: 50%; width: 30px; height: 400px; margin-left: -15px; background: #0f0; -webkit-transition: all .5s ease-in;-moz-transition: all .5s ease-in;transition: all .5s ease-in;}
+    .trunk{position: relative; width: 100%; height: 39px; border-top: 1px solid gray; box-shadow: 0px 1px 3px rgba(0,0,0,.8) inset;}
+    .trunklt:after{position: absolute; left: 0; top: 50%; z-index: 0; display: block; content: ""; width: 30px; height: 10px; margin-left: -26px; margin-top: -5px; border-radius: 10px; background: #0f0; box-shadow: 0px 0px 1px rgba(0,0,0,.8) inset; -webkit-transform: rotate(30deg);-moz-transform: rotate(30deg);transform: rotate(30deg);}
+    .trunkrt:after{position: absolute; right: 0; top: 50%; z-index: 0; display: block; content: ""; width: 30px; height: 10px; margin-right: -26px; margin-top: -5px; border-radius: 10px; background: #0f0; box-shadow: 0px 0px 1px rgba(0,0,0,.8) inset; -webkit-transform: rotate(-30deg);-moz-transform: rotate(-30deg);transform: rotate(-30deg);}
+    .time{position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #f00; z-index: 1;}
+    .score{position: absolute; top: 6px; right: 10px; font-size: 16px; font-weight: bold;}
+    .btn{ position: absolute; bottom: 6px; width: 30px; height: 30px; font-size: 12px; text-align: center; line-height: 30px; border-radius: 30px; background: #f60; cursor: pointer;}
+    .btn:hover{box-shadow: 0px 0px 5px rgba(255, 90, 0, .5);}
+    .btnlt{left: 30px;}
+    .btnrt{right: 30px;}
+    .panda{position: absolute; bottom: 0px; width: 30px; height:40px; }
+    .pandaing{-webkit-animation: panda 1s ease-out infinite;-moz-animation: panda 1s ease-out infinite;animation: panda 1s ease-out infinite;}
+    .pandalt{left: 95px;}
+    .pandart{right: 95px; display: none;}
+    @-webkit-keyframes panda{
+      0%{-webkit-transform:rotate(0deg);}
+      35%{-webkit-transform:rotate(30deg);}
+      70%{-webkit-transform:rotate(30deg);}
+      100%{-webkit-transform:rotate(0deg);}
+    }
+    @-moz-keyframes panda{
+      0%{-moz-transform:rotate(0deg);}
+      35%{-moz-transform:rotate(30deg);}
+      70%{-moz-transform:rotate(30deg);}
+      100%{-moz-transform:rotate(0deg);}
+    }
+    @keyframes panda{
+      0%{transform:rotate(0deg);}
+      35%{transform:rotate(30deg);}
+      70%{transform:rotate(30deg);}
+      100%{transform:rotate(0deg);}
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <div class="start">
+      <span class="start-title">吃竹子</span>
+      <a class="start-btn" href="javascript:void(0);">开始游戏</a>
+      <div class="start-message">
+        吃竹子游戏，可可爱爱的大熊猫要吃竹竿，点击左按钮熊猫从左边吃，点击右按钮熊猫从右边吃，但是不能被生长出来的主页扎到大熊猫，一旦扎了就结束喽！有时间限制，记住30s哦哦哦哦哦哦(新版谷歌或火狐浏览器)
+      </div>
+    </div>
+    <div class="play">
+      <div class="time"></div>
+      <div class="score">0</div>
+      <btn class="btn btnlt">左</btn>
+      <div class="btn btnrt">右</div>
+      <img class="panda pandalt" src="./images/pics/pandalt.jpg">
+      <img class="panda pandart" src="./images/pics/pandart.jpg">
+      <div class="tree">
+        <div class="trunk"></div>
+        <div class="trunk"></div>
+        <div class="trunk"></div>
+        <div class="trunk"></div>
+        <div class="trunk"></div>
+        <div class="trunk"></div>
+        <div class="trunk"></div>
+        <div class="trunk"></div>
+        <div class="trunk trunklt"></div>
+        <div class="trunk trunkrt"></div>
+      </div>
+    </div>
+    <div class="end">
+      <span class="end-title"></span>
+      <a class="end-btn" href="javascript:void(0);">重新开始</a>
+      <div class="end-message"></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(function(){
+      var scoreNum;
+      var timeNum;
+      var TIME_VAL = 30;
+      var clearTime = null;
+      var scoreHight = ["大神级人物","宇宙属于你的","为你喝彩，你最棒"];
+      var scoreMiddle = ["一般般啦","你可以更优秀","再接再厉，加油哦","你好棒棒棒哦","哈哈哈哈哈哈哈"];
+      var scoreLower = ["你与乌龟比慢啊，慢慢慢","你是菜菜鸟，垃圾","倒数非你莫属","差劲差劲差劲","哼哼哼哼哼哼"];
+      var scoreLowerVal = 2000;
+      var scoreMiddle = 5000;
+      
+
+      // 初始化数据  第一次加载或再玩一次
+      function init(){
+        $(".start,.end").hide();
+        $(".play").show();
+        $(".score").html(0);
+        $(".panda").addClass("pandaing");
+        var html = "";
+        for(var i=0;i<10;i++){
+          if(9===i){
+            html+=randomTrunk(2);
+          } else{
+            html+=randomTrunk();
+          }
+        }
+        $(".tree").html(html);
+        scoreNum = 0;
+        timeNum = TIME_VAL;
+        $(".time").css({width: "100%"});
+        time();
+      }
+
+      // 竹子节点
+      function randomTrunk(number){
+        var num = number || parseInt(Math.random()*3 + 1);
+        var html = ""; 
+        if(1===num){
+          html = "<div class='trunk trunklt'></div>";
+        } else if(3===num){
+          html = "<div class='trunk trunkrt'></div>";
+        } else {
+          html = "<div class='trunk'></div>";
+        }
+        return html;
+      }
+
+      // 判断点击是否有误
+      function isClickGood(type){
+        var last = $(".tree .trunk").last();
+        if("left" === type){
+          if(last.hasClass("trunklt")){
+            return true;
+          }
+        } else if("right" === type){
+          if(last.hasClass("trunkrt")){
+            return true;
+          }
+        }
+
+        scoreNum += 100;
+        $(".score").html(scoreNum);
+        last.remove();
+        $(".tree").prepend(randomTrunk());
+        if($(".tree .trunk").last().hasClass("trunklt")){
+          $(".pandalt").hide();
+          $(".pandart").show();
+        }
+        if($(".tree .trunk").last().hasClass("trunkrt")){
+          $(".pandart").hide();
+          $(".pandalt").show();
+        }
+        return false;
+      }
+
+      // 倒计时
+      function time(){
+        clearTime = setTimeout(function(){
+          if(timeNum>0){
+            timeNum--;
+            var w = timeNum*100/TIME_VAL;
+            $(".time").css({
+              width: w+"%"
+            });
+            time();
+          } else{
+            clearTimeout(clearTime);
+            gameover();
+          }
+        },1000);
+      }
+
+      // 游戏结束
+      function gameover(){
+        $(".end").show();
+        $(".panda").removeClass("pandaing");
+        $(".end-title").html(scoreNum+"分");
+        var i = 0;
+        if(scoreNum<=scoreLowerVal){
+          i = parseInt(Math.random()*scoreLower.length);
+          $(".end-message").html(scoreLower[i]);
+        } else if(scoreNum>scoreLowerVal && scoreNum<=scoreMiddle){
+          i = parseInt(Math.random()*scoreMiddle.length);
+          $(".end-message").html(scoreMiddle[i]);
+        } else{
+          i = parseInt(Math.random()*scoreHight.length);
+          $(".end-message").html(scoreHight[i]);
+        }
+        
+        timeNum=-1;
+      }
+
+     
+
+      // 开始游戏 再来一次
+      $(".start-btn,.end-btn").click(function(){
+        init();
+      });
+
+      $(".btnlt").click(function(){
+        var isGameover = isClickGood("left");
+        if(isGameover){
+          gameover();
+        }
+      });
+
+      $(".btnrt").click(function(){
+        var isGameover = isClickGood("right");
+        if(isGameover){
+          gameover();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
