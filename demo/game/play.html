@@ -96,7 +96,7 @@
       var scoreMiddle = ["一般般啦","你可以更优秀","再接再厉，加油哦","你好棒棒棒哦","哈哈哈哈哈哈哈"];
       var scoreLower = ["你与乌龟比慢啊，慢慢慢","你是菜菜鸟，垃圾","倒数非你莫属","差劲差劲差劲","哼哼哼哼哼哼"];
       var scoreLowerVal = 2000;
-      var scoreMiddle = 5000;
+      var scoreMiddleVal = 5000;
       
 
       // 初始化数据  第一次加载或再玩一次
@@ -196,7 +196,7 @@
         if(scoreNum<=scoreLowerVal){
           i = parseInt(Math.random()*scoreLower.length);
           $(".end-message").html(scoreLower[i]);
-        } else if(scoreNum>scoreLowerVal && scoreNum<=scoreMiddle){
+        } else if(scoreNum>scoreLowerVal && scoreNum<=scoreMiddleVal){
           i = parseInt(Math.random()*scoreMiddle.length);
           $(".end-message").html(scoreMiddle[i]);
         } else{
