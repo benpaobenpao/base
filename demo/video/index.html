@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>视频播放器</title>
+  <style>
+    *{margin: 0;padding: 0;outline: none;}
+    html,body{background: #000;}
+    @font-face {
+      font-family: 'Sosa';
+      src: url('./fonts/sosa-regular-webfont.eot?') format('eot'), url('./fonts/sosa-regular-webfont.woff') format('woff'), url('./fonts/sosa-regular-webfont.ttf') format('truetype');
+    }
+    [data-icon] {
+      display: inline;
+      font-weight: normal;
+    }
+    [data-icon]:before {
+      display: inline;
+      content: attr(data-icon);
+      font-family: Sosa;
+    }
+    .icon2x [data-icon],
+    .icon2x .iconFont {
+      font-size: 2em;
+    }
+    .iconFont {
+      font-family: Sosa;
+      text-transform: none;
+      font-weight: normal;
+      position: relative;
+    }
+    span.iconFont {
+      display: inline;
+    }
+    h1 .iconFont {
+      top: -0.18em;
+    }
+
+    .video-content{position: relative; width: 640px; height: 360px; margin: 60px auto 0; overflow: hidden;}
+    .video-content .video-tv{display: block; width: 100%; height: 100%;}
+    .video-content .video-options{position: absolute; left: 0; bottom: 0; width: 100%; height: 50px; margin-bottom: -50px; background: rgba(245,245,245,1);-webkit-transition: all .3s ease-in;-moz-transition: all .3s ease-in;transition: all .3s ease-in;}
+    .video-content:hover .video-options{display: block; margin-bottom: 0;}
+    .video-content .video-options .line{position: absolute; left: 0; top: 0; width: 100%; height: 6px; border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;  cursor: pointer; background: #fff;}
+    .video-content .line .progress{ position: absolute; left: 0px; width: 0%; height: 6px; border-radius: 10px; background: #696969; }
+    .video-content .totalTime{}
+    .video-content .video-options-btns button{ display: table-cell;  padding: 6px 16px; vertical-align: middle; border: none; background: rgba(0, 0, 0, 0.2); cursor: pointer;}
+    .video-content .video-options-btns{padding-top: 12px;text-align: center;}
+    .video-content .video-options .sound{position: absolute; left: 10px; top: 16px;}
+    .video-content .video-options .sound-open{border: none; color: #333; background: none; vertical-align: 2px; cursor: pointer; }
+    .video-content .video-options .sound-closed{color: #f00;}
+    .video-content  .video-options .sound-line{display: inline-block; position: relative; width: 60px; height: 8px; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; background: #fff; cursor: pointer;}
+    .video-content .video-options .sound-progress{display: inline-block; position: absolute; left: 0; top: 0; height: 8px; width: 45px; background: #696969; border-radius: 10px; }
+    .video-content .video-ad{ display: none; position: absolute; left: 50%; top: 50%; width: 200px; height: 150px; margin-top: -75px; margin-left: -100px; }
+    .video-content .video-ad .closed{position: absolute;right: 0;top:0; color: #333; cursor: pointer; }
+    .video-content .video-ad .closed:hover{color:#eee;}
+    .video-content .video-full-btn{position: absolute; right: 10px; top: 20px; border:none; background: none; color: #333; cursor: pointer;}
+
+    .video-content-red{}
+    .video-content-red .video-options{background: rgba(227,23,13,1);}
+    .video-content-red .video-options .line,.video-content-red  .video-options .sound-line{ border-color: #B03060;}
+    .video-content-red .line .progress,.video-content-red .video-options .sound-progress{background: #f00;}
+    .video-content-red .video-options-btns button,.video-content-red .video-options .sound-open,.video-content-red .video-full-btn{color: #D2B48C;}
+    .video-content-red .video-options .sound-closed{color:#F0E68C;}
+
+    .video-content-oragin{}
+    .video-content-oragin .video-options{background: rgba(255,97,0,1);}
+    .video-content-oragin .video-options .line,.video-content-oragin  .video-options .sound-line{ border-color: #E3CF57;}
+    .video-content-oragin .line .progress,.video-content-oragin .video-options .sound-progress{background: #ED9121;}
+    .video-content-oragin .video-options-btns button,.video-content-oragin .video-options .sound-open,.video-content-oragin .video-full-btn{color: #F0FFFF;}
+    .video-content-oragin .video-options .sound-closed{color:#A39480;}
+
+    .video-content-blue{}
+    .video-content-blue .video-options{background: rgba(51,161,201,1);}
+    .video-content-blue .video-options .line,.video-content-blue  .video-options .sound-line{ border-color: #3D59AB;}
+    .video-content-blue .line .progress,.video-content-blue .video-options .sound-progress{background: #1E90FF;}
+    .video-content-blue .video-options-btns button,.video-content-blue .video-options .sound-open,.video-content-blue .video-full-btn{color: #FFFFCD;}
+    .video-content-blue .video-options .sound-closed{color:#ff0000;}
+  </style>
+</head>
+<body>
+  <div id="videoContent" class="video-content">
+    <video class="video-tv"  id="video" src="pp4_blog_demo.mp4"></video>
+    <div class="video-options">
+      <div class="video-options-btns">
+        <button id="restart" class="iconFont" title="重播"><span data-icon="z"></span></button>
+        <button id="play" class="iconFont"><span data-icon="P"></span></button>
+        <button id="slower" class="iconFont" title="减速"><span data-icon="‹"></span></button>
+        <button id="faster" class="iconFont" title="加速"><span data-icon="›"></span></button>
+        <button id="rew" class="iconFont" title="快退"><span data-icon="T"></span></button>
+        <button id="fastFwd" class="iconFont" title="快进"><span data-icon="S"></span></button>
+      </div>
+      <div id="line" class="line"><div id="progress" class="progress"></div></div>
+      <div class="sound">
+        <button id="soundBtn" class="sound-open"><span data-icon="9"></span></button>
+        <div id="soundLine" class="sound-line"><div id="soundProgress" class="sound-progress"></div></div>
+      </div>
+      <button id="videoFullBtn" class="video-full-btn"><span data-icon="ğ"></span></button>
+    </div>
+    <div id="videoAd" class="video-ad iconFont"></div>
+    <div class="video-interest"></div>
+  </div>
+  <script type="text/javascript">
+    // 作者杨占奎
+    // 时间2014-8-10
+    // videoAPI参考：http://msdn.microsoft.com/library/ie/hh924820.aspx
+    // 图标字体参考：http://tenbytwenty.com/?xxxx_posts=sosa
+    // 配色参考：http://msdn.microsoft.com/library/ie/hh924820.aspx
+    function extend(target, source) {
+        for (var p in source) {
+            if (source.hasOwnProperty(p)) {
+                target[p] = source[p];
+            }
+        }
+        return target;
+    }
+
+    function $(elems) {
+        return document.getElementById(elems);
+    }
+
+    function iVideo(options) {
+        var defaults = {
+            width: "640px",                  // 宽    宽高比16:9
+            height: "360px",                 // 高
+            autoplay: true,                  // 自动播放
+            skin: "default",                 // 设置样式（皮肤）   [ default || red || oragin || blue ]
+            stepNUm: 10,                     // 快进、快退的阀值
+            soundNum: 0.75,                  // 设置默认声音大小
+            isFullScreen: false,             // 是否启动放大模式
+            tvSrc: "pp4_blog_demo.mp4",      // 播放视频地址
+            adSrc: [{                        // 广告（暂停时推送）
+                link: "http://www.iqiyi.com",
+                pic: "ad1.jpg"
+            },
+            {
+                link: "http://www.iqiyi.com",
+                pic: "ad2.jpg"
+            },
+            {
+                link: "http://www.iqiyi.com",
+                pic: "ad3.jpg"
+            }]
+        };
+
+        var opts = extend(defaults, options);
+
+        var videoContent = $("videoContent");
+        var video = $("video");
+        var play = $("play");
+        var restart = $("restart");
+        var rew = $("rew");
+        var fastFwd = $("fastFwd");
+        var slower = $("slower");
+        var faster = $("faster");
+        var progress = $("progress");
+        var soundBtn = $("soundBtn");
+        var soundLine = $("soundLine");
+        var soundProgress = $("soundProgress");
+        var videoFullBtn = $("videoFullBtn");
+        var ranges = null;
+        var totalTimeNum = null;
+
+        function skip(value) {
+            video.currentTime += value;
+        }
+
+        // 暂停时显示广告
+        function showAd() {
+            videoAd.style.display = "block";
+            var html = '<span id="adClosed" class="closed" data-icon="ã"></span>';
+            var num = parseInt(Math.random() * opts.adSrc.length);
+            html += '<a href=' + opts.adSrc[num].link + ' target="_blank"><img src=' + opts.adSrc[num].pic + '></a>';
+            videoAd.innerHTML = html;
+        }
+
+        // 隐藏广告
+        function hideAd() {
+            videoAd.style.display = "none";
+        }
+
+        // 设置皮肤
+        function setSkin() {
+            if ("default" === opts.skin) {
+                videoContent.setAttribute("class", "video-content");
+            } else if ("red" === opts.skin) {
+                videoContent.setAttribute("class", "video-content video-content-red");
+            } else if ("oragin" === opts.skin) {
+                videoContent.setAttribute("class", "video-content video-content-oragin");
+            } else if ("blue" === opts.skin) {
+                videoContent.setAttribute("class", "video-content video-content-blue");
+            } else {
+                videoContent.setAttribute("class", "video-content");
+            }
+        }
+
+        // 设置视频可以被放大播放
+        function fullScreen() {
+            if (!opts.isFullScreen) {
+                opts.isFullScreen = true;
+                videoContent.style.width = opts.width;
+                videoContent.style.height = opts.height;
+            } else {
+                opts.isFullScreen = false;
+                var w = document.body.offsetWidth;
+                var tmpW = w - 300;
+                videoContent.style.width = tmpW + "px";
+                videoContent.style.height = (tmpW * 9 / 16) + "px";
+            }
+        }
+
+        // 初始化设置
+        function init() {
+            play.setAttribute("title", "播放");
+            play.getElementsByTagName("span")[0].setAttribute("data-icon", "O");
+            opts.autoplay && video.setAttribute("autoplay", true);
+            video.setAttribute("src", opts.tvSrc);
+            soundProgress.style.width = (100 * opts.soundNum / 1) + "%";
+            video.volume = opts.soundNum;
+            setSkin();
+            fullScreen();
+        }
+
+        init();
+
+        // 加载时获取视频的长度，时间单位秒
+        video.addEventListener("loadedmetadata",
+        function() {
+            totalTimeNum = video.duration.toFixed(1);
+        },
+        false);
+
+        // 进度条
+        video.addEventListener("timeupdate",
+        function() {
+            progress.style.width = (100 * video.currentTime / totalTimeNum) + "%";
+        },
+        false);
+
+        // 播放 暂停
+        play.addEventListener("click",
+        function() {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        },
+        false);
+
+        // 播放
+        video.addEventListener("playing",
+        function() {
+            play.setAttribute("title", "播放");
+            play.getElementsByTagName("span")[0].setAttribute("data-icon", "O");
+            hideAd();
+        },
+        false);
+
+        // 暂停
+        video.addEventListener("pause",
+        function() {
+            play.setAttribute("title", "暂停");
+            play.getElementsByTagName("span")[0].setAttribute("data-icon", "P");
+            showAd();
+        },
+        false);
+
+        // 重新播放
+        restart.addEventListener("click",
+        function() {
+            video.currentTime = 0;
+            video.play();
+            hideAd();
+        },
+        false);
+
+        // 关闭广告按钮
+        videoAd.addEventListener("click",
+        function(e) {
+            if ("adClosed" === e.target.getAttribute("ID")) {
+                hideAd();
+            }
+        },
+        false);
+
+        // 快退
+        rew.addEventListener("click",
+        function() {
+            skip( - opts.stepNUm);
+        },
+        false);
+
+        // 快进
+        fastFwd.addEventListener("click",
+        function() {
+            skip(opts.stepNUm);
+        },
+        false);
+
+        // 播放进度条
+        line.addEventListener("click",
+        function(e) {
+            var w = e.pageX - line.getBoundingClientRect().left;
+            var c = w * totalTimeNum / line.offsetWidth;
+            progress.style.width = (100 * c / totalTimeNum) + "%";
+            video.currentTime = c;
+        },
+        false);
+
+        // 是否启动静音
+        soundBtn.addEventListener("click",
+        function() {
+            if (video.muted) {
+                video.muted = false;
+            } else {
+                video.muted = true;
+            }
+        },
+        false);
+
+        // 声音控制条
+        soundLine.addEventListener("click",
+        function(e) {
+            var w = e.pageX - soundLine.getBoundingClientRect().left;
+            opts.soundNum = (w * 1) / 60;
+            soundProgress.style.width = (100 * opts.soundNum / 1) + "%";
+            video.volume = opts.soundNum;
+        },
+        false);
+
+        video.addEventListener("volumechange",
+        function() {
+            video.volume = opts.soundNum;
+            if (video.muted) {
+                soundBtn.setAttribute("class", "sound-open sound-closed");
+            } else {
+                soundBtn.setAttribute("class", "sound-open");
+            }
+        },
+        false);
+
+        // 是否启动放大模式观看
+        videoFullBtn.addEventListener("click",
+        function() {
+            fullScreen();
+        },
+        false);
+
+    };
+
+    iVideo({
+        skin: "blue",
+        soundNum: 0.6,
+        isFullScreen: true,
+        tvSrc: "trailer.mp4"
+    });
+  </script>
+</body>
+</html>
