@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta http-equiv="Expires" content="-1" />
+        <meta http-equiv="pragram" content="no-cache" />
+  <title>Document</title>
+  <style>
+    *{margin: 0; padding: 0;}
+    html,body{ margin: 0px auto; background: #000; overflow-x: hidden;}
+    .zs-luck-draw-bg{position: relative;  background: #ccc;}
+    .zs-luck-draw-bg .zs-btn-start{position: absolute; left: 50%; top: 50%; z-index: 1; text-align: center; color: #000; font-size: 36px; cursor: pointer;}
+  </style>
+</head>
+<body>
+  <div id="zs-luck-draw-bg" class="zs-luck-draw-bg">
+    <canvas id="zs-luck" ></canvas>
+    <div id="zs-btn-start" class="zs-btn-start">抽奖</div>
+  </div>
+
+  <script src="./js/libs/zepto.js"></script>
+  <script src="./js/libs/event.js"></script>
+  <script src="./js/libs/ajax.js"></script>
+  <script src="./js/libs/touch.js"></script>
+
+  <script>
+    var drawBg = $("#zs-luck-draw-bg");
+var drawW = $(window).width();
+var drawH = $(window).height();
+var luck = $("#zs-luck");
+var btnStart = $("#zs-btn-start");
+
+var luckCenter = drawW / 2;
+var layerR1 = luckCenter * 1;
+var layerR2 = luckCenter * 0.90;
+var layerR3 = luckCenter * 0.2;
+
+console.log(drawW);
+
+$("html,body").css({
+  "width": drawW,
+  "height": drawW
+});
+
+luck.attr({
+  "width": drawW,
+  "height": drawW
+});
+btnStart.css({
+  "width": layerR3 * 2 + "px",
+  "height": layerR3 * 2 + "px",
+  "line-height": layerR3 * 2 + "px",
+  "left": luckCenter + "px",
+  "top": luckCenter + "px",
+  "margin-top": (-layerR3) + "px",
+  "margin-left": (-layerR3) + "px",
+  "border-radius": layerR3 * 2 + "px"
+});
+
+
+
+var context = luck[0].getContext("2d");
+
+
+var startAngle = 3 * 2 * Math.PI / 4;
+var arc = null;
+
+
+// 摇奖盘
+function drawDisk() {
+  var prizes = data.prizes;
+  var colors = data.colors || ["rgba(255,10,0,1)", "rgba(255,112,0,1)", "rgba(255,214,0,1)", "rgba(193,254,0,1)", "rgba(91,254,0,1)", "rgba(0,244,10,1)", "rgba(0,142,112,1)", "rgba(0,40,214,1)", "rgba(61,0,254,1)", "rgba(163,0,254,1)", "rgba(255,0,244,1)", "rgba(255,0,142,1)"];
+  var angle = null;
+  var outsideRadius = layerR2;
+  var textRadius = layerR2 * 0.8;
+  var insideRadius = layerR3;
+
+  arc = 2 * Math.PI / prizes.length;
+
+  for (var i = 0, l = prizes.length; i < l; i++) {
+    angle = startAngle + i * arc;
+
+    context.fillStyle = "#f5e2b7";
+
+    context.beginPath();
+
+    context.arc(luckCenter, luckCenter, outsideRadius, angle, angle + arc, false);
+    context.arc(luckCenter, luckCenter, insideRadius, angle + arc, angle, true);
+    context.stroke();
+    context.fill();
+    context.save();
+
+    context.shadowOffsetX = -1;
+    context.shadowOffsetY = -1;
+    context.shadowBlur = 0;
+    context.shadowColor = "rgb(220,220,220)";
+    context.fillStyle = "black";
+
+    context.translate(luckCenter + Math.cos(angle + arc / 2) * textRadius, luckCenter + Math.sin(angle + arc / 2) * textRadius);
+    context.rotate(angle + arc / 2 + Math.PI / 2);
+    context.font = '24px Arial';
+    var level = prizes[i].level;
+    context.fillText(level, -context.measureText(level).width / 2, 0);
+    context.font = '16px Arial';
+    var name = prizes[i].name;
+    context.fillText(name, -context.measureText(name).width / 2, 30);
+
+    context.restore();
+  }
+}
+
+
+
+// 边框
+function drawBorder() {
+  var insideRadius = layerR2 * 1.05;
+  context.beginPath();
+  context.translate(0, 0);
+  context.rotate(0);
+  context.fillStyle = "#feca5a";
+  context.arc(luckCenter, luckCenter, insideRadius, 0, 2 * Math.PI, true);
+
+  context.fill();
+  context.stroke();
+  context.save();
+  context.restore();
+}
+
+// 圆形
+function drawCircle() {
+  var insideRadius = layerR3;
+  var grd = context.createRadialGradient(luckCenter, luckCenter, luckCenter * 0.01, luckCenter, luckCenter, luckCenter * 0.2);
+  grd.addColorStop(0, '#eba62f');
+  grd.addColorStop(1, '#eba62f');
+  context.fillStyle = grd;
+  context.beginPath();
+
+  context.arc(luckCenter, luckCenter, insideRadius, 0, 2 * Math.PI, true);
+  context.stroke();
+  context.fill();
+  context.save();
+  context.restore();
+}
+
+// 指针
+function drawPointer() {
+  var tmpW = 5;
+  context.fillStyle = "#eba62f";
+  context.beginPath();
+  context.moveTo(luckCenter - tmpW, luckCenter);
+  context.lineTo(luckCenter + tmpW, luckCenter);
+  context.lineTo(luckCenter, luckCenter * 0.2);
+  context.lineTo(luckCenter - tmpW, luckCenter);
+
+  context.stroke();
+  context.fill();
+  context.save();
+  context.restore();
+}
+
+
+
+var spinTime = 0;
+var spinAngleStart = 0; //Math.random() * 10 + 10;
+var spinTimeTotal = 0; //Math.random() * 3 + 4 * 1000;
+//console.log(spinTimeTotal);
+function rotateWheel() {
+  spinTime += 30;
+  if (spinTime >= spinTimeTotal) {
+    var degrees = startAngle * 180 / Math.PI + 90;
+    var arcd = arc * 180 / Math.PI;
+    var index = Math.floor((360 - degrees % 360) / arcd);
+    console.log(index);
+    btnStart.show();
+    return;
+  } else {
+    var spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
+    startAngle += (spinAngle * Math.PI / 180);
+
+    drawDisk();
+    drawPointer();
+    drawCircle();
+
+    setTimeout('rotateWheel()', 1);
+  }
+
+}
+
+function easeOut(t, b, c, d) {
+  var ts = (t /= d) * t;
+  var tc = ts * t;
+  return b + c * (tc + -3 * ts + 3 * t);
+}
+
+
+
+var data = null;
+
+// {
+//   "code": 1,
+//   "colors": ["rgba(255,10,0,1)", "rgba(255,112,0,1)", "rgba(255,214,0,1)", "rgba(193,254,0,1)", "rgba(91,254,0,1)", "rgba(0,244,10,1)", "rgba(0,142,112,1)", "rgba(0,40,214,1)", "rgba(61,0,254,1)", "rgba(163,0,254,1)", "rgba(255,0,244,1)", "rgba(255,0,142,1)"],
+//   "prizes": [{
+//     "level": "一等奖",
+//     "name": "电脑"
+//   }, {
+//     "level": "谢谢",
+//     "name": "无"
+//   }, {
+//     "level": "谢谢",
+//     "name": "无"
+//   }, {
+//     "level": "二等奖",
+//     "name": "平板"
+//   }, {
+//     "level": "三等奖",
+//     "name": "平板"
+//   }]
+// }
+
+function loadData() {
+  $.post("./luckload", function(mdata) {
+    if (1 === mdata.code) {
+      data = mdata;
+      drawBorder();
+      drawDisk();
+      drawPointer();
+      drawCircle();
+    }
+  }, "json");
+}
+
+
+// {
+//   "code": 1,
+//   "start": 13.787861920427531,
+//   "total": 8002.948975192383
+// }
+
+function getData() {
+  btnStart.hide();
+  $.post("./luckball", function(data) {
+    if (1 === data.code) {
+      spinTime = 0;
+      spinAngleStart = Math.random() * 10 + 10;
+      spinTimeTotal = Math.random() * 3 + 8 * 1000;
+      rotateWheel();
+    }
+  }, "json");
+}
+
+loadData();
+
+btnStart.on("click", function() {
+  getData();
+});
+  </script>
+</body>
+</html>
+
