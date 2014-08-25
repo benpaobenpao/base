@@ -223,7 +223,7 @@ var data = null;
 
 function loadData() {
   //$.post("./luckload", function(mdata) {
-  var mdata = code: 1,
+  var mdata = {code: 1,
         colors: ["rgba(255,10,0,1)", "rgba(255,112,0,1)", "rgba(255,214,0,1)", "rgba(193,254,0,1)", "rgba(91,254,0,1)", "rgba(0,244,10,1)", "rgba(0,142,112,1)", "rgba(0,40,214,1)", "rgba(61,0,254,1)", "rgba(163,0,254,1)", "rgba(255,0,244,1)", "rgba(255,0,142,1)"],
         prizes: [{
             level: "一等奖",
@@ -250,7 +250,7 @@ function loadData() {
         {
             level: "谢谢",
             name: "无"
-        }];
+        }]};
     if (1 === mdata.code) {
       data = mdata;
       drawBorder();
