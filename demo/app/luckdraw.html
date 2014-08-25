@@ -222,7 +222,35 @@ var data = null;
 // }
 
 function loadData() {
-  $.post("./luckload", function(mdata) {
+  //$.post("./luckload", function(mdata) {
+  var mdata = code: 1,
+        colors: ["rgba(255,10,0,1)", "rgba(255,112,0,1)", "rgba(255,214,0,1)", "rgba(193,254,0,1)", "rgba(91,254,0,1)", "rgba(0,244,10,1)", "rgba(0,142,112,1)", "rgba(0,40,214,1)", "rgba(61,0,254,1)", "rgba(163,0,254,1)", "rgba(255,0,244,1)", "rgba(255,0,142,1)"],
+        prizes: [{
+            level: "一等奖",
+            name: "电脑",
+        }, {
+            level: "谢谢",
+            name: "无"
+        }, {
+            level: "谢谢",
+            name: "无"
+        }, {
+            level: "二等奖",
+            name: "平板",
+        }, {
+            level: "三等奖",
+            name: "平板",
+        },{
+            level: "谢谢",
+            name: "无"
+        }, {
+            level: "谢谢",
+            name: "无"
+        },
+        {
+            level: "谢谢",
+            name: "无"
+        }];
     if (1 === mdata.code) {
       data = mdata;
       drawBorder();
@@ -230,7 +258,7 @@ function loadData() {
       drawPointer();
       drawCircle();
     }
-  }, "json");
+  //}, "json");
 }
 
 
@@ -242,14 +270,19 @@ function loadData() {
 
 function getData() {
   btnStart.hide();
-  $.post("./luckball", function(data) {
-    if (1 === data.code) {
+  //$.post("./luckball", function(data) {
+  var mdata = {
+        code: 1,
+        start: Math.random() * 10 + 10,
+        total: Math.random() * 3 + 8 * 1000
+    };
+    if (1 === mdata.code) {
       spinTime = 0;
       spinAngleStart = Math.random() * 10 + 10;
       spinTimeTotal = Math.random() * 3 + 8 * 1000;
       rotateWheel();
     }
-  }, "json");
+  //}, "json");
 }
 
 loadData();
