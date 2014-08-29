@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta http-equiv="Expires" content="-1" />
+        <meta http-equiv="pragram" content="no-cache" />
+        <title>Document</title>
+        <style>
+        *{margin: 0; padding: 0;}
+        .app{
+        width: 640px;
+        margin: 0 auto;
+        height: 100%;
+        }
+        </style>
+        <script>
+        (function() {
+            if (/Android (\d+\.\d+)/.test(navigator.userAgent)) {
+                var version = parseFloat(RegExp.$1);
+                if (version > 2.3) {
+                    var phoneScale = parseInt(window.screen.width) / 640;
+                    document.write('<meta name="viewport" content="width=640, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi">');
+                } else {
+                    document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+                }
+            } else {
+                document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+            }
+            //微信去掉下方刷新栏
+            if (navigator.userAgent.indexOf('MicroMessenger') >= 0) {
+                document.addEventListener('WeixinJSBridgeReady', function() {
+                    //WeixinJSBridge.call('hideToolbar');
+                });
+            }
+        })();
+        </script>
+    </head>
+    <body class="app">
+        <canvas id="canvas" width="640" height="500"></canvas>
+         <script src="../../plugs/zepto/zepto.js"></script>
+        <script src="../../plugs/zepto/event.js"></script>
+        <script src="../../plugs/zepto/touch.js"></script>
+        <script>
+            var context = document.getElementById('canvas').getContext('2d');
+            var canvas = $("#canvas");
+            var circles = [];
+            var bullets = [];
+            var score = 0;
+            var arrScores = [];
+            var BULLETS_MAX = 10;
+            var bullets_number = 0;
+            var isend = false;
+            var target_circle = {
+                x: 200 + Math.random() * 300,
+                y: 200 + Math.random() * 300,
+                velocityX: 3 * Math.random() + 3,
+                velocityY: 3 * Math.random() + 3,
+                radius: 200,
+                num: 10,
+                color: 'rgba(' + (Math.random() * 255).toFixed(0) + ', ' +
+                    (Math.random() * 255).toFixed(0) + ', ' +
+                    (Math.random() * 255).toFixed(0) + ', 1.0)'
+            };
+            var drawW = parseInt($(window).width());
+            var drawH = parseInt($(window).height());
+            $("#canvas").attr({
+                width: drawW,
+                height: drawH
+            });
+
+            function drawRings(circle) {
+                for (var i = 0, l = circle.num; i < l; i++) {
+                    context.beginPath();
+                    context.arc(circle.x, circle.y, circle.radius - (circle.radius / l) * i, 0, Math.PI * 2, false);
+                    context.fillStyle = circle.color;
+                    context.lineWidth = 3;
+                    context.strokeStyle = "#000000";
+                    context.stroke();
+                    context.fill();
+                }
+                for (var i = 0, l = bullets.length; i < l; i++) {
+                    context.beginPath();
+                    context.arc((bullets[i].x - bullets[i].cX) + circle.x, (bullets[i].y - bullets[i].cY) + circle.y, 3, 0, Math.PI * 2, false);
+                    context.fillStyle = "#ff0000";
+                    context.fill();
+                }
+                adjustPosition(circle);
+            }
+
+            function running() {
+                context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+                drawGrid(context, 'lightgray', 10, 10);
+                if (!isend) {
+                    drawRings(target_circle);
+                    setTimeout("running()", 30);
+                } else {
+                    var defaults = {
+                        x: drawW / 2,
+                        y: 1 * drawH / 3
+                    }
+                    drawRings($.extend(true, {}, target_circle, defaults));
+
+                    context.shadowOffsetX = -1;
+                    context.shadowOffsetY = -1;
+                    context.shadowBlur = 0;
+                    context.fillStyle = "#000000";
+                    context.textAlign = 'center';
+                    //context.translate(luckCenter + Math.cos(angle + arc / 2) * textRadius, luckCenter + Math.sin(angle + arc / 2) * textRadius);
+                    //context.rotate(angle + arc / 2 + Math.PI / 2);
+                    context.font = '30px KaiTi';
+                    var level = "平均成绩：" + score;
+                    context.fillText(level, drawW / 2, 2 * drawH / 3);
+
+                    var pic = canvas[0].toDataURL();
+
+                    // $.post("/pushPic", {
+                    //     "pic": pic,
+                    //     "score": score
+                    // }, function(data) {
+
+                    // }, "json");
+
+                }
+
+
+
+            }
+            running();
+
+            function adjustPosition(circle) {
+                if (circle.x + circle.velocityX + circle.radius > context.canvas.width ||
+                    circle.x + circle.velocityX - circle.radius < 0)
+                    circle.velocityX = -circle.velocityX;
+                if (circle.y + circle.velocityY + circle.radius > context.canvas.height ||
+                    circle.y + circle.velocityY - circle.radius < 0)
+                    circle.velocityY = -circle.velocityY;
+                circle.x += circle.velocityX;
+                circle.y += circle.velocityY;
+            }
+
+            function drawGrid(context, color, stepx, stepy) {
+                context.strokeStyle = color;
+                context.lineWidth = 0.5;
+                for (var i = stepx + 0.5; i < context.canvas.width; i += stepx) {
+                    context.beginPath();
+                    context.moveTo(i, 0);
+                    context.lineTo(i, context.canvas.height);
+                    context.stroke();
+                }
+                for (var i = stepy + 0.5; i < context.canvas.height; i += stepy) {
+                    context.beginPath();
+                    context.moveTo(0, i);
+                    context.lineTo(context.canvas.width, i);
+                    context.stroke();
+                }
+            }
+
+            function mouseMovePos(e) {
+                if (typeof e.offsetX != 'undefined' && typeof e.offsetY != 'undefined') {
+                    currentX = e.offsetX;
+                    currentY = e.offsetY;
+                }
+                return {
+                    x: currentX,
+                    y: currentY
+                };
+            }
+            canvas.on("click", function(e) {
+                e.preventDefault();
+                bullets_number++;
+
+                if (bullets_number <= BULLETS_MAX) {
+                    var pos = mouseMovePos(e);
+                    var twoPoints = Math.sqrt(Math.pow(pos.x - target_circle.x, 2) + Math.pow(pos.y - target_circle.y, 2));
+                    var tmp = 10 - (twoPoints * 10 / target_circle.radius);
+
+                    if (tmp < 0) {
+                        tmp = 0;
+                    }
+                    arrScores.push(tmp);
+                    console.log(arrScores);
+                    if (twoPoints <= 100) {
+                        bullets.push({
+                            x: pos.x,
+                            y: pos.y,
+                            cX: target_circle.x,
+                            cY: target_circle.y,
+                            radius: 3,
+                            color: "#ff0000"
+                        });
+                    }
+                    if (bullets_number === BULLETS_MAX) {
+                        isend = true;
+                        for (var i = 0, l = arrScores.length; i < l; i++) {
+                            score += arrScores[i];
+                        }
+                        score = score / 10;
+                        console.log(score);
+                        var tmpscore = score.toFixed(2);
+                        score = tmpscore;
+                        console.log(score);
+                    }
+                }
+
+
+
+            });
+        </script>
+    </body>
+</html>
