@@ -2,19 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="apple-touch-fullscreen" content="yes" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta http-equiv="Expires" content="-1" />
-        <meta http-equiv="pragram" content="no-cache" />
+  <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+	<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+	<meta HTTP-EQUIV="expires" CONTENT="0">
+	<meta name="keywords" content="尘埃" />
+	<meta name="description" content="尘埃" />
+	<meta name="apple-touch-fullscreen" content="yes" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta http-equiv="Expires" content="-1" />
+	<meta http-equiv="pragram" content="no-cache" />
   <title>Document</title>
   <style>
     *{margin: 0; padding: 0;}
-    html,body{ margin: 0px auto; background: #000; overflow-x: hidden;}
+    html,body{ margin: 0px auto; background: #ccc; overflow-x: hidden;}
     .zs-luck-draw-bg{position: relative;  background: #ccc;}
     .zs-luck-draw-bg .zs-btn-start{position: absolute; left: 50%; top: 50%; z-index: 1; text-align: center; color: #000; font-size: 36px; cursor: pointer;}
   </style>
+  <script>
+  	(function () {
+    	if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
+			var version = parseFloat(RegExp.$1);
+			if(version>2.3){
+				var phoneScale = parseInt(window.screen.width)/640;
+				document.write('<meta name="viewport" content="width=640, minimum-scale = '+ phoneScale +', maximum-scale = '+ phoneScale +', target-densitydpi=device-dpi">');
+			}else{
+				document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+			}
+		}else{
+			document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+		}
+		//微信去掉下方刷新栏
+		if(navigator.userAgent.indexOf('MicroMessenger') >= 0){
+			document.addEventListener('WeixinJSBridgeReady', function() {
+				//WeixinJSBridge.call('hideToolbar');
+			});
+		}
+    })();
+  </script>
 </head>
 <body>
   <div id="zs-luck-draw-bg" class="zs-luck-draw-bg">
@@ -34,6 +60,10 @@ var drawH = $(window).height();
 var luck = $("#zs-luck");
 var btnStart = $("#zs-btn-start");
 
+if(drawW > drawH){
+  drawW = drawH;
+}
+
 var luckCenter = drawW / 2;
 var layerR1 = luckCenter * 1;
 var layerR2 = luckCenter * 0.90;
@@ -45,6 +75,13 @@ console.log(drawW);
 //   "width": drawW,
 //   "height": drawW
 // });
+
+
+
+drawBg.css({
+  "width": drawW
+});
+
 
 luck.attr({
   "width": drawW,
