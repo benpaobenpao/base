@@ -169,7 +169,8 @@
                     y: currentY
                 };
             }
-            canvas.on("click", function(e) {
+            var isMobile = /ipad|iphone|midp|ucweb|android|mobile/ig.test(navigator.userAgent);
+            canvas.on(isMobile ? "tap" : "click", function(e) {
                 e.preventDefault();
                 bullets_number++;
 
