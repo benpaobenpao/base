@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="pragram" content="no-cache" />
+    <title>Document</title>
+    <style>
+        *{margin: 0; padding: 0;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+        html,body{
+            height: 100%;
+        }
+        body{
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 1px;
+            -webkit-box-shadow: 0 0 1px #000;
+            -moz-box-shadow: 0 0 1px #000;
+            box-shadow: 0 0 1px #000;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            outline-style: none;
+        }
+
+        .clearfix{}
+        .clearfix:after{
+            display: block;
+            content: "";
+            clear: both;
+            height: 0;
+        }
+
+        .app{
+            width: 640px;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .content{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            /*background: #000 url(../images/m.jpg) 50% -150px no-repeat;*/
+        }
+
+        .page{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: none;
+        }
+
+        .load{
+            z-index: 1;
+            padding-top: 350px;
+            /*background: #000 url(../images/m.jpg) 50% -150px no-repeat;*/
+        }
+
+        .start{
+            z-index: 10;
+            /*background: #000 url(../images/m.jpg) 50% -150px no-repeat;*/
+        }
+
+        .start h1{
+            color: #fff;
+            font-size: 50px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 350px;
+            margin-bottom: 100px;
+        }
+
+        .start-btns{
+            padding: 20px 0;
+            text-align: center;
+
+        }
+
+        .start-btns button{
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            margin: 0 10px;
+            border-radius: 60px;
+            background: #f18200;
+            border: none;
+        }
+
+        .play{
+            z-index: 20;
+            
+        }
+
+        .play-header{
+            color: #000;
+            font-size: 30px;
+            padding: 10px 0;
+            margin-bottom: 300px;
+        }
+
+        .play-header .pass{
+            float: left;
+            margin-left: 30px;
+        }
+
+        .play-header .step{
+            float: right;
+            margin-right: 30px;
+        }
+
+
+        .end{
+            z-index: 30;
+        }
+
+        .share{
+            z-index: 40;
+        }
+
+        .hanoi{
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+        .hanoi:after{
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            display: block;
+            content: "";
+            width: 100%;
+            height: 6px;
+            background: #f60;
+        }
+
+        .pillar{
+            position: absolute;
+            bottom: 0;
+            width: 100px;
+            height: 80%;
+            margin-left: -50px;
+            background: #f60;
+        }
+
+        .pillar:nth-of-type(1){
+            left: 25%;
+        }
+
+        .pillar:nth-of-type(2){
+            left: 50%;
+        }
+
+        .pillar:nth-of-type(3){
+            left: 75%;
+        }
+
+        .disk{
+            position: absolute;
+            width: 50px;
+            height: 20px;
+            bottom: 0;
+            left: 50px;
+            margin-left: -25px;
+            background-color: #f1a165;
+                    background-image: -moz-linear-gradient(top, #f1a165, #f36d0a);
+                    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #f1a165),color-stop(1, #f36d0a));
+                    background-image: -webkit-linear-gradient(#f1a165, #f36d0a); 
+        }
+
+        .disk1 {
+            bottom: 0;
+            width: 110%;
+            margin-left: -55%;
+        }
+
+        .disk2 {
+            bottom: 20px;
+            width: 100%;
+            margin-left: -50%;
+        }
+
+        .disk3 {
+            bottom: 40px;
+            width: 90%;
+            margin-left: -45%;
+        }
+
+        .disk4 {
+            bottom: 60px;
+            width: 1000%;
+            margin-left: -500%;
+        }
+
+        .disk5 {
+            bottom: 80px;
+            width: 800%;
+            margin-left: -400%;
+        }
+
+        .disk6 {
+            bottom: 100px;
+            width: 600%;
+            margin-left: -300%;
+        }
+
+        .disk7 {
+            bottom: 120px;
+            width: 400%;
+            margin-left: -200%;
+        }
+
+        .disk-check{
+            background-color: #f0a3a3;
+            background-image: -moz-linear-gradient(top, #f0a3a3, #f42323);
+            background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #f0a3a3),color-stop(1, #f42323));
+            background-image: -webkit-linear-gradient(#f0a3a3, #f42323);
+        }
+
+
+        .group-btns{
+            position: relative;
+        }
+
+        .group-btns button{
+            position: absolute;
+            top: 6px;
+            width: 60px;
+            height: 60px;
+            margin-left: -30px;
+            border: none;
+            background: #f60;
+            border-radius: 10px;
+        }
+
+
+
+
+        .group-btns button:nth-of-type(1){
+            left: 25%;
+        }
+
+        .group-btns button:nth-of-type(2){
+            left: 50%;
+        }
+
+        .group-btns button:nth-of-type(3){
+            left: 75%;
+        }
+
+
+         .ball {
+            background-color: rgba(0,0,0,0);
+            border:5px solid rgba(0,183,229,0.9);
+            opacity:.9;
+            border-top:5px solid rgba(0,0,0,0);
+            border-left:5px solid rgba(0,0,0,0);
+            border-radius:50px;
+            box-shadow: 0 0 35px #2187e7;
+            width:100px;
+            height:100px;
+            margin:0 auto;
+            -moz-animation:spin .5s infinite linear;
+            -webkit-animation:spin .5s infinite linear;
+        }
+
+        .ball1 {
+            background-color: rgba(0,0,0,0);
+            border:5px solid rgba(0,183,229,0.9);
+            opacity:.9;
+            border-top:5px solid rgba(0,0,0,0);
+            border-left:5px solid rgba(0,0,0,0);
+            border-radius:50px;
+            box-shadow: 0 0 15px #2187e7; 
+            width:70px;
+            height:70px;
+            margin:0 auto;
+            position:relative;
+            top:-85px;
+            -moz-animation:spinoff .5s infinite linear;
+            -webkit-animation:spinoff .5s infinite linear;
+        }
+
+        @-moz-keyframes spin {
+            0% { -moz-transform:rotate(0deg); }
+            100% { -moz-transform:rotate(360deg); }
+        }
+        @-moz-keyframes spinoff {
+            0% { -moz-transform:rotate(0deg); }
+            100% { -moz-transform:rotate(-360deg); }
+        }
+        @-webkit-keyframes spin {
+            0% { -webkit-transform:rotate(0deg); }
+            100% { -webkit-transform:rotate(360deg); }
+        }
+        @-webkit-keyframes spinoff {
+            0% { -webkit-transform:rotate(0deg); }
+            100% { -webkit-transform:rotate(-360deg); }
+        }
+    </style>
+    <script>
+        (function () {
+            if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
+                var version = parseFloat(RegExp.$1);
+                if(version>2.3){
+                    var phoneScale = parseInt(window.screen.width)/640;
+                    document.write('<meta name="viewport" content="width=640, minimum-scale = '+ phoneScale +', maximum-scale = '+ phoneScale +', target-densitydpi=device-dpi">');
+                }else{
+                    document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+                }
+            }else{
+                document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+            }
+            //微信去掉下方刷新栏
+            if(navigator.userAgent.indexOf('MicroMessenger') >= 0){
+                document.addEventListener('WeixinJSBridgeReady', function() {
+                    //WeixinJSBridge.call('hideToolbar');
+                });
+            }
+        })();
+    </script>
+</head>
+<body class="app">
+    <div class="content">
+        <section class="load page" style="display:block;">
+            <div class="ball"></div>
+            <div class="ball1"></div>
+        </section>
+        <section class="start page">
+            <h1>《汉诺塔》</h1>
+            <div class="start-btns">
+                <button value="3">3</button>
+                <button value="4">4</button>
+            </div>
+            <div class="start-btns">
+                <button value="5">5</button>
+                <button value="6">6</button>
+                <button value="7">7</button>
+            </div>
+        </section>
+        <section class="play page">
+            <div class="play-header clearfix">
+                <div class="pass">塔数：<span id="towerTotal"></span></div>
+                <div class="step">次数：<span id="stepTotal">1</span></div>
+            </div>
+            <div class="hanoi">
+                <div class="pillar"></div>
+                <div class="pillar"></div>
+                <div class="pillar"></div>
+            </div>
+        </section>
+        <section class="end page">
+            
+        </section>
+        <section class="share page">
+            
+        </section>
+    </div>
+    <script src="../../plugs/zepto/zepto.js"></script>
+    <script src="../../plugs/zepto/selector.js"></script>
+    <script src="../../plugs/zepto/event.js"></script>
+    <script src="../../plugs/zepto/touch.js"></script>
+    <script>
+        function hanoi(options) {
+            var defaults = {
+
+            };
+
+            this.opts = $.extend(true, {}, defaults, options);
+
+            this.pillar = $(".pillar");
+            this.page = $(".page");
+            this.startBtns = $(".start-btns button");
+            this.groupBtns = $(".group-btns button");
+            this.towerTotal = $("#towerTotal");
+            this.stepTotal = $("#stepTotal");
+
+            this.acHtml = "";
+            this.max = 3;
+            this.pIndex = null;
+            this.disk = [
+                [],
+                [],
+                []
+            ];
+
+            this.firstArr = [];
+
+            this.stepNumber = 0;
+
+            for (var i = 0; i < this.max; i++) {
+                this.firstArr.push((i + 1));
+            }
+
+
+            this.isMoving = false;
+
+            this.init();
+        }
+
+
+        hanoi.prototype.init = function() {
+            var _this = this;
+            _this.showPage(1);
+            _this.events();
+        };
+
+        hanoi.prototype.showPage = function(n) {
+            this.page.hide().eq(n).show();
+        };
+
+        hanoi.prototype.loadDom = function() {
+            var _this = this;
+            var tmpHtml = "";
+            for (var i = 1; i <= _this.max; i++) {
+                console.log(_this.max, i);
+                if (_this.max == i) {
+                    tmpHtml += "<span class='disk disk" + i + "' draggable='true'></span>";
+                } else {
+                    tmpHtml += "<span class='disk disk" + i + "' ></span>";
+                }
+                _this.disk[0].push(i);
+            }
+
+
+            _this.pillar.eq(0).html(tmpHtml);
+
+            _this.towerTotal.html(_this.max);
+
+        }
+
+        hanoi.prototype.events = function() {
+            var _this = this;
+
+            _this.startBtns.on("click", function() {
+                var $this = $(this);
+                _this.max = $this.attr("value");
+                _this.showPage(2);
+                _this.loadDom();
+            });
+
+
+            _this.pillar.on("mousedown", function(e) {
+                var $this = $(this);
+                _this.pIndex = $(this).index();
+                $(".disk-check").removeClass("disk-check");
+                var len = _this.pillar.eq(_this.pIndex).find(".disk").length;
+                console.log(len);
+                _this.acHtml = "<span class ='" + _this.pillar.eq(_this.pIndex).find(".disk").last().attr("class") + "' draggable='true'></span>";
+                _this.pillar.eq(_this.pIndex).find(".disk").last().addClass("disk-check");
+            });
+
+            _this.pillar.on("touchstart", function(e) {
+                var $this = $(this);
+                _this.pIndex = $(this).index();
+                $(".disk-check").removeClass("disk-check");
+                var len = _this.pillar.eq(_this.pIndex).find(".disk").length;
+                console.log(len);
+                _this.acHtml = "<span class ='" + _this.pillar.eq(_this.pIndex).find(".disk").last().attr("class") + "' draggable='true'></span>";
+                _this.pillar.eq(_this.pIndex).find(".disk").last().addClass("disk-check");
+            });
+
+            _this.pillar.each(function() {
+                $(this).on("dragover", function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if (_this.pIndex !== null) {
+                        var $this = $(this);
+                        var index = $this.index();
+                        var len = $this.find(".disk").length;
+
+                        var txt = _this.pillar.eq(index).html();
+                        var plen = _this.disk[_this.pIndex].length;
+                        var slen = _this.disk[index].length;
+
+
+                        if ((_this.disk[_this.pIndex][plen - 1] > _this.disk[index][slen - 1]) || _this.disk[index][slen - 1] === undefined) {
+
+                            $this.append(_this.acHtml);
+
+                            $(".disk-check").remove();
+                            _this.pillar.eq(index).find(".disk").last().css({
+                                bottom: ((len) * 20) + "px"
+                            });
+
+                            var pVal = _this.disk[_this.pIndex].pop();
+                            _this.disk[index].push(pVal);
+
+                            if (_this.disk[2].length === _this.firstArr.length) {
+                                alert("you win");
+                            }
+
+
+                            $(".disk").removeAttr("draggable");
+                            _this.pillar.each(function() {
+                                $(this).find(".disk").last().attr("draggable", true);
+                            });
+                            _this.acHtml = "";
+                            _this.pIndex = null;
+                        }
+
+                    }
+
+                });
+            });
+        }
+
+        new hanoi({});
+    </script>
+
+</body>
+</html>
