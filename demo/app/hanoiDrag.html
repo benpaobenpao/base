@@ -485,7 +485,7 @@ body{
                 e.stopPropagation();
                 e.preventDefault();
                 if (_this.isMoving) {
-               _this.stopMoving setTimeout(function() {
+               _this.stopMoving = setTimeout(function() {
                     
                         if (!!e.touches) {
                             _this.gX = e.touches[0].pageX - pos.left;
