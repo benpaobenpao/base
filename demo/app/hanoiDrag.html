@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="pragram" content="no-cache" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/hanoi.css">
+    <script>
+        (function () {
+            if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
+                var version = parseFloat(RegExp.$1);
+                if(version>2.3){
+                    var phoneScale = parseInt(window.screen.width)/640;
+                    document.write('<meta name="viewport" content="width=640, minimum-scale = '+ phoneScale +', maximum-scale = '+ phoneScale +', target-densitydpi=device-dpi">');
+                }else{
+                    document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+                }
+            }else{
+                document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+            }
+            //微信去掉下方刷新栏
+            if(navigator.userAgent.indexOf('MicroMessenger') >= 0){
+                document.addEventListener('WeixinJSBridgeReady', function() {
+                    //WeixinJSBridge.call('hideToolbar');
+                });
+            }
+        })();
+    </script>
+</head>
+<body class="app">
+    <div class="content">
+        <div style="padding:100px 0 0;">ceshi</div>
+        <div class="hanoi" style="background: #f00;">
+            <div class="pillar">
+                <span class="disk disk1"></span>
+                <span class="disk disk2"></span>
+                <span class="disk disk3"></span>
+            </div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <!-- <div class="demo" style="position: absolute; top: 50px; left: 100px;width: 20px; height: 20px; border-radius: 20px; background: #f0f;"></div> -->
+        </div>
+    </div>
+
+    <script src="js/libs/zepto.js"></script>
+    <script src="js/libs/selector.js"></script>
+    <script src="js/libs/event.js"></script>
+    <script src="js/libs/ajax.js"></script>
+    <script src="js/libs/touch.js"></script>
+    <script>
+        function mousePos(e) {
+            if (typeof e.offsetX != 'undefined' && typeof e.offsetY != 'undefined') {
+                currentX = e.offsetX;
+                currentY = e.offsetY;
+            } else {
+                var relPos = getRelativePos(e.clientX, e.clientY);
+                currentX = relPos[0];
+                currentY = relPos[1];
+            }
+            return {
+                x: currentX,
+                y: currentY
+            };
+        }
+
+        function getRelativePos(x, y) {
+            var curleft = curtop = 0;
+            var scrollLeft = document.body.scrollLeft,
+                scrollTop = document.body.scrollTop;
+            var obj = this.scratch;
+            if (obj && obj.offsetParent) {
+                do {
+                    curleft += obj.offsetLeft;
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
+            }
+            scrollLeft = scrollLeft > 0 ? scrollLeft : document.documentElement.scrollLeft;
+            scrollTop = scrollTop > 0 ? scrollTop : document.documentElement.scrollTop;
+            return [(x - curleft + scrollLeft), (y - curtop + scrollTop)];
+        }
+
+        var isMobile = /ipad|iphone|midp|ucweb|android|mobile/ig.test(navigator.userAgent);
+        var touchStart = isMobile ? "touchstart" : "mousedown",
+            touchEnd = isMobile ? "touchend" : "mouseup",
+            touchMove = isMobile ? "touchmove" : "mousemove",
+            tap = isMobile ? "tap" : "click";
+
+
+        var disk = [
+            [],
+            [],
+            []
+        ];
+
+        var max = 3;
+
+        var firstArr = [];
+
+        var stepNumber = 0;
+
+        for (var i = 0; i < this.max; i++) {
+            disk[0].push((i + 1));
+        }
+
+         // console.log(disk);
+
+        var elemX = null;
+        var elemY = null;
+
+        var isMoving = false;
+
+
+        var pillar = $(".pillar").eq(0).position();
+         //console.log(pillar.top, pillar.left );
+
+        var pillars = [{
+            pX: null,
+            pY: null
+        }, {
+            pX: null,
+            pY: null
+        }, {
+            pX: null,
+            pY: null
+        }];
+        var pillarSize = {
+            w: null,
+            h: null
+        };
+
+        pillars[0].pY = $(".pillar").eq(0).position().top;
+        pillars[0].pX = $(".pillar").eq(0).position().left;
+        pillars[1].pY = $(".pillar").eq(1).position().top;
+        pillars[1].pX = $(".pillar").eq(1).position().left;
+        pillars[2].pY = $(".pillar").eq(2).position().top;
+        pillars[2].pX = $(".pillar").eq(2).position().left;
+
+        pillarSize.w = $(".pillar").eq(0).width();
+        pillarSize.h = $(".pillar").eq(0).height();
+
+        var pIndex = null;
+        var acHtml = "";
+
+         
+
+        $(".pillar").on(touchStart, function(e) {
+            e.stopPropagation();
+              e.preventDefault();
+            
+            var $this = $(this);
+            pIndex = $(this).index();
+
+           
+
+            $(".disk-check").remove();
+            var tmp = $(".pillar").eq(pIndex).find(".disk");
+            var len = tmp.length;
+            var tmpLast = tmp.last();
+            var tmpLastW = tmpLast.width();
+            var tmpLastH = tmpLast.height();
+            acHtml = "<span class ='" + tmpLast.attr("class") + "'></span>";
+
+            var tmpLastPos = tmpLast.position();
+
+            
+
+
+
+            var tmpHtml = "<div class='demo' style='position:absolute; left: " + (pillars[pIndex].pX + (pillarSize.w - tmpLastW) / 2) + "px; top: " + (pillars[pIndex].pY + tmpLastPos.top) + "px; width: " + tmpLastW + "px; height: " + tmpLastH + "px; background: #000; margin-left: -50px;'></div>";
+            $(".hanoi").append(tmpHtml);
+
+            tmpLast.hide().addClass("disk-check");
+            isMoving = true;
+
+
+        });
+
+
+
+
+
+        var gX = null;
+        var gY = null;
+
+        $(".hanoi").on(touchMove, function(e) {
+            
+
+            var pos = $(this)[0].getBoundingClientRect();
+            //console.log(mousePos(e).x,pos.top);
+            //console.log(e.touches[0].pageX,e.touches[0].pageY);
+
+            e.stopPropagation();
+                e.preventDefault();
+
+            if (isMoving) {
+                console.log("move........");
+                
+
+
+                if(!!e.touches){
+                   gX =  e.touches[0].pageX - pos.left;
+                     gY = e.touches[0].pageY - pos.top;
+                } else{
+                    gY = e.pageY - pos.top;
+                gX = e.pageX - pos.left;
+                }
+
+                console.log(gX,gY,pillars);
+                
+
+                $(".demo").css({
+                    "top": (gY) + "px",
+                    "left": (gX) + "px"
+                });
+
+
+            }
+        });
+
+
+
+        $(document).on(touchEnd,  function(e) {
+            isMoving = false;
+            console.log("up........");
+            e.stopPropagation();
+            e.preventDefault();
+
+
+
+            gX = gX + 50;
+
+            var isGood = false;
+
+            if (pillars[0].pX < gX && gX < (pillars[0].pX + pillarSize.w) && pillars[0].pY < gY && gY < (pillars[0].pY + pillarSize.h)) {
+                var index = 0;
+                var len = $(".pillar").eq(0).find(".disk").length;
+                var plen = disk[pIndex].length;
+                var slen = disk[index].length;
+
+                console.log(disk);
+
+                if ((disk[pIndex][plen - 1] > disk[index][slen - 1]) || disk[index][slen - 1] === undefined) {
+                    $(".pillar").eq(0).append(acHtml);
+
+
+                    $(".pillar").eq(0).find(".disk").last().css({
+                        bottom: ((len) * 20) + "px"
+                    });
+
+                     var pVal = disk[pIndex].pop();
+                    disk[index].push(pVal);
+
+                    $(".hanoi").find(".demo").remove();
+
+                    acHtml = "";
+                    isGood = true;
+                }
+            }
+
+            if (pillars[1].pX < gX && gX < (pillars[1].pX + pillarSize.w) && pillars[1].pY < gY && gY < (pillars[1].pY + pillarSize.h)) {
+
+                var index = 1;
+
+                var len = $(".pillar").eq(1).find(".disk").length;
+                var plen = disk[pIndex].length;
+                var slen = disk[index].length;
+
+                console.log(disk);
+
+                if ((disk[pIndex][plen - 1] > disk[index][slen - 1]) || disk[index][slen - 1] === undefined) {
+                    $(".pillar").eq(1).append(acHtml);
+
+
+                    $(".pillar").eq(1).find(".disk").last().css({
+                        bottom: ((len) * 20) + "px"
+                    });
+
+                    var pVal = disk[pIndex].pop();
+                    disk[index].push(pVal);
+
+                    $(".hanoi").find(".demo").remove();
+
+                    acHtml = "";
+                    isGood = true;
+                }
+            }
+
+
+            if (pillars[2].pX < gX && gX < (pillars[2].pX + pillarSize.w) && pillars[2].pY < gY && gY < (pillars[2].pY + pillarSize.h)) {
+                var index = 2;
+                var len = $(".pillar").eq(2).find(".disk").length;
+                var plen = disk[pIndex].length;
+                var slen = disk[index].length;
+
+                console.log(disk);
+
+                if ((disk[pIndex][plen - 1] > disk[index][slen - 1]) || disk[index][slen - 1] === undefined) {
+                    $(".pillar").eq(2).append(acHtml);
+
+
+                    $(".pillar").eq(2).find(".disk").last().css({
+                        bottom: ((len) * 20) + "px"
+                    });
+
+                     var pVal = disk[pIndex].pop();
+                    disk[index].push(pVal);
+
+                    $(".demo").remove();
+
+                    acHtml = "";
+                    isGood = true;
+                }
+            }
+
+
+            if(!isGood){
+                $(".disk-check").show().removeClass("disk-check");
+                 $(".demo").remove();
+                 acHtml = "";
+            }
+
+        });
+    </script>
+</body>
+</html>
