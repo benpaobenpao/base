@@ -484,9 +484,9 @@ body{
                 var pos = $(this)[0].getBoundingClientRect();
                 e.stopPropagation();
                 e.preventDefault();
-
-                setTimeout(function() {
-                    if (_this.isMoving) {
+                if (_this.isMoving) {
+               _this.stopMoving setTimeout(function() {
+                    
                         if (!!e.touches) {
                             _this.gX = e.touches[0].pageX - pos.left;
                             _this.gY = e.touches[0].pageY - pos.top;
@@ -501,8 +501,10 @@ body{
                             "top": (_this.gY) + "px",
                             "left": (_this.gX) + "px"
                         });
-                    }
+                    
+                    clearTimeout(_this.stopMoving);
                 }, 60);
+                }
 
             });
 
