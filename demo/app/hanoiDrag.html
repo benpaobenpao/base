@@ -9,7 +9,308 @@
     <meta http-equiv="Expires" content="-1" />
     <meta http-equiv="pragram" content="no-cache" />
     <title>Document</title>
-    <link rel="stylesheet" href="css/hanoi.css">
+    <style>
+        *{margin: 0; padding: 0;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+        html,body{
+            height: 100%;
+        }
+        body{
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 1px;
+            -webkit-box-shadow: 0 0 1px #000;
+            -moz-box-shadow: 0 0 1px #000;
+            box-shadow: 0 0 1px #000;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            outline-style: none;
+        }
+
+        .clearfix{}
+        .clearfix:after{
+            display: block;
+            content: "";
+            clear: both;
+            height: 0;
+        }
+
+        .app{
+            width: 640px;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .content{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            /*background: #000 url(../images/m.jpg) 50% -150px no-repeat;*/
+        }
+
+        .page{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: none;
+        }
+
+        .load{
+            z-index: 1;
+            padding-top: 350px;
+            /*background: #000 url(../images/m.jpg) 50% -150px no-repeat;*/
+        }
+
+        .start{
+            z-index: 10;
+            /*background: #000 url(../images/m.jpg) 50% -150px no-repeat;*/
+        }
+
+        .start h1{
+            color: #fff;
+            font-size: 50px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 350px;
+            margin-bottom: 100px;
+        }
+
+        .start-btns{
+            padding: 20px 0;
+            text-align: center;
+
+        }
+
+        .start-btns button{
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            margin: 0 10px;
+            border-radius: 60px;
+            background: #f18200;
+            border: none;
+        }
+
+        .play{
+            z-index: 20;
+            
+        }
+
+        .play-header{
+            color: #000;
+            font-size: 30px;
+            padding: 10px 0;
+            margin-bottom: 300px;
+        }
+
+        .play-header .pass{
+            float: left;
+            margin-left: 30px;
+        }
+
+        .play-header .step{
+            float: right;
+            margin-right: 30px;
+        }
+
+
+        .end{
+            z-index: 30;
+        }
+
+        .share{
+            z-index: 40;
+        }
+
+        .hanoi{
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+        .hanoi:after{
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            display: block;
+            content: "";
+            width: 100%;
+            height: 6px;
+            background: #f60;
+        }
+
+        .pillar{
+            position: absolute;
+            bottom: 0;
+            width: 100px;
+            height: 80%;
+            margin-left: -50px;
+            background: #f60;
+        }
+
+        .pillar:nth-of-type(1){
+            left: 25%;
+        }
+
+        .pillar:nth-of-type(2){
+            left: 50%;
+        }
+
+        .pillar:nth-of-type(3){
+            left: 75%;
+        }
+
+        .disk{
+            position: absolute;
+            width: 50px;
+            height: 20px;
+            bottom: 0;
+            left: 50px;
+            margin-left: -25px;
+            background-color: #f1a165;
+                    background-image: -moz-linear-gradient(top, #f1a165, #f36d0a);
+                    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #f1a165),color-stop(1, #f36d0a));
+                    background-image: -webkit-linear-gradient(#f1a165, #f36d0a); 
+        }
+
+        .disk1 {
+            bottom: 0;
+            width: 110%;
+            margin-left: -55%;
+        }
+
+        .disk2 {
+            bottom: 20px;
+            width: 100%;
+            margin-left: -50%;
+        }
+
+        .disk3 {
+            bottom: 40px;
+            width: 90%;
+            margin-left: -45%;
+        }
+
+        .disk4 {
+            bottom: 60px;
+            width: 1000%;
+            margin-left: -500%;
+        }
+
+        .disk5 {
+            bottom: 80px;
+            width: 800%;
+            margin-left: -400%;
+        }
+
+        .disk6 {
+            bottom: 100px;
+            width: 600%;
+            margin-left: -300%;
+        }
+
+        .disk7 {
+            bottom: 120px;
+            width: 400%;
+            margin-left: -200%;
+        }
+
+        .disk-check{
+            background-color: #f0a3a3;
+            background-image: -moz-linear-gradient(top, #f0a3a3, #f42323);
+            background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #f0a3a3),color-stop(1, #f42323));
+            background-image: -webkit-linear-gradient(#f0a3a3, #f42323);
+        }
+
+
+        .group-btns{
+            position: relative;
+        }
+
+        .group-btns button{
+            position: absolute;
+            top: 6px;
+            width: 60px;
+            height: 60px;
+            margin-left: -30px;
+            border: none;
+            background: #f60;
+            border-radius: 10px;
+        }
+
+
+
+
+        .group-btns button:nth-of-type(1){
+            left: 25%;
+        }
+
+        .group-btns button:nth-of-type(2){
+            left: 50%;
+        }
+
+        .group-btns button:nth-of-type(3){
+            left: 75%;
+        }
+
+
+         .ball {
+            background-color: rgba(0,0,0,0);
+            border:5px solid rgba(0,183,229,0.9);
+            opacity:.9;
+            border-top:5px solid rgba(0,0,0,0);
+            border-left:5px solid rgba(0,0,0,0);
+            border-radius:50px;
+            box-shadow: 0 0 35px #2187e7;
+            width:100px;
+            height:100px;
+            margin:0 auto;
+            -moz-animation:spin .5s infinite linear;
+            -webkit-animation:spin .5s infinite linear;
+        }
+
+        .ball1 {
+            background-color: rgba(0,0,0,0);
+            border:5px solid rgba(0,183,229,0.9);
+            opacity:.9;
+            border-top:5px solid rgba(0,0,0,0);
+            border-left:5px solid rgba(0,0,0,0);
+            border-radius:50px;
+            box-shadow: 0 0 15px #2187e7; 
+            width:70px;
+            height:70px;
+            margin:0 auto;
+            position:relative;
+            top:-85px;
+            -moz-animation:spinoff .5s infinite linear;
+            -webkit-animation:spinoff .5s infinite linear;
+        }
+
+        @-moz-keyframes spin {
+            0% { -moz-transform:rotate(0deg); }
+            100% { -moz-transform:rotate(360deg); }
+        }
+        @-moz-keyframes spinoff {
+            0% { -moz-transform:rotate(0deg); }
+            100% { -moz-transform:rotate(-360deg); }
+        }
+        @-webkit-keyframes spin {
+            0% { -webkit-transform:rotate(0deg); }
+            100% { -webkit-transform:rotate(360deg); }
+        }
+        @-webkit-keyframes spinoff {
+            0% { -webkit-transform:rotate(0deg); }
+            100% { -webkit-transform:rotate(-360deg); }
+        }
+    </style>
     <script>
         (function () {
             if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
@@ -47,11 +348,10 @@
         </div>
     </div>
 
-    <script src="js/libs/zepto.js"></script>
-    <script src="js/libs/selector.js"></script>
-    <script src="js/libs/event.js"></script>
-    <script src="js/libs/ajax.js"></script>
-    <script src="js/libs/touch.js"></script>
+    <script src="../../plugs/zepto/zepto.js"></script>
+    <script src="../../plugs/zepto/selector.js"></script>
+    <script src="../../plugs/zepto/event.js"></script>
+    <script src="../../plugs/zepto/touch.js"></script>
     <script>
         function mousePos(e) {
             if (typeof e.offsetX != 'undefined' && typeof e.offsetY != 'undefined') {
