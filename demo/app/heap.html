@@ -33,7 +33,7 @@
         }
         .container{
             height: 100%;
-      
+            background: #000;
         }
     </style>
     <script>
@@ -66,7 +66,7 @@
     <script>
         window.onload = function() {
             var isMobile = /ipad|iphone|midp|ucweb|android|mobile/ig.test(navigator.userAgent);
-             var tap = isMobile ? "tap" : "click";
+            var tap = isMobile ? "tap" : "click";
             var docH = document.body.clientHeight - 3; // 屏幕高度
             var docW = 640; // 屏幕宽度
             var baseW = 500; // 木块宽度
@@ -78,6 +78,8 @@
             var isRight = true; // 判断是否向右移动
             var step = 0; // 移动步长
             var rectMove = null;
+            var colors = ["#FF3300","#FF8000", "#FFB200","#FFE500","#CCFF00","#33FF00","#00B266","#0066B2","#2E2EB2","#400099","#990099","#E50066"];
+            var colorsLen = colors.length;
 
             var stage = new Kinetic.Stage({
                 container: "demo",
@@ -85,78 +87,170 @@
                 height: docH
             });
 
+            var layer = null;
+             var layerStart = null;
+            var layerEnd = null;
+
+            function showStart() {
+                 layerStart = new Kinetic.Layer();
+                var startBg = new Kinetic.Rect({
+                    x: 0,
+                    y: 0,
+                    width: docW,
+                    height: docH,
+                    fill: '#00f'
+                });
+
+                var startBtnBlock = new Kinetic.Rect({
+                    x: 155,
+                    y: 300,
+                    width: 300,
+                    height: 50,
+                    stroke: "gray",
+                    strokeWidth: 5
+                });
+
+                var startBtnTxt = new Kinetic.Text({
+                    x: 160,
+                    y: 310,
+                    width: 300,
+                    height: 50,
+                    align: "center",
+                    text: '开始',
+                    fontSize: 30,
+                    fontFamily: 'Calibri',
+                    fill: 'green'
+                });
 
 
-            var layer = new Kinetic.Layer();
-            var layerStatic = new Kinetic.Layer();
-            var group = new Kinetic.Group();
+                layerStart.add(startBg);
 
-            var text = new Kinetic.Text({
-                y: 30,
-                width: 640,
-                align: "center",
-                text: "0",
-                fontSize: 30,
-                fontFamily: 'Calibri',
-                fill: '#f60'
-            });
+                var groupStartBtn = new Kinetic.Group();
+                groupStartBtn.on("click", function() {
+                    layerStart.remove();
+                    showPlay();
+                });
 
+                groupStartBtn.add(startBtnBlock);
+                groupStartBtn.add(startBtnTxt);
 
-
-            var rectbg = new Kinetic.Rect({
-                x: 0,
-                y: 0,
-                width: docW,
-                height: docH,
-                fill: '#00f'
-            });
-
-            layer.add(rectbg);
-            layer.add(text);
-
-            var rect0 = new Kinetic.Rect({
-                x: (docW - baseW) / 2,
-                y: docH - baseH,
-                width: baseW,
-                height: 40,
-                fill: 'red',
-                stroke: 'gray',
-                strokeWidth: 5
-            });
-
-            rectMove = new Kinetic.Rect({
-                x: (docW - baseW) / 2,
-                y: docH - (baseH) * (layerNumber + 1),
-                width: baseW,
-                height: 40,
-                fill: 'red',
-                stroke: 'gray',
-                strokeWidth: 5,
-                opacity: 0.5
-            });
-
-            function renderLoop() {
-                if (isRight) {
-                    step+=5;
-                    if (step + baseW >= 640) {
-                        isRight = false;
-                    }
-                    rectMove.x(step);
-                } else {
-                    step-=5;
-                    if (step <= 0) {
-                        isRight = true;
-                    }
-                    rectMove.x(step);
-                }
-                layer.draw();
-                handle = window.requestAnimationFrame(renderLoop);
-                //handle = setTimeout(function(){renderLoop(); },60);
+                layerStart.add(groupStartBtn);
+                stage.add(layerStart);
             }
 
-            renderLoop();
 
-            function moving() {
+            function showEnd() {
+                 layerEnd = new Kinetic.Layer();
+                var endBg = new Kinetic.Rect({
+                    x: 0,
+                    y: 0,
+                    width: docW,
+                    height: docH,
+                    fill: '#00f'
+                });
+
+                var endMsg = new Kinetic.Text({
+                    x: 160,
+                    y: 110,
+                    width: 300,
+                    height: 50,
+                    align: "center",
+                    text: '结束',
+                    fontSize: 30,
+                    fontFamily: 'Calibri',
+                    fill: 'green'
+                });
+
+                var endBtnRepeatBlock = new Kinetic.Rect({
+                    x: 155,
+                    y: 300,
+                    width: 300,
+                    height: 50,
+                    stroke: "gray",
+                    strokeWidth: 5
+                });
+
+                var endBtnRepeatTxt = new Kinetic.Text({
+                    x: 160,
+                    y: 310,
+                    width: 300,
+                    height: 50,
+                    align: "center",
+                    text: '再玩一次',
+                    fontSize: 30,
+                    fontFamily: 'Calibri',
+                    fill: 'green'
+                });
+
+                var groupStartBtnRepeat = new Kinetic.Group();
+                groupStartBtnRepeat.on("click", function() {
+                    layerEnd.remove();
+                    layer.remove();
+                    showPlay();
+                });
+
+                groupStartBtnRepeat.add(endBtnRepeatBlock);
+                groupStartBtnRepeat.add(endBtnRepeatTxt);
+
+                layerEnd.add(endBg);
+                layerEnd.add(endMsg);
+                layerEnd.add(groupStartBtnRepeat);
+                stage.add(layerEnd);
+
+            }
+
+
+
+            
+
+
+
+            function showPlay() {
+                layer = new Kinetic.Layer();
+                baseW = 500; // 木块宽度
+                baseH = 50; // 木块高度
+                baseX = (docW - baseW) / 2; // 木块的坐标X
+                baseY = docH; // 木块的坐标Y
+                layerNumber = 1; // 层数
+                handle = null; // 取消移动
+                isRight = true; // 判断是否向右移动
+                step = 0; // 移动步长
+                rectMove = null;
+
+
+                var group = new Kinetic.Group();
+
+                var text = new Kinetic.Text({
+                    y: 30,
+                    width: 640,
+                    align: "center",
+                    text: "0",
+                    fontSize: 30,
+                    fontFamily: 'Calibri',
+                    fill: '#f60'
+                });
+
+                var rectbg = new Kinetic.Rect({
+                    x: 0,
+                    y: 0,
+                    width: docW,
+                    height: docH,
+                    fill: '#00f'
+                });
+
+                layer.add(rectbg);
+                layer.add(text);
+
+                var rect0 = new Kinetic.Rect({
+                    x: (docW - baseW) / 2,
+                    y: docH - baseH,
+                    width: baseW,
+                    height: 40,
+                    fill: 'red',
+                    stroke: 'gray',
+                    strokeWidth: 5
+                });
+
                 rectMove = new Kinetic.Rect({
                     x: (docW - baseW) / 2,
                     y: docH - (baseH) * (layerNumber + 1),
@@ -167,83 +261,106 @@
                     strokeWidth: 5,
                     opacity: 0.5
                 });
-                layer.add(rectMove);
-            }
 
-
-            stage.on(tap, function() {
-
-
-
-                if ((rectMove.x() + baseW) < baseX || rectMove.x() > (baseW + baseX)) {
-                    window.cancelAnimationFrame(handle);
-                    //clearTimeout(handle);
-                    handle = null;
-                    rectMove.remove();
-                    //  rectMove.destroy();
-
-                    // alert("game over");
-                    console.log("game over");
-                } else {
-                    console.log("........");
-                    if (baseX > rectMove.x()) {
-                        baseW = (baseW + rectMove.x() - baseX);
+                function renderLoop() {
+                    if (isRight) {
+                        step += 3;
+                        if (step + baseW >= 640) {
+                            isRight = false;
+                        }
+                        rectMove.x(step);
                     } else {
-                        baseW = (baseW - rectMove.x() + baseX);
-                        baseX = rectMove.x();
+                        step -= 3;
+                        if (step <= 0) {
+                            isRight = true;
+                        }
+                        rectMove.x(step);
                     }
+                    layer.draw();
+                    handle = window.requestAnimationFrame(renderLoop);
+                }
 
-                    console.log(baseW, rectMove.x(), baseX);
+                renderLoop();
 
-                    text.text(layerNumber);
-
-
-                    rectMove.destroy();
-                    window.cancelAnimationFrame(handle);
-                    //clearTimeout(handle);
-                    handle = null;
-
-                    layerNumber++;
-                    if(1===layerNumber%2){
-                        step = 0;
-                        isRight = true;
-                    } else{
-                        step = 640 - baseW;
-                        isRight = false;
-                    }
-                    
-
-                    moving();
-                    renderLoop();
-
-                    if (layerNumber > 3) {
-                        var txtY = -50 * (layerNumber - 3);
-                        layer.y(-txtY);
-
-                        text.y(30 + txtY);
-                        rectbg.y(txtY);
-                    }
-
-
-                    var tmp = new Kinetic.Rect({
-                        x: baseX,
-                        y: docH - (baseH) * (layerNumber),
+                var tmpColor = "#f00";
+                function moving() {
+                    rectMove = new Kinetic.Rect({
+                        x: (docW - baseW) / 2,
+                        y: docH - (baseH) * (layerNumber + 1),
                         width: baseW,
                         height: 40,
-                        fill: '#0ff',
+                        fill: "#f00",
                         stroke: 'gray',
-                        strokeWidth: 5
+                        strokeWidth: 5,
+                        opacity: 0.6
                     });
-
-                    layer.add(tmp);
+                    layer.add(rectMove);
                 }
-            });
 
 
-            layer.add(rect0);
-            layer.add(rectMove);
-            stage.add(layer);
-            stage.add(layerStatic);
+                layer.on(tap, function() {
+                    tmpColor  = colors[Math.floor(Math.random() * colorsLen)];
+                    if ((rectMove.x() + baseW) < baseX || rectMove.x() > (baseW + baseX)) {
+                        window.cancelAnimationFrame(handle);
+                        handle = null;
+                        rectMove.remove();
+                        showEnd();
+                    } else {
+                        if (baseX > rectMove.x()) {
+                            baseW = (baseW + rectMove.x() - baseX);
+                        } else {
+                            baseW = (baseW - rectMove.x() + baseX);
+                            baseX = rectMove.x();
+                        }
+
+                        text.text(layerNumber);
+                        rectMove.destroy();
+                        window.cancelAnimationFrame(handle);
+                        handle = null;
+
+                        layerNumber++;
+                        if (1 === layerNumber % 2) {
+                            step = 0;
+                            isRight = true;
+                        } else {
+                            step = 640 - baseW;
+                            isRight = false;
+                        }
+
+                        moving();
+                        renderLoop();
+
+                        if (layerNumber > 6) {
+                            var txtY = -50 * (layerNumber - 6);
+                            layer.y(-txtY);
+
+                            text.y(30 + txtY);
+                            rectbg.y(txtY);
+                        }
+
+                        var tmp = new Kinetic.Rect({
+                            x: baseX,
+                            y: docH - (baseH) * (layerNumber),
+                            width: baseW,
+                            height: 40,
+                            fill: tmpColor,
+                            stroke: 'gray',
+                            strokeWidth: 5
+                        });
+
+                        layer.add(tmp);
+                    }
+                });
+
+
+                layer.add(rect0);
+                layer.add(rectMove);
+                stage.add(layer);
+                
+
+            }
+
+            showStart();
             stage.draw();
         };
     </script>
