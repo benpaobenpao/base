@@ -150,8 +150,8 @@
                     rectMove.x(step);
                 }
                 layer.draw();
-                //handle = window.requestAnimationFrame(renderLoop);
-                handle = setTimeout(function(){renderLoop(); },60);
+                handle = window.requestAnimationFrame(renderLoop);
+                //handle = setTimeout(function(){renderLoop(); },60);
             }
 
             renderLoop();
@@ -176,8 +176,8 @@
 
 
                 if ((rectMove.x() + baseW) < baseX || rectMove.x() > (baseW + baseX)) {
-                    //window.cancelAnimationFrame(handle);
-                    clearTimeout(handle);
+                    window.cancelAnimationFrame(handle);
+                    //clearTimeout(handle);
                     handle = null;
                     rectMove.remove();
                     //  rectMove.destroy();
@@ -199,8 +199,8 @@
 
 
                     rectMove.destroy();
-                    //window.cancelAnimationFrame(handle);
-                    clearTimeout(handle);
+                    window.cancelAnimationFrame(handle);
+                    //clearTimeout(handle);
                     handle = null;
 
                     layerNumber++;
