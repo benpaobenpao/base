@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0; 
+            padding: 0;
+        }
+        html,body{
+            height: 100%;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            outline-style: none;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .app{
+            width: 640px;
+            font-size: 16px;
+            margin: 0 auto;
+        }
+        .container{
+            height: 100%;
+            background: #000;
+        }
+    </style>
+</head>
+<body class="app">
+    <div class="container">
+        <div id="demo"></div>
+    </div>
+    <script src="../../plugs/canvas/kinetic-v5.1.0.min.js"></script>
+    <script>
+        window.onload = function() {
+            var docH = document.body.clientHeight - 3; // 屏幕高度
+            var docW = 640; // 屏幕宽度
+            var baseW = 500; // 木块宽度
+            var baseH = 50; // 木块高度
+            var baseX = (docW - baseW) / 2; // 木块的坐标X
+            var baseY = docH; // 木块的坐标Y
+            var layerNumber = 1; // 层数
+            var handle = null; // 取消移动
+            var isRight = true; // 判断是否向右移动
+            var step = 0; // 移动步长
+            var rectMove = null;
+
+            var stage = new Kinetic.Stage({
+                container: "demo",
+                width: 640,
+                height: docH
+            });
+
+
+
+            var layer = new Kinetic.Layer();
+            var layerStatic = new Kinetic.Layer();
+            var group = new Kinetic.Group();
+
+            var text = new Kinetic.Text({
+                y: 30,
+                width: 640,
+                align: "center",
+                text: "0",
+                fontSize: 30,
+                fontFamily: 'Calibri',
+                fill: '#f60'
+            });
+
+
+
+            var rectbg = new Kinetic.Rect({
+                x: 0,
+                y: 0,
+                width: docW,
+                height: docH,
+                fill: '#00f'
+            });
+
+            layer.add(rectbg);
+            layer.add(text);
+
+            var rect0 = new Kinetic.Rect({
+                x: (docW - baseW) / 2,
+                y: docH - baseH,
+                width: baseW,
+                height: 40,
+                fill: 'red',
+                stroke: 'gray',
+                strokeWidth: 5
+            });
+
+            rectMove = new Kinetic.Rect({
+                x: (docW - baseW) / 2,
+                y: docH - (baseH) * (layerNumber + 1),
+                width: baseW,
+                height: 40,
+                fill: 'red',
+                stroke: 'gray',
+                strokeWidth: 5,
+                opacity: 0.5
+            });
+
+            function renderLoop() {
+                if (isRight) {
+                    step+=2;
+                    if (step + baseW >= 640) {
+                        isRight = false;
+                    }
+                    rectMove.x(step);
+                } else {
+                    step-=2;
+                    if (step <= 0) {
+                        isRight = true;
+                    }
+                    rectMove.x(step);
+                }
+                layer.draw();
+                handle = window.requestAnimationFrame(renderLoop);
+            }
+
+            renderLoop();
+
+            function moving() {
+                rectMove = new Kinetic.Rect({
+                    x: (docW - baseW) / 2,
+                    y: docH - (baseH) * (layerNumber + 1),
+                    width: baseW,
+                    height: 40,
+                    fill: 'red',
+                    stroke: 'gray',
+                    strokeWidth: 5,
+                    opacity: 0.5
+                });
+                layer.add(rectMove);
+            }
+
+
+            stage.on("click", function() {
+
+
+
+                if ((rectMove.x() + baseW) < baseX || rectMove.x() > (baseW + baseX)) {
+                    window.cancelAnimationFrame(handle);
+                    handle = null;
+                    rectMove.remove();
+                    //  rectMove.destroy();
+
+                    // alert("game over");
+                    console.log("game over");
+                } else {
+                    console.log("........");
+                    if (baseX > rectMove.x()) {
+                        baseW = (baseW + rectMove.x() - baseX);
+                    } else {
+                        baseW = (baseW - rectMove.x() + baseX);
+                        baseX = rectMove.x();
+                    }
+
+                    console.log(baseW, rectMove.x(), baseX);
+
+                    text.text(layerNumber);
+
+
+                    rectMove.destroy();
+                    window.cancelAnimationFrame(handle);
+                    handle = null;
+
+                    layerNumber++;
+                    if(1===layerNumber%2){
+                        step = 0;
+                        isRight = true;
+                    } else{
+                        step = 640 - baseW;
+                        isRight = false;
+                    }
+                    
+
+                    moving();
+                    renderLoop();
+
+                    if (layerNumber > 3) {
+                        var txtY = -50 * (layerNumber - 3);
+                        layer.y(-txtY);
+
+                        text.y(30 + txtY);
+                        rectbg.y(txtY);
+                    }
+
+
+                    var tmp = new Kinetic.Rect({
+                        x: baseX,
+                        y: docH - (baseH) * (layerNumber),
+                        width: baseW,
+                        height: 40,
+                        fill: '#0ff',
+                        stroke: 'gray',
+                        strokeWidth: 5
+                    });
+
+                    layer.add(tmp);
+                }
+            });
+
+
+            layer.add(rect0);
+            layer.add(rectMove);
+            stage.add(layer);
+            stage.add(layerStatic);
+            stage.draw();
+        };
+    </script>
+</body>
+</html>
