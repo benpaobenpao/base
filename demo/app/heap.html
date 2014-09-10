@@ -65,6 +65,8 @@
     <script src="../../plugs/canvas/kinetic-v5.1.0.min.js"></script>
     <script>
         window.onload = function() {
+            var isMobile = /ipad|iphone|midp|ucweb|android|mobile/ig.test(navigator.userAgent);
+             var tap = isMobile ? "tap" : "click";
             var docH = document.body.clientHeight - 3; // 屏幕高度
             var docW = 640; // 屏幕宽度
             var baseW = 500; // 木块宽度
@@ -169,7 +171,7 @@
             }
 
 
-            stage.on("click", function() {
+            stage.on(tap, function() {
 
 
 
