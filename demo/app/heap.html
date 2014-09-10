@@ -126,7 +126,7 @@
                 layerStart.add(startBg);
 
                 var groupStartBtn = new Kinetic.Group();
-                groupStartBtn.on("click", function() {
+                groupStartBtn.on(tap, function() {
                     layerStart.remove();
                     showPlay();
                 });
@@ -183,7 +183,7 @@
                 });
 
                 var groupStartBtnRepeat = new Kinetic.Group();
-                groupStartBtnRepeat.on("click", function() {
+                groupStartBtnRepeat.on(tap, function() {
                     layerEnd.remove();
                     layer.remove();
                     showPlay();
