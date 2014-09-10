@@ -135,20 +135,21 @@
 
             function renderLoop() {
                 if (isRight) {
-                    step+=2;
+                    step+=5;
                     if (step + baseW >= 640) {
                         isRight = false;
                     }
                     rectMove.x(step);
                 } else {
-                    step-=2;
+                    step-=5;
                     if (step <= 0) {
                         isRight = true;
                     }
                     rectMove.x(step);
                 }
                 layer.draw();
-                handle = window.requestAnimationFrame(renderLoop);
+                //handle = window.requestAnimationFrame(renderLoop);
+                handle = setTimeout("renderLoop()",60);
             }
 
             renderLoop();
@@ -173,7 +174,8 @@
 
 
                 if ((rectMove.x() + baseW) < baseX || rectMove.x() > (baseW + baseX)) {
-                    window.cancelAnimationFrame(handle);
+                    //window.cancelAnimationFrame(handle);
+                    clearTimeout(handle);
                     handle = null;
                     rectMove.remove();
                     //  rectMove.destroy();
@@ -195,7 +197,8 @@
 
 
                     rectMove.destroy();
-                    window.cancelAnimationFrame(handle);
+                    //window.cancelAnimationFrame(handle);
+                    clearTimeout(handle);
                     handle = null;
 
                     layerNumber++;
