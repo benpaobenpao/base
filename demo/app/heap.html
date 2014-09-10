@@ -149,7 +149,7 @@
                 }
                 layer.draw();
                 //handle = window.requestAnimationFrame(renderLoop);
-                handle = setTimeout("renderLoop()",60);
+                handle = setTimeout(function(){renderLoop(); },60);
             }
 
             renderLoop();
