@@ -77,6 +77,7 @@
             var isRight = true; // 判断是否向右移动
             var step = 0; // 移动步长
             var rectMove = null;
+            var tween = null;
             var colors = ["#FF3300","#FF8000", "#FFB200","#FFE500","#CCFF00","#33FF00","#00B266","#0066B2","#2E2EB2","#400099","#990099","#E50066"];
             var colorsLen = colors.length;
 
@@ -125,7 +126,7 @@
                 layerStart.add(startBg);
 
                 var groupStartBtn = new Kinetic.Group();
-                groupStartBtn.on(tap, function() {
+                groupStartBtn.on("click", function() {
                     layerStart.remove();
                     showPlay();
                 });
@@ -182,7 +183,7 @@
                 });
 
                 var groupStartBtnRepeat = new Kinetic.Group();
-                groupStartBtnRepeat.on(tap, function() {
+                groupStartBtnRepeat.on("click", function() {
                     layerEnd.remove();
                     layer.remove();
                     showPlay();
@@ -215,6 +216,7 @@
                 isRight = true; // 判断是否向右移动
                 step = 0; // 移动步长
                 rectMove = null;
+                tween = null;
 
 
                 var group = new Kinetic.Group();
@@ -251,7 +253,7 @@
                 });
 
                 rectMove = new Kinetic.Rect({
-                    x: (docW - baseW) / 2,
+                    x: 0,//(docW - baseW) / 2,
                     y: docH - (baseH) * (layerNumber + 1),
                     width: baseW,
                     height: 40,
@@ -261,30 +263,78 @@
                     opacity: 0.5
                 });
 
-                function renderLoop() {
-                    if (isRight) {
-                        step += 3;
-                        if (step + baseW >= 640) {
-                            isRight = false;
-                        }
-                        rectMove.x(step);
-                    } else {
-                        step -= 3;
-                        if (step <= 0) {
-                            isRight = true;
-                        }
-                        rectMove.x(step);
-                    }
+                layer.add(rectMove);
                     layer.draw();
-                    handle = window.requestAnimationFrame(renderLoop);
+
+                // function renderLoop() {
+                //     if (isRight) {
+                //         step += 3;
+                //         if (step + baseW >= 640) {
+                //             isRight = false;
+                //         }
+                //         rectMove.x(step);
+                //     } else {
+                //         step -= 3;
+                //         if (step <= 0) {
+                //             isRight = true;
+                //         }
+                //         rectMove.x(step);
+                //     }
+                //     layer.draw();
+                //     handle = window.requestAnimationFrame(renderLoop);
+                // }
+
+                
+                function renderLoop() {
+                    console.log(rectMove.getWidth());
+                    if(!!tween){
+                         tween.destroy();
+                    }
+                   
+                    if (isRight) {
+                        tween = new Kinetic.Tween({
+                            node: rectMove,
+                            x: (640 - rectMove.getWidth()),
+                            duration: 1,
+                            easing: Kinetic.Easings.Linear
+                            
+                        });
+
+                        tween.onFinish= function(){
+                            isRight = false;
+                            renderLoop();
+                        }
+                        
+                    }else{
+                        tween = new Kinetic.Tween({
+                            node: rectMove,
+                            x: 0,
+                            duration: 1,
+                            easing: Kinetic.Easings.Linear
+                        });
+                        tween.onFinish= function(){
+
+                            isRight = true;
+                            renderLoop();
+                        }
+                    }
+
+                    tween.play(); 
                 }
 
                 renderLoop();
 
                 var tmpColor = "#f00";
                 function moving() {
+                    console.log(baseW);
+                    var tmpX = 0; 
+                    if(isRight){
+                        tmpX = 0; 
+                    } else{
+                        tmpX = (640 - rectMove.getWidth());
+                    }
                     rectMove = new Kinetic.Rect({
-                        x: (docW - baseW) / 2,
+                        x: tmpX,//(docW - baseW) / 2,
                         y: docH - (baseH) * (layerNumber + 1),
                         width: baseW,
                         height: 40,
@@ -294,14 +344,15 @@
                         opacity: 0.6
                     });
                     layer.add(rectMove);
+                    layer.draw();
                 }
 
 
                 layer.on(tap, function() {
                     tmpColor  = colors[Math.floor(Math.random() * colorsLen)];
                     if ((rectMove.x() + baseW) < baseX || rectMove.x() > (baseW + baseX)) {
-                        window.cancelAnimationFrame(handle);
-                        handle = null;
+                        //window.cancelAnimationFrame(handle);
+                        //handle = null;
                         rectMove.remove();
                         showEnd();
                     } else {
@@ -314,8 +365,8 @@
 
                         text.text(layerNumber);
                         rectMove.destroy();
-                        window.cancelAnimationFrame(handle);
-                        handle = null;
+                        //window.cancelAnimationFrame(handle);
+                        //handle = null;
 
                         layerNumber++;
                         if (1 === layerNumber % 2) {
